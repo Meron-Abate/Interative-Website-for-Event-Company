@@ -1,0 +1,232 @@
+/* ==========================================================================
+   ETERNAL STUDIO — RESPONSIVE DESIGN SYSTEM
+   Bespoke Mobile, Tablet, and Touch Adaptations
+   ========================================================================== */
+
+/* --- Desktop Compact & Medium Screens (max-width: 1200px) --- */
+@media (max-width: 1200px) {
+  .services-viewport {
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+
+  .footer-top-grid {
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .footer-brand {
+    grid-column: span 3;
+  }
+
+  .narrative-grid {
+    gap: 3rem;
+  }
+
+  .approach-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* --- Tablet Devices (max-width: 992px) --- */
+@media (max-width: 992px) {
+  :root {
+    --nav-height: 72px;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  /* Services section changes from pinned split-screen to stacked interactive */
+  .services-viewport {
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .services-visual-side {
+    display: none; /* Mobile uses integrated service media or clean editorial list */
+  }
+
+  .service-cursor-follower {
+    display: none !important;
+  }
+
+  .services-list-side {
+    padding: 5rem clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .service-desc {
+    padding-left: 2.5rem;
+  }
+
+  /* Portfolio horizontal scroll transitions to clean vertical editorial stack */
+  .portfolio-section {
+    overflow: visible;
+  }
+
+  .portfolio-horizontal-wrapper {
+    flex-direction: column;
+    width: 100% !important;
+    transform: none !important;
+    min-height: auto;
+    padding: 3rem 0;
+    gap: 4rem;
+  }
+
+  .portfolio-card {
+    width: 100% !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 3.5rem;
+  }
+
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  .work-archive-grid {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+
+  .narrative-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .gallery-editorial-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .gallery-item--full,
+  .gallery-item--left,
+  .gallery-item--right {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* --- Mobile Devices (max-width: 768px) --- */
+@media (max-width: 768px) {
+  :root {
+    --nav-height: 64px;
+  }
+
+  .section-spacing {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .hero-headline {
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .hero-scroll-cue {
+    display: none;
+  }
+
+  .about-statement {
+    font-size: clamp(2rem, 7.5vw, 3.2rem);
+    line-height: 1.2;
+  }
+
+  .about-meta-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 3.5rem;
+  }
+
+  .service-item {
+    padding: 1.6rem 0;
+  }
+
+  .service-item-header {
+    gap: 1.25rem;
+  }
+
+  .service-desc {
+    padding-left: 0;
+  }
+
+  .approach-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .footer-top-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-brand {
+    grid-column: span 1;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .case-hero {
+    min-height: 70vh;
+    padding-bottom: 3.5rem;
+  }
+
+  .case-info-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+  }
+
+  .work-filter-bar {
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.6875rem;
+  }
+}
+
+/* --- Small Mobile Phones (max-width: 480px) --- */
+@media (max-width: 480px) {
+  .case-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    row-gap: 2.5rem;
+  }
+
+  .stat-item {
+    border-left: none;
+    border-top: 1px solid var(--border-color);
+    padding-left: 0;
+    padding-top: 1.5rem;
+  }
+
+  .final-cta-content {
+    gap: 2rem;
+  }
+}

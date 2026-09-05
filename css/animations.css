@@ -1,0 +1,221 @@
+/* ==========================================================================
+   ETERNAL STUDIO — ANIMATIONS & INTERACTION STYLES
+   Custom Cursor, Film Overlays, Keyframes, Reduced Motion
+   ========================================================================== */
+
+/* --- Film Grain & Atmosphere Overlay --- */
+.ambient-grain {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* --- Custom Magnetic Cursor System (Desktop) --- */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease, transform 0.15s ease-out;
+  will-change: transform, width, height, background-color;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent);
+}
+
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--accent);
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.3s ease,
+              border-color 0.3s ease;
+}
+
+.cursor-ring-text {
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  font-weight: 700;
+}
+
+/* Cursor State: Link Hover */
+body.cursor--link .cursor-ring {
+  width: 52px;
+  height: 52px;
+  background-color: rgba(255, 90, 54, 0.15);
+  border-color: var(--accent);
+}
+
+body.cursor--link .cursor-dot {
+  opacity: 0;
+}
+
+/* Cursor State: Project Card View */
+body.cursor--view .cursor-ring {
+  width: 84px;
+  height: 84px;
+  background-color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 10px 30px var(--accent-glow);
+}
+
+body.cursor--view .cursor-ring-text {
+  opacity: 1;
+  transform: scale(1);
+}
+
+body.cursor--view .cursor-dot {
+  opacity: 0;
+}
+
+/* Cursor State: Drag / Carousel */
+body.cursor--drag .cursor-ring {
+  width: 78px;
+  height: 78px;
+  background-color: var(--bg-primary);
+  border-color: var(--text-primary);
+}
+
+body.cursor--drag .cursor-ring-text {
+  opacity: 1;
+  transform: scale(1);
+  color: var(--text-primary);
+}
+
+body.cursor--drag .cursor-dot {
+  opacity: 0;
+}
+
+/* Cursor State: Image / Visual Focus */
+body.cursor--image .cursor-ring {
+  width: 64px;
+  height: 64px;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border-color: #ffffff;
+}
+
+/* Hide custom cursor when mouse leaves window or pointer is coarse */
+@media (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+}
+
+.cursor-hidden .cursor-dot,
+.cursor-hidden .cursor-ring {
+  opacity: 0 !important;
+}
+
+/* --- Reveal & Scrub Utilities --- */
+.split-line {
+  overflow: hidden;
+  display: block;
+}
+
+.reveal-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* --- Marquee Ticker --- */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  user-select: none;
+}
+
+.marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  animation: marquee-scroll 25s linear infinite;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0%); }
+  to { transform: translateX(-100%); }
+}
+
+/* --- Interactive Image Parallax Container --- */
+.parallax-wrap {
+  overflow: hidden;
+}
+
+.parallax-img {
+  will-change: transform;
+}
+
+/* ==========================================================================
+   ACCESSIBILITY: PREFERS-REDUCED-MOTION
+   Neutralizes complex motion and transforms for users with motion sensitivity
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+
+  .hero-headline-line span,
+  .hero-pretitle,
+  .hero-actions,
+  .reveal-fade-up {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .about-statement .word {
+    opacity: 1 !important;
+    color: var(--text-primary) !important;
+  }
+
+  .service-desc {
+    max-height: none !important;
+    opacity: 1 !important;
+  }
+
+  .service-cursor-follower {
+    display: none !important;
+  }
+
+  .marquee-content {
+    animation: none !important;
+  }
+
+  .portfolio-horizontal-wrapper {
+    transform: none !important;
+  }
+}

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <radialGradient id="grad_06" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#ff5a36" stop-opacity="0.28"/>
+      <stop offset="60%" stop-color="#110906" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#080808" stop-opacity="1"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="#080808"/>
+  <rect width="800" height="600" fill="url(#grad_06)"/>
+  <!-- Geometry -->
+  <g><rect x="240" y="200" width="320" height="200" rx="4" fill="none" stroke="#ff5a36" stroke-width="2" stroke-opacity="0.5"/><polygon points="375,270 445,300 375,330" fill="#ff5a36" fill-opacity="0.8"/></g>
+  <!-- Concentric Rings -->
+  <circle cx="400" cy="300" r="240" fill="none" stroke="#ffffff" stroke-width="0.75" stroke-opacity="0.08" stroke-dasharray="6 6"/>
+  <!-- Typography -->
+  <text x="60" y="80" fill="#ff5a36" font-family="monospace" font-size="14" letter-spacing="4">SERVICE ARCHIVE // 06</text>
+  <text x="60" y="510" fill="#ffffff" font-family="sans-serif" font-size="24" font-weight="700" letter-spacing="2">CONTENT & MOTION</text>
+  <text x="60" y="545" fill="#858585" font-family="monospace" font-size="12" letter-spacing="1">4K Cinematic Documentaries // Screen Scenography // Broadcast</text>
+</svg>

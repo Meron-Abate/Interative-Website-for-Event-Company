@@ -1,0 +1,299 @@
+{
+  "projects": [
+    {
+      "id": "africa-creative-summit",
+      "slug": "africa-creative-summit",
+      "number": "01",
+      "title": "Africa Creative Summit",
+      "category": "Event Production / Experience",
+      "filterCategory": "events",
+      "year": "2026",
+      "client": "Pan-African Cultural & Creative Industries Council",
+      "location": "Addis Ababa, Ethiopia",
+      "venue": "Millennium Hall & Hybrid Spatial Arenas",
+      "scope": "Spatial Strategy, Stage Architecture, Keynote Production & Live Broadcast",
+      "audience": "14,500 Attendees Across 3 Days (Live & Remote)",
+      "tagline": "The Continental Stage for Visionaries, Creatives, and Cultural Technologists",
+      "heroImage": "assets/images/projects/africa-creative-summit/hero.svg",
+      "heroVideoPoster": "assets/images/projects/africa-creative-summit/poster.svg",
+      "summary": "A 3-day continental gathering uniting over 14,000 creative leaders, technologists, and cultural policymakers across custom-built immersive architectural pavilions in Addis Ababa.",
+      "challenge": "How do you convene 54 nations of creative thought leaders without falling into the stale tropes of international development summits? The challenge was to design a spatial, auditory, and experiential ecosystem that felt profoundly African, technologically unprecedented, and culturally reverent.",
+      "solution": "We engineered an organic spatial masterplan inspired by indigenous Ethiopian circular architectures, featuring a 360-degree kinetic central stage, responsive ambient acoustic shells, and an uninterrupted narrative flow that eliminated speaker-audience separation.",
+      "approach": [
+        { "step": "01", "title": "Strategy", "desc": "Mapping cultural delegates and designing multi-sensory journey touchpoints across three distinct daytime and evening modes." },
+        { "step": "02", "title": "Concept", "desc": "The 'Living Agora' — an architectural paradigm where live dialogue, generative digital art, and musical performance collide." },
+        { "step": "03", "title": "Design", "desc": "Custom 28-meter kinetic ring array, woven tactile textiles from regional artisans, and low-latency multilingual spatial audio." },
+        { "step": "04", "title": "Production", "desc": "14-day on-site fabrication with over 320 local artisans, structural engineers, and AV technicians working synchronously." },
+        { "step": "05", "title": "Experience", "desc": "Synchronized dawn ceremonial openings, holographic keynote transitions, and twilight cultural banquets." },
+        { "step": "06", "title": "Content", "desc": "Cinematic live broadcast captured in 4K HDR across 16 synchronized robotic cranes, reaching 1.2M global viewers." }
+      ],
+      "talent": [
+        { "name": "Alex Tesfaye", "role": "Creative Director & Spatial Architect" },
+        { "name": "Maya Kebede", "role": "Executive Producer & Cultural Curator" },
+        { "name": "Daniel Worku", "role": "Technical Director & Lighting Designer" }
+      ],
+      "metrics": {
+        "attendees": "14.5K+",
+        "countries": "54",
+        "partners": "24",
+        "satisfaction": "98%"
+      },
+      "testimonial": {
+        "quote": "The Africa Creative Summit did not merely host an event; it inaugurated a historical precedent for how our continent gathers, creates, and commands the global stage.",
+        "author": "Dr. Senait Bekele",
+        "title": "Director General, African Creative Futures"
+      },
+      "nextProject": {
+        "slug": "night-of-culture",
+        "title": "Night of Culture",
+        "category": "Brand Experience"
+      }
+    },
+    {
+      "id": "night-of-culture",
+      "slug": "night-of-culture",
+      "number": "02",
+      "title": "Night of Culture",
+      "category": "Brand Experience",
+      "filterCategory": "brand-experiences",
+      "year": "2026",
+      "client": "Vanguard Spirits & Contemporary African Art Foundation",
+      "location": "Nairobi, Kenya",
+      "venue": "Old Railway Warehouse Transformed Spatial Pavilion",
+      "scope": "Spatial Transformation, Sensory Gastronomy & Audiovisual Orchestration",
+      "audience": "2,200 Curated Guests & VIP Collectors",
+      "tagline": "An Ephemeral Feast of Sound, Light, and African Contemporary Heritage",
+      "heroImage": "assets/images/projects/night-of-culture/hero.svg",
+      "heroVideoPoster": "assets/images/projects/night-of-culture/poster.svg",
+      "summary": "An exclusive nocturnal sensorial journey transforming an industrial railway warehouse into a living celebration of contemporary East African design, mixology, and sound.",
+      "challenge": "A heritage brand sought to engage Africa’s new generation of cultural tastemakers without feeling commercial or opportunistic. They needed an experience that genuinely honored creative tradition while pushing future-facing nightlife aesthetics.",
+      "solution": "We converted an empty 4,000 sqm colonial railway hangar into an ethereal sanctuary of light and sound. Four conceptual chambers corresponding to Earth, Spirit, Rhythm, and Horizon guided guests through bespoke culinary sculptures, olfactory scents, and live soundscapes.",
+      "approach": [
+        { "step": "01", "title": "Strategy", "desc": "Audience cultural psychographics mapping and VIP intimate journey choreography." },
+        { "step": "02", "title": "Concept", "desc": "The 'Chamber of Shadows' — treating light not as illumination, but as living sculpture." },
+        { "step": "03", "title": "Design", "desc": "Raw basalt stone bars, hand-cast bronze lighting fixtures, and custom acoustical fabric chambers." },
+        { "step": "04", "title": "Production", "desc": "72-hour surgical build within a sensitive historic industrial monument." },
+        { "step": "05", "title": "Experience", "desc": "Unannounced musical interventions featuring an 18-piece chamber brass ensemble paired with electronic synthesizers." },
+        { "step": "06", "title": "Content", "desc": "Editorial portraiture studio on-site capturing high-fashion guest captures for international press." }
+      ],
+      "talent": [
+        { "name": "Maya Kebede", "role": "Lead Spatial & Sensory Designer" },
+        { "name": "Nati Bekele", "role": "Music Director & Sound Designer" },
+        { "name": "Alex Tesfaye", "role": "Creative Director" }
+      ],
+      "metrics": {
+        "attendees": "2.2K",
+        "socialReach": "8.4M",
+        "earnedMedia": "$1.8M",
+        "satisfaction": "99%"
+      },
+      "testimonial": {
+        "quote": "It felt like stepping into an intimate nocturnal film where every glance was curated, every sound was intentional, and every shadow possessed poetry.",
+        "author": "Kofi Mensah",
+        "title": "Principal Curator, Pan-African Contemporary Review"
+      },
+      "nextProject": {
+        "slug": "future-of-business",
+        "title": "The Future of Business",
+        "category": "Corporate Experience"
+      }
+    },
+    {
+      "id": "future-of-business",
+      "slug": "future-of-business",
+      "number": "03",
+      "title": "The Future of Business",
+      "category": "Corporate Experience",
+      "filterCategory": "corporate",
+      "year": "2025",
+      "client": "Equatorial Venture Partners & African Sovereign Wealth Forum",
+      "location": "Kigali, Rwanda",
+      "venue": "Kigali Convention Spatial Atrium",
+      "scope": "Strategic Event Architecture, Stage Experience & Interactive Dealmaking Suites",
+      "audience": "3,800 Global Investors & Tech Founders",
+      "tagline": "Redefining How Global Capital Meets African Innovation",
+      "heroImage": "assets/images/projects/future-of-business/hero.svg",
+      "heroVideoPoster": "assets/images/projects/future-of-business/poster.svg",
+      "summary": "A high-stakes economic forum stripped of podiums and bullet points, engineered around human intimacy, transparent spatial dialogue, and real-time biometric sentiment tracking.",
+      "challenge": "Traditional financial summits are notoriously transactional, sterile, and exhausting. Our task was to create an environment where institutional trust could form organically, encouraging decisive cross-border partnerships.",
+      "solution": "We eradicated traditional stage prosceniums. We introduced circular conversation pits framed by living green biophilic walls, custom matte timber furniture, and an algorithmic data sculpture projecting continent-wide capital flows in real time.",
+      "approach": [
+        { "step": "01", "title": "Strategy", "desc": "Dismantling corporate hierarchy to maximize spontaneous executive collision." },
+        { "step": "02", "title": "Concept", "desc": "The 'Transparent Agora' — zero barriers between high-net-worth capital and early-stage innovators." },
+        { "step": "03", "title": "Design", "desc": "Acoustic micro-lounges, matte black monolithic LED monoliths, and circadian light shifts." },
+        { "step": "04", "title": "Production", "desc": "Zero-waste build utilizing 92% locally sourced recyclable timber and sustainable textiles." },
+        { "step": "05", "title": "Experience", "desc": "Chatham House-rule amphitheaters with ambient sound-masking for confidential dealmaking." },
+        { "step": "06", "title": "Content", "desc": "Dynamic digital white-papers generated in real-time from breakout session discussions." }
+      ],
+      "talent": [
+        { "name": "Daniel Worku", "role": "Lead Spatial Strategist" },
+        { "name": "Alex Tesfaye", "role": "Creative Director" },
+        { "name": "Maya Kebede", "role": "Executive Producer" }
+      ],
+      "metrics": {
+        "attendees": "3.8K",
+        "dealsClosed": "$420M+",
+        "nations": "38",
+        "satisfaction": "97%"
+      },
+      "testimonial": {
+        "quote": "In twenty years of attending international economic forums, I have never witnessed an environment that generated so much candor, momentum, and decisive capital allocation.",
+        "author": "Adeleke Adeyemi",
+        "title": "Managing Partner, Helios Alpha Ventures"
+      },
+      "nextProject": {
+        "slug": "city-of-light",
+        "title": "City of Light",
+        "category": "Immersive Experience"
+      }
+    },
+    {
+      "id": "city-of-light",
+      "slug": "city-of-light",
+      "number": "04",
+      "title": "City of Light",
+      "category": "Immersive Experience",
+      "filterCategory": "immersive",
+      "year": "2025",
+      "client": "Cape Town Architectural Biennale & Lumina Arts Consortium",
+      "location": "Cape Town, South Africa",
+      "venue": "V&A Silo Precinct & Waterfront Quays",
+      "scope": "Architectural Projection Mapping, Laser Scenography & Interactive Soundscapes",
+      "audience": "65,000 Public Visitors Over 5 Nights",
+      "tagline": "Monumental Light Architecture Breathing Life Into Historic Harbors",
+      "heroImage": "assets/images/projects/city-of-light/hero.svg",
+      "heroVideoPoster": "assets/images/projects/city-of-light/poster.svg",
+      "summary": "A 5-night monumental public light festival projecting generative African geometric folklore onto colossal industrial grain silos and waterfront structures.",
+      "challenge": "Public light art festivals frequently feel disconnected from the cities they inhabit. We were tasked with activating a historic industrial precinct while preserving solemn cultural narratives and engaging diverse socio-economic communities.",
+      "solution": "We deployed 32 synchronized 40,000-lumen laser projectors and a 64-channel surround spatial audio grid. The concrete grain silos became a living canvas telling the migration story of southern African star-gazers and ocean navigators.",
+      "approach": [
+        { "step": "01", "title": "Strategy", "desc": "Public safety, environmental impact minimization, and cross-cultural community engagement." },
+        { "step": "02", "title": "Concept", "desc": "'Astral Cartographies' — tracing ancestral navigation constellations onto industrial concrete." },
+        { "step": "03", "title": "Design", "desc": "3D LiDAR scans of the 57-meter silo facade paired with custom procedural GLSL shaders." },
+        { "step": "04", "title": "Production", "desc": "Weatherproof optical towers, marine-grade fiber-optic distribution, and zero light pollution spillover." },
+        { "step": "05", "title": "Experience", "desc": "Timed 18-minute visual symphonies echoing across the harbor basin every hour on the hour." },
+        { "step": "06", "title": "Content", "desc": "Interactive mobile web application allowing visitors to sync their personal headphones to binaural audio." }
+      ],
+      "talent": [
+        { "name": "Nati Bekele", "role": "Creative Technologist & Visual Artist" },
+        { "name": "Daniel Worku", "role": "Technical Director & Projection Architect" },
+        { "name": "Maya Kebede", "role": "Executive Producer" }
+      ],
+      "metrics": {
+        "attendees": "65K+",
+        "projections": "32 High-Output Arrays",
+        "awards": "3 Design Gold Lions",
+        "satisfaction": "99%"
+      },
+      "testimonial": {
+        "quote": "City of Light completely redefined what public monumental art can achieve on our continent. It made the entire harbor stop and gaze in collective awe.",
+        "author": "Ingrid Van Der Merwe",
+        "title": "Head of Spatial Arts, Cape Town Cultural Council"
+      },
+      "nextProject": {
+        "slug": "africa-in-motion",
+        "title": "Africa in Motion",
+        "category": "Cultural Event"
+      }
+    },
+    {
+      "id": "africa-in-motion",
+      "slug": "africa-in-motion",
+      "number": "05",
+      "title": "Africa in Motion",
+      "category": "Cultural Event",
+      "filterCategory": "cultural",
+      "year": "2025",
+      "client": "Dakar Biennale of Contemporary Art & Ministry of Culture",
+      "location": "Dakar, Senegal",
+      "venue": "Monument de la Renaissance Africaine & Coastal Amphitheater",
+      "scope": "Festival Scenography, Kinetic Choreography, Cultural Stagecraft & Sound Engineering",
+      "audience": "28,000 Live Spectators",
+      "tagline": "The Grand Rhythm of Contemporary African Body, Sound, and Spirit",
+      "heroImage": "assets/images/projects/africa-in-motion/hero.svg",
+      "heroVideoPoster": "assets/images/projects/africa-in-motion/poster.svg",
+      "summary": "A monumental multi-disciplinary cultural performance uniting 120 dancers, traditional sabar master drummers, and electronic sound pioneers in an open-air coastal amphitheater.",
+      "challenge": "Balancing sacred traditional Senegalese rhythmic heritage with vanguard contemporary electronic choreography without diluting authenticity or feeling archaic.",
+      "solution": "We designed an amphitheater stage of red volcanic stone and brushed aluminum, framed by kinetic illuminated textile sails that caught the Atlantic Ocean breeze. The 3-hour performance flowed seamlessly from ancestral polyrhythms into futuristic electronic synthesis.",
+      "approach": [
+        { "step": "01", "title": "Strategy", "desc": "Collaborative workshops with master griots, traditional choreographers, and vanguard sound designers." },
+        { "step": "02", "title": "Concept", "desc": "'Resonance of the Wind' — using natural coastal atmospheric elements as active scenographic participants." },
+        { "step": "03", "title": "Design", "desc": "Tensile fabric sails acting simultaneously as acoustic reflectors, dynamic projection screens, and wind-dancers." },
+        { "step": "04", "title": "Production", "desc": "Rigorous coastal engineering resistant to high salt and marine wind gusts." },
+        { "step": "05", "title": "Experience", "desc": "Continuous musical crescendo culminating in an audience-wide communal dance ritual." },
+        { "step": "06", "title": "Content", "desc": "Feature documentary capture with international cinematic distribution." }
+      ],
+      "talent": [
+        { "name": "Alex Tesfaye", "role": "Overall Scenographer & Creative Director" },
+        { "name": "Maya Kebede", "role": "Cultural Dramaturge & Producer" },
+        { "name": "Nati Bekele", "role": "Spatial Audio & Acoustic Director" }
+      ],
+      "metrics": {
+        "attendees": "28K+",
+        "performers": "120 Masters",
+        "globalStreams": "2.4M",
+        "satisfaction": "98%"
+      },
+      "testimonial": {
+        "quote": "Africa in Motion captured the pulse of our continent with dignity, visceral power, and jaw-dropping modern scenography. An absolute masterpiece.",
+        "author": "Mamadou Diop",
+        "title": "Curator of National Arts, Republic of Senegal"
+      },
+      "nextProject": {
+        "slug": "africa-creative-summit",
+        "title": "Africa Creative Summit",
+        "category": "Event Production / Experience"
+      }
+    }
+  ],
+  "services": [
+    {
+      "number": "01",
+      "title": "Event Strategy & Production",
+      "shortDesc": "End-to-end master planning, spatial strategy, technical infrastructure, and turnkey execution for summits, festivals, and cultural congresses.",
+      "capabilities": ["Executive Event Architecture", "Technical Production & AV Engineering", "Multilingual Spatial Audio", "Venue Procurement & Transformation", "Broadcast & Hybrid Telepresence"],
+      "image": "assets/images/services/service-01.svg"
+    },
+    {
+      "number": "02",
+      "title": "Creative & Experience Design",
+      "shortDesc": "Monumental scenography, bespoke stagecraft, sensory choreography, and emotional journey mapping that captivates every sense.",
+      "capabilities": ["Scenography & Stage Architecture", "Sensory & Olfactory Journey Mapping", "Bespoke Lighting & Laser Choreography", "Custom Furniture & Tactile Installations", "Narrative Environmental Dramaturgy"],
+      "image": "assets/images/services/service-02.svg"
+    },
+    {
+      "number": "03",
+      "title": "Brand Activations",
+      "shortDesc": "High-impact cultural interventions and bespoke pop-up pavilions that embed global brands credibly into African cultural movements.",
+      "capabilities": ["Cultural Positioning Strategy", "Temporary Ephemeral Architecture", "VIP Experiential Lounges", "Exclusive Tastemaker Dinners", "Press & Editorial Captures"],
+      "image": "assets/images/services/service-03.svg"
+    },
+    {
+      "number": "04",
+      "title": "Digital & Immersive Experiences",
+      "shortDesc": "Architectural projection mapping, interactive generative installations, responsive spaces, and spatial audio that merge physical and digital.",
+      "capabilities": ["Large-Scale Projection Mapping", "Generative & Reactive Visuals (TouchDesigner/Unreal)", "Spatial & Binaural Audio Design", "Interactive Sensor Environments", "Augmented Spatial Layers"],
+      "image": "assets/images/services/service-04.svg"
+    },
+    {
+      "number": "05",
+      "title": "Talent & Artist Management",
+      "shortDesc": "Curating, contracting, and orchestrating premier African musical innovators, visual artists, keynote visionaries, and cultural curators.",
+      "capabilities": ["Cultural Curation & Talent Scouting", "Contracting & International Rider Management", "Artistic Direction & Rehearsal Supervision", "VIP Hospitality & Artist Care", "Commissioned Collaborative Works"],
+      "image": "assets/images/services/service-05.svg"
+    },
+    {
+      "number": "06",
+      "title": "Content & Motion",
+      "shortDesc": "Cinematic 4K/8K documentary capture, dynamic screen content, motion graphics, and editorial storytelling before, during, and after the event.",
+      "capabilities": ["Multi-Camera Broadcast Direction", "Cinematic Event Documentaries", "Screen Motion Graphics & Titles", "Real-Time Social Editorial Slices", "Archival Photography & Books"],
+      "image": "assets/images/services/service-06.svg"
+    }
+  ],
+  "stats": [
+    { "value": "35K+", "label": "Attendees Convened" },
+    { "value": "18", "label": "Global Brand Partners" },
+    { "value": "42", "label": "Curated International Talents" },
+    { "value": "98%", "label": "Audience Satisfaction" }
+  ]
+}
