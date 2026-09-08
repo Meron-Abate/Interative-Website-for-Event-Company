@@ -1,0 +1,33 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Redirect /index.html directly requested by client to /
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.html\ HTTP/ [NC]
+  RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
+
+  # Redirect /works to /work
+  RewriteRule ^works/?$ /work/ [R=301,L]
+  RewriteRule ^works/(.*)$ /work/$1 [R=301,L]
+
+  # Redirect direct requests for *.html to clean URL
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^.]+)\.html\ HTTP/ [NC]
+  RewriteRule ^(.*)\.html$ /$1/ [R=301,L]
+
+  # If request matches a directory with index.html, serve it
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^ - [L]
+
+  # If request matches a file with .html, internally rewrite
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}\.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
+
+# Caching & Security headers
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-XSS-Protection "1; mode=block"
+</IfModule>

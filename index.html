@@ -23,8 +23,7 @@
 
   <!-- Fonts & Stylesheets -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/animations.css">
@@ -62,16 +61,16 @@
   <!-- Global Header -->
   <header class="site-header">
     <div class="container nav-container">
-      <a href="index.html" class="brand-logo" aria-label="ETERNAL Studio Home">
-        <span class="brand-symbol" aria-hidden="true"></span>
-        ETERNAL
+      <a href="/" class="brand-logo" aria-label="ETERNAL Events Home">
+        <img src="/assets/images/logo/eternal-events-dark.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-dark">
+        <img src="/assets/images/logo/eternal-events-light.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-light">
       </a>
 
       <nav class="desktop-nav" aria-label="Main Navigation">
-        <a href="work.html" class="nav-link">Work</a>
-        <a href="services.html" class="nav-link">Services</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="contact.html" class="nav-link">Contact</a>
+        <a href="/work/" class="nav-link">Work</a>
+        <a href="/services/" class="nav-link">Services</a>
+        <a href="/about/" class="nav-link">About</a>
+        <a href="/contact/" class="nav-link">Contact</a>
       </nav>
 
       <div class="nav-actions">
@@ -79,42 +78,39 @@
           <svg class="theme-toggle-icon" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z"/></svg>
         </button>
 
-        <button class="mobile-menu-btn" data-mobile-toggle aria-expanded="false" aria-label="Toggle Menu">
-          <span class="burger-icon" aria-hidden="true">
-            <span class="burger-line"></span>
-            <span class="burger-line"></span>
-          </span>
-          <span>MENU</span>
+        <a href="/contact/" class="btn btn-primary nav-cta-btn" data-cursor="link">
+          <span>INQUIRE</span>
+        </a>
+
+        <button class="mobile-menu-btn" aria-label="Open Navigation Menu" aria-expanded="false" aria-controls="mobile-drawer">
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Fullscreen Mobile Navigation Drawer -->
+  <!-- Mobile Drawer -->
   <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
-    <div class="mobile-drawer-links">
-      <a href="index.html" class="mobile-drawer-link">
-        Home <span class="num">01</span>
-      </a>
-      <a href="work.html" class="mobile-drawer-link">
-        Work <span class="num">02</span>
-      </a>
-      <a href="services.html" class="mobile-drawer-link">
-        Services <span class="num">03</span>
-      </a>
-      <a href="about.html" class="mobile-drawer-link">
-        About <span class="num">04</span>
-      </a>
-      <a href="contact.html" class="mobile-drawer-link">
-        Contact <span class="num">05</span>
-      </a>
+    <div class="mobile-drawer-header">
+      <span class="meta-label">NAVIGATION</span>
+      <button class="mobile-drawer-close" aria-label="Close navigation menu">✕</button>
     </div>
+
+    <nav class="mobile-nav">
+      <a href="/" class="mobile-nav-link">01 — Home</a>
+      <a href="/work/" class="mobile-nav-link">02 — Work</a>
+      <a href="/services/" class="mobile-nav-link">03 — Services</a>
+      <a href="/about/" class="mobile-nav-link">04 — About</a>
+      <a href="/contact/" class="mobile-nav-link">05 — Contact</a>
+    </nav>
 
     <div class="mobile-drawer-footer">
       <div class="mobile-drawer-coords">
-        ADDIS ABABA // NAIROBI // LONDON
+        ADDIS ABABA • NAIROBI • LONDON
       </div>
-      <a href="contact.html" class="btn btn-primary">START A PROJECT →</a>
+      <a href="/contact/" class="btn btn-primary">START A PROJECT →</a>
     </div>
   </div>
 
@@ -122,10 +118,10 @@
     <!-- HERO SECTION -->
     <section class="hero-section" aria-label="Hero Section">
       <div class="hero-media-wrapper">
-        <video autoplay muted loop playsinline poster="assets/images/hero/hero-poster.svg" aria-hidden="true">
+        <video autoplay muted loop playsinline poster="assets/videos/hero-poster.jpg" aria-hidden="true">
           <source src="assets/videos/hero.webm" type="video/webm">
           <source src="assets/videos/hero.mp4" type="video/mp4">
-          <img src="assets/images/hero/hero-poster.svg" alt="Cinematic Stage Scenography">
+          <img src="assets/videos/hero-poster.jpg" alt="Cinematic Stage Scenography">
         </video>
         <canvas class="hero-ambient-canvas" aria-hidden="true"></canvas>
       </div>
@@ -137,14 +133,12 @@
         </div>
 
         <h1 class="hero-headline">
-          <span class="hero-headline-line"><span>WE CREATE</span></span>
-          <span class="hero-headline-line"><span>EXPERIENCES</span></span>
-          <span class="hero-headline-line"><span>THAT MOVE</span></span>
-          <span class="hero-headline-line"><span style="color: var(--accent);">PEOPLE.</span></span>
+          <span class="hero-headline-line"><span>WE CREATE EXPERIENCES</span></span>
+          <span class="hero-headline-line"><span>THAT MOVE <span style="color: var(--accent);">PEOPLE.</span></span></span>
         </h1>
 
         <div class="hero-actions">
-          <a href="contact.html" class="btn btn-primary" data-cursor="link">
+          <a href="/contact/" class="btn btn-primary" data-cursor="link">
             START A PROJECT
             <svg class="btn-arrow" viewBox="0 0 16 16"><path d="M1 8h12m0 0L8 3m5 5L8 13" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -160,129 +154,507 @@
       </div>
     </section>
 
-    <!-- ABOUT SECTION (Scroll-driven Word Scrub) -->
-    <section class="about-section section-spacing" id="about" aria-label="About Philosophy">
-      <div class="container about-editorial-wrap">
-        <div class="about-header">
-          <span class="meta-label">01 // PHILOSOPHY</span>
-        </div>
+    <!-- ABOUT SECTION (Pinned Scrollytelling Text Reveal) -->
+    <section class="about-section" id="about" aria-label="About Philosophy">
+      <div class="about-scrolly-container">
+        <div class="about-scrolly-pin">
+          <div class="container about-editorial-wrap">
+            <div class="about-scroll-indicator" aria-hidden="true">
+              <svg class="indicator-svg" viewBox="0 0 36 36">
+                <circle class="indicator-track" cx="18" cy="18" r="14" />
+                <circle class="indicator-progress" cx="18" cy="18" r="14" />
+              </svg>
+              <div class="indicator-dot"></div>
+            </div>
 
-        <div class="about-statement" aria-label="Manifesto Statement">
-          WE DON'T JUST PRODUCE EVENTS. WE CREATE MOMENTS THAT CONNECT PEOPLE. THAT MOVE BRANDS. THAT STAY WITH YOU.
-        </div>
+            <h2 class="about-headline">
+              ROOTED IN AFRICAN CREATIVE HERITAGE,<br>
+              CONNECTED TO GLOBAL STAGES
+            </h2>
 
-        <div class="about-meta-grid">
-          <div class="about-meta-item">
-            <h4>Spatial Architecture</h4>
-            <p>Every venue is sculpted as an emotional landscape where light, acoustics, and geometry converge to dissolve distance.</p>
+            <p class="about-statement" aria-label="Company Overview">
+              We combine over a decade of Pan-African creative vision with precision spatial engineering to deliver world-class experiential architecture and live productions to global audiences — every event a testament to cultural depth, architectural precision, and unforgettable human connection built across 18 countries, 42 curated talents, and 35,000 live attendees.
+            </p>
+
+            <div class="about-cta-wrap">
+              <a href="/about/" class="btn-learn-more-pill" data-cursor="link">
+                ↳ LEARN MORE
+              </a>
+            </div>
           </div>
-          <div class="about-meta-item">
-            <h4>Cultural Resonance</h4>
-            <p>Rooted in Pan-African creative heritage, honoring authentic traditions while pioneering futuristic global scenography.</p>
+        </div>
+      </div>
+
+      <!-- 3-Column Architectural Engineering Grid (Matching Reference Screenshot) -->
+      <div class="container about-pillars-container">
+        <div class="about-pillars-grid">
+          <!-- Column 1: Spatial Architecture -->
+          <div class="pillar-card">
+            <div class="pillar-wireframe" aria-hidden="true">
+              <svg viewBox="0 0 160 120" class="wireframe-svg wireframe-svg--rings">
+                <g class="wf-anim-rings">
+                  <path d="M 45 60 C 45 42, 60 25, 80 25 C 100 25, 115 42, 115 60 C 115 78, 100 95, 80 95 C 60 95, 45 78, 45 60 Z" class="wf-stroke wf-base"/>
+                  <path d="M 35 60 C 35 38, 55 18, 80 18 C 105 18, 125 38, 125 60 C 125 82, 105 102, 80 102 C 55 102, 35 82, 35 60 Z" class="wf-stroke wf-mid"/>
+                  <path d="M 25 60 C 25 34, 50 10, 80 10 C 110 10, 135 34, 135 60 C 135 86, 110 110, 80 110 C 50 110, 25 86, 25 60 Z" class="wf-stroke wf-outer"/>
+                  <line x1="80" y1="5" x2="80" y2="115" class="wf-guide"/>
+                  <line x1="20" y1="60" x2="140" y2="60" class="wf-guide"/>
+                </g>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Spatial Architecture</h3>
+            <p class="pillar-desc">
+              Every venue is sculpted as an emotional landscape where light, acoustics, and geometry converge to dissolve distance and immerse audiences.
+            </p>
           </div>
-          <div class="about-meta-item">
-            <h4>Surgical Precision</h4>
-            <p>Flawless technical execution across world-class AV engineering, kinetic structures, and live broadcast arrays.</p>
+
+          <!-- Column 2: Cultural Resonance -->
+          <div class="pillar-card">
+            <div class="pillar-wireframe" aria-hidden="true">
+              <svg viewBox="0 0 160 120" class="wireframe-svg wireframe-svg--poly">
+                <g class="wf-anim-poly">
+                  <polygon points="80,18 118,34 132,70 105,102 55,102 28,70 42,34" class="wf-stroke wf-base"/>
+                  <polygon points="80,28 108,40 118,66 98,90 62,90 42,66 52,40" class="wf-stroke wf-mid"/>
+                  <line x1="80" y1="18" x2="80" y2="102" class="wf-guide"/>
+                  <line x1="28" y1="70" x2="132" y2="70" class="wf-guide"/>
+                  <line x1="42" y1="34" x2="105" y2="102" class="wf-guide"/>
+                  <line x1="118" y1="34" x2="55" y2="102" class="wf-guide"/>
+                  <circle cx="80" cy="60" r="5" class="wf-stroke wf-core"/>
+                </g>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Cultural Resonance</h3>
+            <p class="pillar-desc">
+              Rooted in Pan-African creative heritage, honoring authentic traditions while pioneering futuristic global scenography and storytelling.
+            </p>
+          </div>
+
+          <!-- Column 3: Surgical Precision -->
+          <div class="pillar-card">
+            <div class="pillar-wireframe" aria-hidden="true">
+              <svg viewBox="0 0 160 120" class="wireframe-svg wireframe-svg--plates">
+                <g class="wf-anim-plates">
+                  <polygon points="60,35 100,15 135,35 135,65 95,85 60,65" class="wf-stroke wf-plate-1"/>
+                  <polygon points="45,48 85,28 120,48 120,78 80,98 45,78" class="wf-stroke wf-plate-2"/>
+                  <polygon points="30,60 70,40 105,60 105,90 65,110 30,90" class="wf-stroke wf-plate-3"/>
+                  <line x1="65" y1="38" x2="65" y2="110" class="wf-guide"/>
+                  <line x1="105" y1="18" x2="105" y2="90" class="wf-guide"/>
+                </g>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Surgical Precision</h3>
+            <p class="pillar-desc">
+              Flawless turnkey execution across world-class AV engineering, kinetic structures, multi-redundant power, and live broadcast arrays.
+            </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SERVICES SECTION (Pinned Desktop Scrub & Cursor Lag) -->
-    <section class="services-section" id="services" aria-label="Agency Capabilities">
-      <!-- Desktop floating cursor preview image -->
-      <div class="service-cursor-follower" aria-hidden="true">
-        <img src="assets/images/services/service-01.svg" alt="Service Preview">
-      </div>
-
-      <div class="services-viewport">
-        <!-- Left Column: Interactive List -->
-        <div class="services-list-side">
-          <div class="services-heading-wrap">
-            <span class="meta-label">02 // CAPABILITIES</span>
-            <h2 style="font-size: clamp(2rem, 4vw, 3.8rem); text-transform: uppercase; margin-top: 1rem;">
-              WHAT WE CRAFT.
-            </h2>
+    <!-- 02 FULL-WIDTH SERVICES ACCORDION & SCROLLYTELLING (HOW WE CAN HELP) -->
+    <section class="services-full-section" id="services" aria-label="Services Detailed Breakdown">
+      <div class="services-full-container">
+        <!-- Editorial Section Header Matching Reference -->
+        <div class="services-full-header">
+          <div class="services-full-meta">
+            <span class="meta-label">02 SERVICES</span>
           </div>
-
-          <div class="services-list" role="list">
-            <!-- 01 -->
-            <article class="service-item is-active" data-service-index="1" data-service-image="assets/images/services/service-01.svg" role="listitem">
-              <div class="service-item-header">
-                <span class="service-num">01</span>
-                <h3 class="service-title">Event Strategy & Production</h3>
-              </div>
-              <p class="service-desc">
-                End-to-end master planning, spatial strategy, technical infrastructure, and turnkey execution for summits, festivals, and cultural congresses.
-              </p>
-            </article>
-
-            <!-- 02 -->
-            <article class="service-item" data-service-index="2" data-service-image="assets/images/services/service-02.svg" role="listitem">
-              <div class="service-item-header">
-                <span class="service-num">02</span>
-                <h3 class="service-title">Creative & Experience Design</h3>
-              </div>
-              <p class="service-desc">
-                Monumental scenography, bespoke stagecraft, sensory choreography, and emotional journey mapping that captivates every sense.
-              </p>
-            </article>
-
-            <!-- 03 -->
-            <article class="service-item" data-service-index="3" data-service-image="assets/images/services/service-03.svg" role="listitem">
-              <div class="service-item-header">
-                <span class="service-num">03</span>
-                <h3 class="service-title">Brand Activations</h3>
-              </div>
-              <p class="service-desc">
-                High-impact cultural interventions and bespoke pop-up pavilions that embed global brands credibly into African cultural movements.
-              </p>
-            </article>
-
-            <!-- 04 -->
-            <article class="service-item" data-service-index="4" data-service-image="assets/images/services/service-04.svg" role="listitem">
-              <div class="service-item-header">
-                <span class="service-num">04</span>
-                <h3 class="service-title">Digital & Immersive Experiences</h3>
-              </div>
-              <p class="service-desc">
-                Architectural projection mapping, interactive generative installations, responsive spaces, and spatial audio that merge physical and digital.
-              </p>
-            </article>
-
-            <!-- 05 -->
-            <article class="service-item" data-service-index="5" data-service-image="assets/images/services/service-05.svg" role="listitem">
-              <div class="service-item-header">
-                <span class="service-num">05</span>
-                <h3 class="service-title">Talent & Artist Management</h3>
-              </div>
-              <p class="service-desc">
-                Curating, contracting, and orchestrating premier African musical innovators, visual artists, keynote visionaries, and cultural curators.
-              </p>
-            </article>
-
-            <!-- 06 -->
-            <article class="service-item" data-service-index="6" data-service-image="assets/images/services/service-06.svg" role="listitem">
-              <div class="service-item-header">
-                <span class="service-num">06</span>
-                <h3 class="service-title">Content & Motion</h3>
-              </div>
-              <p class="service-desc">
-                Cinematic 4K/8K documentary capture, dynamic screen content, motion graphics, and editorial storytelling before, during, and after the event.
-              </p>
-            </article>
-          </div>
+          <h2 class="services-full-title">
+            HOW WE CAN HELP <span class="services-full-sup">(SERVICES)</span>
+          </h2>
         </div>
 
-        <!-- Right Column: Visual Stage (Desktop pinned preview) -->
-        <div class="services-visual-side" aria-hidden="true">
-          <div class="services-image-container">
-            <img src="assets/images/services/service-01.svg" class="service-preview-img is-active" data-preview-index="1" alt="Event Strategy & Production">
-            <img src="assets/images/services/service-02.svg" class="service-preview-img" data-preview-index="2" alt="Creative & Experience Design">
-            <img src="assets/images/services/service-03.svg" class="service-preview-img" data-preview-index="3" alt="Brand Activations">
-            <img src="assets/images/services/service-04.svg" class="service-preview-img" data-preview-index="4" alt="Digital & Immersive Experiences">
-            <img src="assets/images/services/service-05.svg" class="service-preview-img" data-preview-index="5" alt="Talent & Artist Management">
-            <img src="assets/images/services/service-06.svg" class="service-preview-img" data-preview-index="6" alt="Content & Motion">
+        <!-- Full-Width Divider Rows List -->
+        <div class="services-full-list" role="list">
+          <!-- Row 01 -->
+          <div class="service-row" data-service-row="1" role="listitem">
+            <div class="service-row-header" tabindex="0" role="button" aria-expanded="false" aria-controls="service-content-1">
+              <div class="service-row-left">
+                <span class="service-row-num">01<span class="accent-dot">.</span></span>
+                <div class="service-row-pill" aria-hidden="true">
+                  <img src="assets/images/services/service-01.jpg" alt="Event Strategy & Master Production Pill">
+                </div>
+              </div>
+              <div class="service-row-right">
+                <h3 class="service-row-title">Event Strategy & Master Production</h3>
+                <span class="service-row-toggle" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10l5 5 5-5"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="service-row-dropdown" id="service-content-1">
+              <div class="service-row-dropdown-inner">
+                <!-- Dropdown Visual Media Card -->
+                <div class="service-dropdown-media">
+                  <div class="service-media-frame">
+                    <img src="assets/images/services/service-01.jpg" alt="Event Strategy & Master Production Preview" loading="lazy">
+                    <div class="service-media-tag">01 PRODUCTION ARCHITECTURE</div>
+                  </div>
+                </div>
+                <!-- Dropdown Scope & Specifications -->
+                <div class="service-dropdown-details">
+                  <p class="service-dropdown-lead">
+                    Master architectural production, multi-stage engineering, and turnkey operational orchestration for landmark cultural congresses, music festivals, and international state summits.
+                  </p>
+                  <div class="service-dropdown-grid">
+                    <div class="service-grid-col">
+                      <span class="service-col-title">CORE DISCIPLINES</span>
+                      <ul class="service-col-list">
+                        <li>Turnkey AV Engineering & Line Arrays</li>
+                        <li>Kinetic Staging, Heavy Trussing & Rigging</li>
+                        <li>Spatial Logistics & Flow Simulation</li>
+                        <li>Multi-Redundant Heavy Power Grids</li>
+                      </ul>
+                    </div>
+                    <div class="service-grid-col">
+                      <span class="service-col-title">DELIVERABLES</span>
+                      <ul class="service-col-list">
+                        <li>3D Pre-visualization & Technical CAD</li>
+                        <li>Run-of-Show Master Timecodes</li>
+                        <li>Site Safety & International Permitting</li>
+                        <li>On-site Command & Crisis Logistics</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="service-dropdown-footer">
+                    <div class="service-tags">
+                      <span class="service-tag">Master Production</span>
+                      <span class="service-tag">AV Engineering</span>
+                      <span class="service-tag">Kinetic Rigging</span>
+                    </div>
+                    <a href="/contact/?service=production" class="service-cta-btn" data-cursor="link">
+                      <span>INQUIRE THIS SERVICE</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 02 -->
+          <div class="service-row" data-service-row="2" role="listitem">
+            <div class="service-row-header" tabindex="0" role="button" aria-expanded="false" aria-controls="service-content-2">
+              <div class="service-row-left">
+                <span class="service-row-num">02<span class="accent-dot">.</span></span>
+                <div class="service-row-pill" aria-hidden="true">
+                  <img src="assets/images/services/service-02.jpg" alt="Creative Scenography & Spatial Design Pill">
+                </div>
+              </div>
+              <div class="service-row-right">
+                <h3 class="service-row-title">Creative Scenography & Spatial Design</h3>
+                <span class="service-row-toggle" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10l5 5 5-5"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="service-row-dropdown" id="service-content-2">
+              <div class="service-row-dropdown-inner">
+                <div class="service-dropdown-media">
+                  <div class="service-media-frame">
+                    <img src="assets/images/services/service-02.jpg" alt="Creative Scenography & Spatial Design Preview" loading="lazy">
+                    <div class="service-media-tag">02 SCENOGRAPHY & LIGHT</div>
+                  </div>
+                </div>
+                <div class="service-dropdown-details">
+                  <p class="service-dropdown-lead">
+                    Transforming blank volumes into evocative architectural worlds. We harmonize monumental sculptural forms, kinetic lighting installations, and spatial choreography to awaken wonder.
+                  </p>
+                  <div class="service-dropdown-grid">
+                    <div class="service-grid-col">
+                      <span class="service-col-title">CORE DISCIPLINES</span>
+                      <ul class="service-col-list">
+                        <li>Bespoke Stage Architecture & Sculptures</li>
+                        <li>Kinetic Light Rings & Laser Geometry</li>
+                        <li>Sensory Scenography & Atmosphere Design</li>
+                        <li>Custom Set Fabrication & Textures</li>
+                      </ul>
+                    </div>
+                    <div class="service-grid-col">
+                      <span class="service-col-title">DELIVERABLES</span>
+                      <ul class="service-col-list">
+                        <li>Architectural 3D Spatial Renders</li>
+                        <li>Lighting Design Plot & DMX Programming</li>
+                        <li>Structural Fabrication Drawings</li>
+                        <li>Material Specifications & Prototypes</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="service-dropdown-footer">
+                    <div class="service-tags">
+                      <span class="service-tag">Scenography</span>
+                      <span class="service-tag">Volumetric Lighting</span>
+                      <span class="service-tag">Spatial Design</span>
+                    </div>
+                    <a href="/contact/?service=scenography" class="service-cta-btn" data-cursor="link">
+                      <span>INQUIRE THIS SERVICE</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 03 -->
+          <div class="service-row" data-service-row="3" role="listitem">
+            <div class="service-row-header" tabindex="0" role="button" aria-expanded="false" aria-controls="service-content-3">
+              <div class="service-row-left">
+                <span class="service-row-num">03<span class="accent-dot">.</span></span>
+                <div class="service-row-pill" aria-hidden="true">
+                  <img src="assets/images/services/service-03.jpg" alt="Brand Activations & Cultural Pavilions Pill">
+                </div>
+              </div>
+              <div class="service-row-right">
+                <h3 class="service-row-title">Brand Activations & Cultural Pavilions</h3>
+                <span class="service-row-toggle" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10l5 5 5-5"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="service-row-dropdown" id="service-content-3">
+              <div class="service-row-dropdown-inner">
+                <div class="service-dropdown-media">
+                  <div class="service-media-frame">
+                    <img src="assets/images/services/service-03.jpg" alt="Brand Activations & Cultural Pavilions Preview" loading="lazy">
+                    <div class="service-media-tag">03 BRAND EXPERIENCES</div>
+                  </div>
+                </div>
+                <div class="service-dropdown-details">
+                  <p class="service-dropdown-lead">
+                    Immersive brand ecosystems and architectural temporary pavilions built to embed global and pan-African brands directly into the cultural zeitgeist.
+                  </p>
+                  <div class="service-dropdown-grid">
+                    <div class="service-grid-col">
+                      <span class="service-col-title">CORE DISCIPLINES</span>
+                      <ul class="service-col-list">
+                        <li>Experiential Pop-Up Architecture</li>
+                        <li>VIP Hospitality & Secret Enclaves</li>
+                        <li>Interactive Product Unveils</li>
+                        <li>Social-First Spatial Photospots</li>
+                      </ul>
+                    </div>
+                    <div class="service-grid-col">
+                      <span class="service-col-title">DELIVERABLES</span>
+                      <ul class="service-col-list">
+                        <li>Consumer Journey Blueprint</li>
+                        <li>Pavilion Build & Permitting Pack</li>
+                        <li>Brand Ambassador Protocol Guide</li>
+                        <li>Engagement Analytics & Post-Event ROI</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="service-dropdown-footer">
+                    <div class="service-tags">
+                      <span class="service-tag">Brand Activation</span>
+                      <span class="service-tag">Pavilion Design</span>
+                      <span class="service-tag">Cultural Impact</span>
+                    </div>
+                    <a href="/contact/?service=activations" class="service-cta-btn" data-cursor="link">
+                      <span>INQUIRE THIS SERVICE</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 04 -->
+          <div class="service-row" data-service-row="4" role="listitem">
+            <div class="service-row-header" tabindex="0" role="button" aria-expanded="false" aria-controls="service-content-4">
+              <div class="service-row-left">
+                <span class="service-row-num">04<span class="accent-dot">.</span></span>
+                <div class="service-row-pill" aria-hidden="true">
+                  <img src="assets/images/services/service-04.jpg" alt="Digital & Immersive Spatial Experiences Pill">
+                </div>
+              </div>
+              <div class="service-row-right">
+                <h3 class="service-row-title">Digital & Immersive Spatial Experiences</h3>
+                <span class="service-row-toggle" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10l5 5 5-5"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="service-row-dropdown" id="service-content-4">
+              <div class="service-row-dropdown-inner">
+                <div class="service-dropdown-media">
+                  <div class="service-media-frame">
+                    <img src="assets/images/services/service-04.jpg" alt="Digital & Immersive Spatial Experiences Preview" loading="lazy">
+                    <div class="service-media-tag">04 GENERATIVE TECH</div>
+                  </div>
+                </div>
+                <div class="service-dropdown-details">
+                  <p class="service-dropdown-lead">
+                    Architectural projection mapping, generative reactive visuals, sensor-triggered environments, and spatialized audio arrays that transform physical space into responsive digital canvases.
+                  </p>
+                  <div class="service-dropdown-grid">
+                    <div class="service-grid-col">
+                      <span class="service-col-title">CORE DISCIPLINES</span>
+                      <ul class="service-col-list">
+                        <li>Facade Architectural Projection Mapping</li>
+                        <li>TouchDesigner & Notch Generative Art</li>
+                        <li>LiDAR & Infrared Audience Tracking</li>
+                        <li>Multi-Channel Ambisonic Spatial Audio</li>
+                      </ul>
+                    </div>
+                    <div class="service-grid-col">
+                      <span class="service-col-title">DELIVERABLES</span>
+                      <ul class="service-col-list">
+                        <li>Custom Interactive Software Stack</li>
+                        <li>Projection Calibration & Lens Calculations</li>
+                        <li>Generative Content Presets & Shaders</li>
+                        <li>Hardware Synchronization Rig</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="service-dropdown-footer">
+                    <div class="service-tags">
+                      <span class="service-tag">Projection Mapping</span>
+                      <span class="service-tag">Generative Art</span>
+                      <span class="service-tag">Spatial Audio</span>
+                    </div>
+                    <a href="/contact/?service=immersive" class="service-cta-btn" data-cursor="link">
+                      <span>INQUIRE THIS SERVICE</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 05 -->
+          <div class="service-row" data-service-row="5" role="listitem">
+            <div class="service-row-header" tabindex="0" role="button" aria-expanded="false" aria-controls="service-content-5">
+              <div class="service-row-left">
+                <span class="service-row-num">05<span class="accent-dot">.</span></span>
+                <div class="service-row-pill" aria-hidden="true">
+                  <img src="assets/images/services/service-05.jpg" alt="Talent Curation & Artist Management Pill">
+                </div>
+              </div>
+              <div class="service-row-right">
+                <h3 class="service-row-title">Talent Curation & Artist Management</h3>
+                <span class="service-row-toggle" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10l5 5 5-5"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="service-row-dropdown" id="service-content-5">
+              <div class="service-row-dropdown-inner">
+                <div class="service-dropdown-media">
+                  <div class="service-media-frame">
+                    <img src="assets/images/services/service-05.jpg" alt="Talent Curation & Artist Management Preview" loading="lazy">
+                    <div class="service-media-tag">05 TALENT ROSTER</div>
+                  </div>
+                </div>
+                <div class="service-dropdown-details">
+                  <p class="service-dropdown-lead">
+                    Curating, booking, contracting, and managing high-caliber African headline musical artists, global keynote visionaries, visual artists, and cultural icons for bespoke live moments.
+                  </p>
+                  <div class="service-dropdown-grid">
+                    <div class="service-grid-col">
+                      <span class="service-col-title">CORE DISCIPLINES</span>
+                      <ul class="service-col-list">
+                        <li>Headline Artist Programming & Booking</li>
+                        <li>International Hospitality & Riders</li>
+                        <li>Stage Backline & Rehearsal Coordination</li>
+                        <li>Legal Clearances & Global Contracts</li>
+                      </ul>
+                    </div>
+                    <div class="service-grid-col">
+                      <span class="service-col-title">DELIVERABLES</span>
+                      <ul class="service-col-list">
+                        <li>Full Lineup Curation Proposal</li>
+                        <li>Technical & Hospitality Rider Sheets</li>
+                        <li>Artist Advance & VIP Transportation Log</li>
+                        <li>Green Room & Dressing Oasis Builds</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="service-dropdown-footer">
+                    <div class="service-tags">
+                      <span class="service-tag">Artist Booking</span>
+                      <span class="service-tag">Cultural Programming</span>
+                      <span class="service-tag">VIP Concierge</span>
+                    </div>
+                    <a href="/contact/?service=talent" class="service-cta-btn" data-cursor="link">
+                      <span>INQUIRE THIS SERVICE</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 06 -->
+          <div class="service-row" data-service-row="6" role="listitem">
+            <div class="service-row-header" tabindex="0" role="button" aria-expanded="false" aria-controls="service-content-6">
+              <div class="service-row-left">
+                <span class="service-row-num">06<span class="accent-dot">.</span></span>
+                <div class="service-row-pill" aria-hidden="true">
+                  <img src="assets/images/services/service-06.jpg" alt="Broadcast Direction & Motion Documentation Pill">
+                </div>
+              </div>
+              <div class="service-row-right">
+                <h3 class="service-row-title">Broadcast Direction & Motion Documentation</h3>
+                <span class="service-row-toggle" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10l5 5 5-5"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="service-row-dropdown" id="service-content-6">
+              <div class="service-row-dropdown-inner">
+                <div class="service-dropdown-media">
+                  <div class="service-media-frame">
+                    <img src="assets/images/services/service-06.jpg" alt="Broadcast Direction & Motion Documentation Preview" loading="lazy">
+                    <div class="service-media-tag">06 BROADCAST & FILM</div>
+                  </div>
+                </div>
+                <div class="service-dropdown-details">
+                  <p class="service-dropdown-lead">
+                    Live multi-camera satellite broadcast, low-latency global streaming, and cinematic documentary storytelling capturing the event with prestige visual fidelity.
+                  </p>
+                  <div class="service-dropdown-grid">
+                    <div class="service-grid-col">
+                      <span class="service-col-title">CORE DISCIPLINES</span>
+                      <ul class="service-col-list">
+                        <li>Multi-Camera 4K OB Broadcast Trucks</li>
+                        <li>High-Speed Cable Cams & Drone Swarms</li>
+                        <li>Sub-second Global CDN Live Feeds</li>
+                        <li>Cinema-Grade Aftermovies & Sizzle Reels</li>
+                      </ul>
+                    </div>
+                    <div class="service-grid-col">
+                      <span class="service-col-title">DELIVERABLES</span>
+                      <ul class="service-col-list">
+                        <li>Broadcast Director Cut & Switcher Master</li>
+                        <li>Same-Day Social Media Micro-Edits</li>
+                        <li>Master Archival 8K Documentary</li>
+                        <li>Live Transmission Telemetry Reports</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="service-dropdown-footer">
+                    <div class="service-tags">
+                      <span class="service-tag">Broadcast Engineering</span>
+                      <span class="service-tag">Cinema Capture</span>
+                      <span class="service-tag">Post-Production</span>
+                    </div>
+                    <a href="/contact/?service=broadcast" class="service-cta-btn" data-cursor="link">
+                      <span>INQUIRE THIS SERVICE</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -292,18 +664,18 @@
     <section class="portfolio-section" id="portfolio" data-horizontal aria-label="Selected Projects">
       <div class="portfolio-header-strip">
         <div>
-          <span class="meta-label">03 // SELECTED WORK</span>
+          <span class="meta-label">03 SELECTED WORK</span>
           <h2 style="font-size: clamp(2rem, 3.5vw, 3.2rem); text-transform: uppercase; margin-top: 0.5rem;">EXHIBITION</h2>
         </div>
-        <a href="work.html" class="nav-link" data-cursor="link">VIEW ARCHIVE (05) →</a>
+        <a href="/work/" class="nav-link" data-cursor="link">VIEW ARCHIVE (05) →</a>
       </div>
 
       <div class="portfolio-horizontal-wrapper" data-cursor="drag">
         <!-- Project 01 -->
         <article class="portfolio-card" data-cursor="view">
-          <a href="work/africa-creative-summit/index.html" style="display: block;">
+          <a href="/work/africa-creative-summit/" style="display: block;">
             <div class="portfolio-card-media">
-              <span class="portfolio-card-badge">01 // EVENT PRODUCTION</span>
+              <span class="portfolio-card-badge">01 EVENT PRODUCTION</span>
               <img src="assets/images/projects/africa-creative-summit/hero.svg" alt="Africa Creative Summit Stage" loading="lazy">
             </div>
             <div class="portfolio-card-info">
@@ -311,16 +683,16 @@
                 <h3 class="portfolio-card-title">Africa Creative Summit</h3>
                 <span class="portfolio-card-year">2026</span>
               </div>
-              <p class="portfolio-card-category">Addis Ababa // 360° Kinetic Agora</p>
+              <p class="portfolio-card-category">Addis Ababa • 360° Kinetic Agora</p>
             </div>
           </a>
         </article>
 
         <!-- Project 02 -->
         <article class="portfolio-card" data-cursor="view">
-          <a href="work/night-of-culture/index.html" style="display: block;">
+          <a href="/work/night-of-culture/" style="display: block;">
             <div class="portfolio-card-media">
-              <span class="portfolio-card-badge">02 // BRAND EXPERIENCE</span>
+              <span class="portfolio-card-badge">02 BRAND EXPERIENCE</span>
               <img src="assets/images/projects/night-of-culture/hero.svg" alt="Night of Culture Light Chambers" loading="lazy">
             </div>
             <div class="portfolio-card-info">
@@ -328,16 +700,16 @@
                 <h3 class="portfolio-card-title">Night of Culture</h3>
                 <span class="portfolio-card-year">2026</span>
               </div>
-              <p class="portfolio-card-category">Nairobi // Sensorial Nocturnal Sanctuary</p>
+              <p class="portfolio-card-category">Nairobi • Sensorial Nocturnal Sanctuary</p>
             </div>
           </a>
         </article>
 
         <!-- Project 03 -->
         <article class="portfolio-card" data-cursor="view">
-          <a href="work/future-of-business/index.html" style="display: block;">
+          <a href="/work/future-of-business/" style="display: block;">
             <div class="portfolio-card-media">
-              <span class="portfolio-card-badge">03 // CORPORATE EXPERIENCE</span>
+              <span class="portfolio-card-badge">03 CORPORATE EXPERIENCE</span>
               <img src="assets/images/projects/future-of-business/hero.svg" alt="The Future of Business Executive Forum" loading="lazy">
             </div>
             <div class="portfolio-card-info">
@@ -345,16 +717,16 @@
                 <h3 class="portfolio-card-title">The Future of Business</h3>
                 <span class="portfolio-card-year">2025</span>
               </div>
-              <p class="portfolio-card-category">Kigali // Real-Time Biometric Dealmaking Atrium</p>
+              <p class="portfolio-card-category">Kigali • Real-Time Biometric Dealmaking Atrium</p>
             </div>
           </a>
         </article>
 
         <!-- Project 04 -->
         <article class="portfolio-card" data-cursor="view">
-          <a href="work/city-of-light/index.html" style="display: block;">
+          <a href="/work/city-of-light/" style="display: block;">
             <div class="portfolio-card-media">
-              <span class="portfolio-card-badge">04 // IMMERSIVE EXPERIENCE</span>
+              <span class="portfolio-card-badge">04 IMMERSIVE EXPERIENCE</span>
               <img src="assets/images/projects/city-of-light/hero.svg" alt="City of Light Silo Projection Mapping" loading="lazy">
             </div>
             <div class="portfolio-card-info">
@@ -362,16 +734,16 @@
                 <h3 class="portfolio-card-title">City of Light</h3>
                 <span class="portfolio-card-year">2025</span>
               </div>
-              <p class="portfolio-card-category">Cape Town // 32-Laser Monumental Scenography</p>
+              <p class="portfolio-card-category">Cape Town • 32-Laser Monumental Scenography</p>
             </div>
           </a>
         </article>
 
         <!-- Project 05 -->
         <article class="portfolio-card" data-cursor="view">
-          <a href="work/africa-in-motion/index.html" style="display: block;">
+          <a href="/work/africa-in-motion/" style="display: block;">
             <div class="portfolio-card-media">
-              <span class="portfolio-card-badge">05 // CULTURAL EVENT</span>
+              <span class="portfolio-card-badge">05 CULTURAL EVENT</span>
               <img src="assets/images/projects/africa-in-motion/hero.svg" alt="Africa in Motion Coastal Scenography" loading="lazy">
             </div>
             <div class="portfolio-card-info">
@@ -379,7 +751,7 @@
                 <h3 class="portfolio-card-title">Africa in Motion</h3>
                 <span class="portfolio-card-year">2025</span>
               </div>
-              <p class="portfolio-card-category">Dakar // Volcanic Stone Amphitheater & Kinetic Sails</p>
+              <p class="portfolio-card-category">Dakar • Volcanic Stone Amphitheater & Kinetic Sails</p>
             </div>
           </a>
         </article>
@@ -419,7 +791,7 @@
           SOMETHING<br>
           <span class="accent">UNFORGETTABLE.</span>
         </h2>
-        <a href="contact.html" class="btn btn-primary" style="font-size: 0.95rem; padding: 1.3rem 2.8rem;" data-cursor="link">
+        <a href="/contact/" class="btn btn-primary" style="font-size: 0.95rem; padding: 1.3rem 2.8rem;" data-cursor="link">
           START A PROJECT →
         </a>
       </div>
@@ -431,9 +803,9 @@
     <div class="container">
       <div class="footer-top-grid">
         <div class="footer-brand">
-          <a href="index.html" class="brand-logo">
-            <span class="brand-symbol" aria-hidden="true"></span>
-            ETERNAL
+          <a href="/" class="brand-logo footer-logo" aria-label="ETERNAL Events Home">
+            <img src="/assets/images/logo/eternal-events-dark.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-dark">
+            <img src="/assets/images/logo/eternal-events-light.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-light">
           </a>
           <p>
             A high-end international creative studio and experiential production company. We don't just produce events; we engineer moments that move people.
@@ -443,10 +815,10 @@
         <div class="footer-col">
           <h5>Navigation</h5>
           <div class="footer-links">
-            <a href="work.html">Work Archive</a>
-            <a href="services.html">Capabilities</a>
-            <a href="about.html">Studio Philosophy</a>
-            <a href="contact.html">Inquiries</a>
+            <a href="/work/">Work Archive</a>
+            <a href="/services/">Capabilities</a>
+            <a href="/about/">Studio Philosophy</a>
+            <a href="/contact/">Inquiries</a>
           </div>
         </div>
 
@@ -482,8 +854,8 @@
       <div class="footer-bottom">
         <div>© 2026 ETERNAL STUDIO. ALL RIGHTS RESERVED.</div>
         <div style="display: flex; gap: 2rem;">
-          <a href="sitemap.xml">SITEMAP</a>
-          <a href="robots.txt">ROBOTS</a>
+          <a href="/sitemap.xml">SITEMAP</a>
+          <a href="/robots.txt">ROBOTS</a>
           <span>PAN-AFRICAN ARCHITECTURE</span>
         </div>
       </div>

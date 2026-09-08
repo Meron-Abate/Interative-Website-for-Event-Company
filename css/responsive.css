@@ -92,6 +92,27 @@
     gap: 4rem;
   }
 
+  .about-scroll-indicator {
+    position: static;
+    margin: 0 auto 1.25rem auto;
+    left: auto;
+    top: auto;
+  }
+
+  .about-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pillar-card {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 3rem 1.5rem;
+  }
+
+  .pillar-card:last-child {
+    border-bottom: none;
+  }
+
   .work-archive-grid {
     grid-template-columns: 1fr;
     gap: 3.5rem;
@@ -128,7 +149,8 @@
   }
 
   .hero-headline {
-    margin-bottom: 2.5rem;
+    font-size: clamp(1.75rem, 6.5vw, 2.75rem);
+    margin-bottom: 1.75rem;
   }
 
   .hero-actions {
@@ -145,9 +167,38 @@
     display: none;
   }
 
+  .about-scrolly-pin {
+    padding: calc(var(--nav-height) + 0.75rem) 1.25rem 2rem;
+    min-height: 100dvh;
+    justify-content: center;
+  }
+
+  .about-headline {
+    font-size: clamp(1.6rem, 5.8vw, 2.3rem);
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+  }
+
   .about-statement {
-    font-size: clamp(2rem, 7.5vw, 3.2rem);
-    line-height: 1.2;
+    font-size: clamp(0.95rem, 3.7vw, 1.2rem);
+    line-height: 1.62;
+  }
+
+  .about-cta-wrap {
+    margin-top: 1.5rem;
+  }
+
+  .btn-learn-more-pill {
+    padding: 0.8rem 2rem;
+    font-size: 0.75rem;
+  }
+
+  .brand-logo-img {
+    height: 30px;
+  }
+
+  .footer-logo .brand-logo-img {
+    height: 34px;
   }
 
   .about-meta-grid {
@@ -230,3 +281,60 @@
     gap: 2rem;
   }
 }
+
+/* --- Services Full (HOW WE CAN HELP) Responsive Overrides --- */
+@media (max-width: 992px) {
+  .service-row-dropdown-inner {
+    grid-template-columns: 1fr;
+    gap: 2.2rem;
+    padding: 0 clamp(1.5rem, 4vw, 3rem) clamp(2.5rem, 4vw, 4rem);
+  }
+
+  .service-row-header {
+    padding: clamp(1.5rem, 2.5vw, 2.4rem) clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .service-dropdown-media {
+    aspect-ratio: 16 / 9;
+    min-height: 240px;
+    max-height: 380px;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-row-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+
+  .service-row-right {
+    margin-left: 0;
+    width: 100%;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .service-row-title {
+    text-align: left;
+    font-size: clamp(1.3rem, 4.5vw, 1.7rem);
+  }
+
+  .service-dropdown-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.2rem 0;
+  }
+
+  .service-dropdown-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+
+  .service-cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

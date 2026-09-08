@@ -85,7 +85,16 @@ export function initNavigation() {
 }
 
 function highlightActiveNav() {
-  const currentPath = window.location.pathname.replace(/\/index\.html$/, '/');
+  function normalizeRoute(path) {
+    let p = path.toLowerCase().replace(/\/index\.html$/, '').replace(/\.html$/, '');
+    if (p.endsWith('/') && p.length > 1) {
+      p = p.slice(0, -1);
+    }
+    if (p === '/works') p = '/work';
+    return p || '/';
+  }
+
+  const currentPath = normalizeRoute(window.location.pathname);
   const links = document.querySelectorAll('.nav-link, .mobile-drawer-link');
   
   links.forEach((link) => {
@@ -93,11 +102,18 @@ function highlightActiveNav() {
     if (!href) return;
     
     // Normalize comparison
-    const linkPath = new URL(href, window.location.origin).pathname.replace(/\/index\.html$/, '/');
-    if (linkPath === currentPath || (currentPath.startsWith('/work/') && linkPath === '/work.html')) {
-      link.classList.add('is-active');
-    } else {
-      link.classList.remove('is-active');
+    try {
+      const linkPath = normalizeRoute(new URL(href, window.location.origin).pathname);
+      const isMatch = (linkPath === currentPath) || 
+                      (currentPath.startsWith('/work') && linkPath === '/work') ||
+                      (currentPath === '/' && linkPath === '/');
+      if (isMatch) {
+        link.classList.add('is-active');
+      } else {
+        link.classList.remove('is-active');
+      }
+    } catch {
+      // Ignore malformed URLs
     }
   });
 }

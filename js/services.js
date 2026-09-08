@@ -1,97 +1,102 @@
 /**
  * ETERNAL STUDIO — SERVICES INTERACTION MODULE
- * Desktop pinned scroll sequence & cursor-lagging preview image
+ * Full-width editorial services accordion with inline pills, scroll reveal & hover expansion
  */
 
 export function initServices() {
-  const servicesSection = document.querySelector('.services-section');
-  if (!servicesSection) return;
+  initServicesFull();
+}
 
-  const serviceItems = servicesSection.querySelectorAll('.service-item');
-  const previewImages = servicesSection.querySelectorAll('.service-preview-img');
-  const follower = document.querySelector('.service-cursor-follower');
+/**
+ * 02 // FULL-WIDTH EDITORIAL SERVICES ACCORDION & HOVER/SCROLL INTERACTION (HOW WE CAN HELP)
+ */
+export function initServicesFull() {
+  const fullSection = document.querySelector('.services-full-section');
+  if (!fullSection) return;
 
-  const isDesktop = window.innerWidth >= 992 && !window.matchMedia('(pointer: coarse)').matches;
+  const rows = fullSection.querySelectorAll('.service-row');
+  if (!rows.length) return;
 
-  // 1. Desktop Cursor-Following Preview Image with GSAP quickTo
-  if (isDesktop && follower && typeof window.gsap !== 'undefined') {
-    const xTo = window.gsap.quickTo(follower, 'x', { duration: 0.35, ease: 'power3.out' });
-    const yTo = window.gsap.quickTo(follower, 'y', { duration: 0.35, ease: 'power3.out' });
+  let activeRow = null;
 
-    window.addEventListener('mousemove', (e) => {
-      xTo(e.clientX);
-      yTo(e.clientY);
-    });
-
-    serviceItems.forEach((item) => {
-      item.addEventListener('mouseenter', () => {
-        const index = item.getAttribute('data-service-index');
-        const imgSrc = item.getAttribute('data-service-image');
-        
-        if (follower && imgSrc) {
-          const followerImg = follower.querySelector('img');
-          if (followerImg) followerImg.src = imgSrc;
-          follower.style.opacity = '1';
-          follower.style.transform = 'translate(-50%, -50%) scale(1)';
-        }
-
-        activateService(index);
-      });
-
-      item.addEventListener('mouseleave', () => {
-        if (follower) {
-          follower.style.opacity = '0';
-          follower.style.transform = 'translate(-50%, -50%) scale(0.85)';
-        }
-      });
-    });
-  } else {
-    // Touch / Mobile: click/tap to toggle active state
-    serviceItems.forEach((item) => {
-      item.addEventListener('click', () => {
-        const index = item.getAttribute('data-service-index');
-        activateService(index);
-      });
-    });
-  }
-
-  function activateService(index) {
-    serviceItems.forEach((item) => {
-      if (item.getAttribute('data-service-index') === index) {
-        item.classList.add('is-active');
+  function openRow(targetRow) {
+    if (!targetRow) return;
+    activeRow = targetRow;
+    rows.forEach((row) => {
+      const header = row.querySelector('.service-row-header');
+      if (row === targetRow) {
+        row.classList.add('is-open');
+        if (header) header.setAttribute('aria-expanded', 'true');
       } else {
-        item.classList.remove('is-active');
-      }
-    });
-
-    previewImages.forEach((img) => {
-      if (img.getAttribute('data-preview-index') === index) {
-        img.classList.add('is-active');
-      } else {
-        img.classList.remove('is-active');
+        row.classList.remove('is-open');
+        if (header) header.setAttribute('aria-expanded', 'false');
       }
     });
   }
 
-  // 2. Desktop Scroll-Driven Pinning with GSAP ScrollTrigger
-  if (isDesktop && typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined') {
+  // 1. Hover-To-Open Interaction on Desktop & Click fallback for Touch/Keyboard
+  rows.forEach((row) => {
+    const header = row.querySelector('.service-row-header');
+
+    // Hover triggers row expansion effortlessly without needing clicks
+    row.addEventListener('mouseenter', () => {
+      openRow(row);
+    });
+
+    // Touch & Keyboard accessibility
+    if (header) {
+      header.addEventListener('click', () => {
+        openRow(row);
+      });
+
+      header.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openRow(row);
+        }
+      });
+    }
+  });
+
+  // 2. Scroll-Triggered Initial Open: When scrolling into section, open Row 01
+  if (typeof window.ScrollTrigger !== 'undefined') {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
 
+    // Header subtle entrance reveal
+    const headerTitle = fullSection.querySelector('.services-full-title');
+    if (headerTitle && typeof window.gsap !== 'undefined' && !prefersReducedMotion) {
+      window.gsap.from(headerTitle, {
+        scrollTrigger: {
+          trigger: fullSection,
+          start: 'top 80%'
+        },
+        y: 40,
+        opacity: 0,
+        duration: 0.9,
+        ease: 'power3.out'
+      });
+    }
+
+    // Scroll trigger to open the first service automatically
     window.ScrollTrigger.create({
-      trigger: servicesSection,
-      start: 'top top',
-      end: `+=${serviceItems.length * 300}`,
-      pin: true,
-      anticipatePin: 1,
-      scrub: 0.5,
-      onUpdate: (self) => {
-        const step = Math.min(
-          serviceItems.length - 1,
-          Math.floor(self.progress * serviceItems.length)
-        );
-        activateService(String(step + 1));
+      trigger: fullSection,
+      start: 'top 70%',
+      once: true,
+      onEnter: () => {
+        // Open first service row so visitors immediately see it's an interactive dropdown
+        if (!activeRow) {
+          openRow(rows[0]);
+        }
       }
     });
+
+    // If page is already scrolled past this threshold on initial load
+    const rect = fullSection.getBoundingClientRect();
+    if (rect.top <= window.innerHeight * 0.7) {
+      openRow(rows[0]);
+    }
+  } else {
+    // Fallback if ScrollTrigger is not present
+    openRow(rows[0]);
   }
 }
