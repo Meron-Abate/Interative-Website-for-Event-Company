@@ -8,7 +8,6 @@ export function initAbout() {
   const scrollyContainer = document.querySelector('.about-scrolly-container') || aboutSection;
   const scrollyPin = document.querySelector('.about-scrolly-pin');
   const statement = document.querySelector('.about-statement');
-  const ctaWrap = document.querySelector('.about-cta-wrap');
   const progressCircle = document.querySelector('.indicator-progress');
   const indicatorDot = document.querySelector('.indicator-dot');
 
@@ -36,7 +35,6 @@ export function initAbout() {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) {
     words.forEach(w => w.classList.add('is-active'));
-    if (ctaWrap) ctaWrap.classList.add('is-revealed');
     return;
   }
 
@@ -89,15 +87,6 @@ export function initAbout() {
         if (indicatorDot) {
           const angle = progress * 360 - 90;
           indicatorDot.style.transform = `rotate(${angle}deg) translate(14px) rotate(${-angle}deg)`;
-        }
-
-        // Smooth reveal of "LEARN MORE" pill button
-        if (ctaWrap) {
-          if (progress >= 0.80) {
-            ctaWrap.classList.add('is-revealed');
-          } else {
-            ctaWrap.classList.remove('is-revealed');
-          }
         }
       }
     });

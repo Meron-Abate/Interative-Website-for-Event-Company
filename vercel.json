@@ -4,6 +4,16 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/services",
+      "destination": "/#services",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "/#about",
+      "permanent": true
+    },
+    {
       "source": "/works",
       "destination": "/work",
       "permanent": true
@@ -20,7 +30,7 @@
     },
     {
       "source": "/about.html",
-      "destination": "/about",
+      "destination": "/#about",
       "permanent": true
     },
     {
@@ -30,7 +40,7 @@
     },
     {
       "source": "/services.html",
-      "destination": "/services",
+      "destination": "/#services",
       "permanent": true
     },
     {

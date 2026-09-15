@@ -23,7 +23,7 @@
 
   <!-- Fonts & Stylesheets -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400;1,600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/animations.css">
@@ -68,8 +68,8 @@
 
       <nav class="desktop-nav" aria-label="Main Navigation">
         <a href="/work/" class="nav-link">Work</a>
-        <a href="/services/" class="nav-link">Services</a>
-        <a href="/about/" class="nav-link">About</a>
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#about" class="nav-link">About</a>
         <a href="/contact/" class="nav-link">Contact</a>
       </nav>
 
@@ -101,8 +101,8 @@
     <nav class="mobile-nav">
       <a href="/" class="mobile-nav-link">01 — Home</a>
       <a href="/work/" class="mobile-nav-link">02 — Work</a>
-      <a href="/services/" class="mobile-nav-link">03 — Services</a>
-      <a href="/about/" class="mobile-nav-link">04 — About</a>
+      <a href="#services" class="mobile-nav-link">03 — Services</a>
+      <a href="#about" class="mobile-nav-link">04 — About</a>
       <a href="/contact/" class="mobile-nav-link">05 — Contact</a>
     </nav>
 
@@ -115,42 +115,141 @@
   </div>
 
   <main id="main-content">
-    <!-- HERO SECTION -->
-    <section class="hero-section" aria-label="Hero Section">
-      <div class="hero-media-wrapper">
-        <video autoplay muted loop playsinline poster="assets/videos/hero-poster.jpg" aria-hidden="true">
-          <source src="assets/videos/hero.webm" type="video/webm">
-          <source src="assets/videos/hero.mp4" type="video/mp4">
-          <img src="assets/videos/hero-poster.jpg" alt="Cinematic Stage Scenography">
-        </video>
-        <canvas class="hero-ambient-canvas" aria-hidden="true"></canvas>
-      </div>
-      <div class="hero-overlay" aria-hidden="true"></div>
-
-      <div class="container hero-content">
-        <div class="hero-pretitle">
-          <span class="meta-label">EVENTS / EXPERIENCES / PRODUCTION</span>
+    <!-- HERO VIDEO SCROLLYTELLING SECTION -->
+    <section class="hero-scrolly-container" id="hero" aria-label="Hero Experience">
+      <div class="hero-sticky-frame">
+        <!-- Persistent Fullscreen Background Video -->
+        <div class="hero-media-wrapper">
+          <video autoplay muted loop playsinline poster="assets/videos/hero-poster.jpg" aria-hidden="true" preload="auto">
+            <source src="assets/videos/hero.webm" type="video/webm">
+            <source src="assets/videos/hero.mp4" type="video/mp4">
+            <img src="assets/videos/hero-poster.jpg" alt="Cinematic Stage Scenography">
+          </video>
+          <canvas class="hero-ambient-canvas" aria-hidden="true"></canvas>
         </div>
 
-        <h1 class="hero-headline">
-          <span class="hero-headline-line"><span>WE CREATE EXPERIENCES</span></span>
-          <span class="hero-headline-line"><span>THAT MOVE <span style="color: var(--accent);">PEOPLE.</span></span></span>
-        </h1>
+        <!-- Subtle Cinematic Vignette Overlay -->
+        <div class="hero-overlay" aria-hidden="true"></div>
 
-        <div class="hero-actions">
-          <a href="/contact/" class="btn btn-primary" data-cursor="link">
-            START A PROJECT
-            <svg class="btn-arrow" viewBox="0 0 16 16"><path d="M1 8h12m0 0L8 3m5 5L8 13" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <a href="#portfolio" class="btn btn-outline" data-cursor="link">
-            EXPLORE OUR WORK
-          </a>
+        <!-- Storytelling Stages Viewport -->
+        <div class="hero-stages-viewport container">
+
+          <!-- STAGE 1: Opening Statement (matching reference screenshots 1 & 2) -->
+          <div class="hero-stage hero-stage--1 is-active" data-stage="1">
+            <div class="hero-stage-col hero-stage-col--left">
+              <span class="hero-stage-tag">WE ARE ETERNAL</span>
+              <h1 class="hero-stage-headline">
+                A creative studio<br>
+                engineering moments,<br>
+                stories &amp;<br>
+                experiences.
+              </h1>
+            </div>
+            <div class="hero-stage-col hero-stage-col--right">
+              <span class="hero-stage-tag">PAN-AFRICAN VISION</span>
+              <p class="hero-stage-sub">
+                A place shaped by its people, culture and shared purpose. Moments are built the same way.
+              </p>
+            </div>
+          </div>
+
+          <!-- STAGE 2: Spatial Architecture & Precision -->
+          <div class="hero-stage hero-stage--2" data-stage="2">
+            <div class="hero-stage-col hero-stage-col--left">
+              <span class="hero-stage-tag">SPATIAL ARCHITECTURE</span>
+              <h2 class="hero-stage-headline">
+                Sculpting venues<br>
+                into emotional<br>
+                landscapes where<br>
+                distance dissolves.
+              </h2>
+            </div>
+            <div class="hero-stage-col hero-stage-col--right">
+              <span class="hero-stage-tag">SURGICAL PRECISION</span>
+              <p class="hero-stage-sub">
+                Rooted in heritage, commanding international stages with world-class acoustic, kinetic, and lighting engineering.
+              </p>
+            </div>
+          </div>
+
+          <!-- STAGE 3: Editorial Quote & Future Vision (matching reference screenshot 3) -->
+          <div class="hero-stage hero-stage--3" data-stage="3">
+            <div class="hero-stage-col hero-stage-col--left">
+              <div class="hero-stage-quote">
+                Rooted in culture. Designed for<br>
+                the <span class="accent-word">future.</span>
+              </div>
+            </div>
+            <div class="hero-stage-col hero-stage-col--right">
+              <span class="hero-stage-tag">THE COLLECTIVE</span>
+              <p class="hero-stage-sub">
+                Connecting Pan-African creative vision with global audiences across 18 countries, 42 curated talents, and 35,000 live attendees.
+              </p>
+            </div>
+          </div>
+
+          <!-- STAGE 4: Final Master Message & Call to Action -->
+          <div class="hero-stage hero-stage--4" data-stage="4">
+            <div class="hero-stage-col hero-stage-col--left">
+              <span class="hero-stage-tag">OUR MISSION</span>
+              <h2 class="hero-stage-headline">
+                We don't just<br>
+                produce events.<br>
+                <span class="accent-word">We engineer moments</span><br>
+                that move people.
+              </h2>
+            </div>
+            <div class="hero-stage-col hero-stage-col--right hero-stage-col--final">
+              <div class="hero-stage-metrics">
+                <div class="hero-metric-item">
+                  <span class="metric-num">35K+</span>
+                  <span class="metric-label">Live Attendees</span>
+                </div>
+                <div class="hero-metric-item">
+                  <span class="metric-num">18</span>
+                  <span class="metric-label">Countries Touched</span>
+                </div>
+                <div class="hero-metric-item">
+                  <span class="metric-num">100%</span>
+                  <span class="metric-label">Turnkey Execution</span>
+                </div>
+              </div>
+              <div class="hero-stage-actions">
+                <a href="/contact/" class="btn btn-primary hero-btn" data-cursor="link">
+                  <span>START A PROJECT</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#about" class="btn btn-outline hero-btn" data-cursor="link">
+                  <span>OUR PHILOSOPHY</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
         </div>
-      </div>
 
-      <div class="hero-scroll-cue" aria-hidden="true">
-        <span>SCROLL DOWN</span>
-        <div class="hero-scroll-cue-line"></div>
+        <!-- Creative Bottom Scroll Pill (matching screenshots) -->
+        <div class="hero-scroll-pill" role="button" tabindex="0" aria-label="Scroll through the hero story">
+          <span class="hero-pill-bar" aria-hidden="true"><span class="hero-pill-fill"></span></span>
+          <span class="hero-pill-text">CONTINUE TO SCROLL</span>
+          <span class="hero-pill-divider" aria-hidden="true">|</span>
+          <span class="hero-pill-counter"><span class="hero-pill-current">01</span> / 04</span>
+        </div>
+
+        <!-- Right-Edge Vertical Progress Rail (matching screenshots) -->
+        <div class="hero-progress-rail" aria-hidden="true">
+          <div class="hero-rail-track">
+            <div class="hero-rail-fill"></div>
+            <div class="hero-rail-dot"></div>
+          </div>
+          <div class="hero-rail-steps">
+            <span class="hero-rail-step is-active" data-step="1">01</span>
+            <span class="hero-rail-step" data-step="2">02</span>
+            <span class="hero-rail-step" data-step="3">03</span>
+            <span class="hero-rail-step" data-step="4">04</span>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -175,12 +274,6 @@
             <p class="about-statement" aria-label="Company Overview">
               We combine over a decade of Pan-African creative vision with precision spatial engineering to deliver world-class experiential architecture and live productions to global audiences — every event a testament to cultural depth, architectural precision, and unforgettable human connection built across 18 countries, 42 curated talents, and 35,000 live attendees.
             </p>
-
-            <div class="about-cta-wrap">
-              <a href="/about/" class="btn-learn-more-pill" data-cursor="link">
-                ↳ LEARN MORE
-              </a>
-            </div>
           </div>
         </div>
       </div>
@@ -816,8 +909,8 @@
           <h5>Navigation</h5>
           <div class="footer-links">
             <a href="/work/">Work Archive</a>
-            <a href="/services/">Capabilities</a>
-            <a href="/about/">Studio Philosophy</a>
+            <a href="#services">Capabilities</a>
+            <a href="#about">Studio Philosophy</a>
             <a href="/contact/">Inquiries</a>
           </div>
         </div>

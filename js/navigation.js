@@ -65,19 +65,42 @@ export function initNavigation() {
   // Active Link Highlight
   highlightActiveNav();
 
-  // In-page smooth scrolling anchor links
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  // In-page smooth scrolling anchor links (e.g. href="#about", href="#services", href="/#about")
+  document.querySelectorAll('a[href*="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (e) => {
-      const targetId = anchor.getAttribute('href');
-      if (targetId && targetId !== '#') {
-        const targetEl = document.querySelector(targetId);
+      const href = anchor.getAttribute('href');
+      if (!href) return;
+      
+      const hashIndex = href.indexOf('#');
+      if (hashIndex === -1) return;
+      
+      const hash = href.slice(hashIndex);
+      const pathname = href.slice(0, hashIndex);
+      
+      // If target is on the current page
+      const isCurrentPage = !pathname || pathname === '/' || pathname === window.location.pathname;
+      if (isCurrentPage && hash.length > 1) {
+        const targetEl = document.querySelector(hash);
         if (targetEl) {
           e.preventDefault();
           scrollToTarget(targetEl, -80);
+          if (history.pushState) {
+            history.pushState(null, null, hash);
+          }
         }
       }
     });
   });
+
+  // Handle initial page load with hash (e.g. from redirect to /#about or /#services)
+  if (window.location.hash && window.location.hash.length > 1) {
+    setTimeout(() => {
+      const targetEl = document.querySelector(window.location.hash);
+      if (targetEl) {
+        scrollToTarget(targetEl, -80);
+      }
+    }, 400);
+  }
 
   // Local Time Indicators
   updateStudioClocks();
@@ -99,14 +122,15 @@ function highlightActiveNav() {
   
   links.forEach((link) => {
     const href = link.getAttribute('href');
-    if (!href) return;
+    if (!href || href.startsWith('#')) return;
     
     // Normalize comparison
     try {
-      const linkPath = normalizeRoute(new URL(href, window.location.origin).pathname);
+      const parsedUrl = new URL(href, window.location.origin);
+      if (parsedUrl.hash && parsedUrl.pathname === '/') return; // Ignore homepage anchor links
+      const linkPath = normalizeRoute(parsedUrl.pathname);
       const isMatch = (linkPath === currentPath) || 
-                      (currentPath.startsWith('/work') && linkPath === '/work') ||
-                      (currentPath === '/' && linkPath === '/');
+                      (currentPath.startsWith('/work') && linkPath === '/work');
       if (isMatch) {
         link.classList.add('is-active');
       } else {

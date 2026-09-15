@@ -24,7 +24,17 @@
 
 [[redirects]]
   from = "/about.html"
-  to = "/about"
+  to = "/#about"
+  status = 301
+
+[[redirects]]
+  from = "/about"
+  to = "/#about"
+  status = 301
+
+[[redirects]]
+  from = "/about/"
+  to = "/#about"
   status = 301
 
 [[redirects]]
@@ -34,7 +44,17 @@
 
 [[redirects]]
   from = "/services.html"
-  to = "/services"
+  to = "/#services"
+  status = 301
+
+[[redirects]]
+  from = "/services"
+  to = "/#services"
+  status = 301
+
+[[redirects]]
+  from = "/services/"
+  to = "/#services"
   status = 301
 
 [[redirects]]
