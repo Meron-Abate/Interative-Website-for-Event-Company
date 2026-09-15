@@ -36,14 +36,29 @@ export function initHero() {
   const stage4 = heroContainer.querySelector('.hero-stage--4');
   const stages = [stage1, stage2, stage3, stage4].filter(Boolean);
 
-  const pill = heroContainer.querySelector('.hero-scroll-pill');
-  const pillFill = heroContainer.querySelector('.hero-pill-fill');
-  const pillCurrent = heroContainer.querySelector('.hero-pill-current');
+  const hud = heroContainer.querySelector('.hero-scroll-hud');
+  const dialProgress = heroContainer.querySelector('.hero-dial-progress');
+  const dialCurrent = heroContainer.querySelector('.hero-dial-current');
+  const hudTitle = heroContainer.querySelector('.hero-hud-title');
 
   const rail = heroContainer.querySelector('.hero-progress-rail');
   const railFill = heroContainer.querySelector('.hero-rail-fill');
   const railDot = heroContainer.querySelector('.hero-rail-dot');
   const railSteps = heroContainer.querySelectorAll('.hero-rail-step');
+
+  const chapterTitles = {
+    1: '01 — MANIFESTO',
+    2: '02 — SPATIAL ARCHITECTURE',
+    3: '03 — PAN-AFRICAN VISION',
+    4: '04 — OUR MISSION'
+  };
+
+  // Circumference for r=44 circle: 2 * PI * 44 ≈ 276.46
+  const dialCircumference = 276.46;
+  if (dialProgress) {
+    dialProgress.style.strokeDasharray = `${dialCircumference}`;
+    dialProgress.style.strokeDashoffset = `${dialCircumference}`;
+  }
 
   // Reduced motion handling
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -85,25 +100,19 @@ export function initHero() {
       duration: 1.2,
       ease: 'power2.out'
     })
-    .from('.hero-stage--1 .hero-stage-tag', {
-      opacity: 0,
-      y: 16,
-      duration: 0.7,
-      ease: 'power3.out'
-    }, '-=0.8')
     .from('.hero-stage--1 .hero-stage-headline', {
       opacity: 0,
       y: 28,
       duration: 1.0,
       ease: 'power4.out'
-    }, '-=0.5')
+    }, '-=0.7')
     .from('.hero-stage--1 .hero-stage-col--right', {
       opacity: 0,
       y: 20,
       duration: 0.9,
       ease: 'power3.out'
     }, '-=0.7')
-    .from('.hero-scroll-pill', {
+    .from('.hero-scroll-hud', {
       opacity: 0,
       y: 24,
       duration: 0.7,
@@ -150,10 +159,10 @@ export function initHero() {
       onUpdate: (self) => {
         const p = self.progress;
 
-        // Update bottom pill fill line
-        if (pillFill) {
-          const fillScale = Math.min(1, Math.max(0.12, 0.12 + p * 0.88));
-          pillFill.style.transform = `scaleX(${fillScale})`;
+        // Update orbital circular progress meter
+        if (dialProgress) {
+          const offset = dialCircumference * (1 - p);
+          dialProgress.style.strokeDashoffset = Math.max(0, offset);
         }
 
         // Update right rail height & glowing dot position
@@ -171,9 +180,14 @@ export function initHero() {
           currentStageIndex = 1;
         }
 
-        // Update pill counter display
-        if (pillCurrent) {
-          pillCurrent.textContent = `0${currentStageIndex}`;
+        // Update dial current stage display
+        if (dialCurrent) {
+          dialCurrent.textContent = `0${currentStageIndex}`;
+        }
+
+        // Update chapter title
+        if (hudTitle) {
+          hudTitle.textContent = chapterTitles[currentStageIndex] || '01 — MANIFESTO';
         }
 
         // Update rail step indicators
@@ -217,9 +231,9 @@ export function initHero() {
     .fromTo(stage4, { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.08, ease: 'power1.inOut' }, 0.74)
     .set(stage4, { pointerEvents: 'auto' }, 0.78);
 
-  // Click-to-Advance Interactive Bottom Pill
-  if (pill) {
-    pill.addEventListener('click', (e) => {
+  // Click-to-Advance Interactive Orbital HUD
+  if (hud) {
+    hud.addEventListener('click', (e) => {
       e.preventDefault();
       if (currentStageIndex === 1) scrollToHeroProgress(0.35);
       else if (currentStageIndex === 2) scrollToHeroProgress(0.60);
@@ -227,10 +241,10 @@ export function initHero() {
       else scrollToHeroProgress(1.05);
     });
 
-    pill.addEventListener('keydown', (e) => {
+    hud.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        pill.click();
+        hud.click();
       }
     });
   }

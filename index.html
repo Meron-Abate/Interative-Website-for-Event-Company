@@ -23,7 +23,7 @@
 
   <!-- Fonts & Stylesheets -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400;1,600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700;1,900&family=Playfair+Display:ital,wght@1,400;1,600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/animations.css">
@@ -134,10 +134,9 @@
         <!-- Storytelling Stages Viewport -->
         <div class="hero-stages-viewport container">
 
-          <!-- STAGE 1: Opening Statement (matching reference screenshots 1 & 2) -->
+          <!-- STAGE 1: Opening Statement -->
           <div class="hero-stage hero-stage--1 is-active" data-stage="1">
             <div class="hero-stage-col hero-stage-col--left">
-              <span class="hero-stage-tag">WE ARE ETERNAL</span>
               <h1 class="hero-stage-headline">
                 A creative studio<br>
                 engineering moments,<br>
@@ -146,7 +145,6 @@
               </h1>
             </div>
             <div class="hero-stage-col hero-stage-col--right">
-              <span class="hero-stage-tag">PAN-AFRICAN VISION</span>
               <p class="hero-stage-sub">
                 A place shaped by its people, culture and shared purpose. Moments are built the same way.
               </p>
@@ -156,7 +154,6 @@
           <!-- STAGE 2: Spatial Architecture & Precision -->
           <div class="hero-stage hero-stage--2" data-stage="2">
             <div class="hero-stage-col hero-stage-col--left">
-              <span class="hero-stage-tag">SPATIAL ARCHITECTURE</span>
               <h2 class="hero-stage-headline">
                 Sculpting venues<br>
                 into emotional<br>
@@ -165,14 +162,13 @@
               </h2>
             </div>
             <div class="hero-stage-col hero-stage-col--right">
-              <span class="hero-stage-tag">SURGICAL PRECISION</span>
               <p class="hero-stage-sub">
                 Rooted in heritage, commanding international stages with world-class acoustic, kinetic, and lighting engineering.
               </p>
             </div>
           </div>
 
-          <!-- STAGE 3: Editorial Quote & Future Vision (matching reference screenshot 3) -->
+          <!-- STAGE 3: Editorial Quote & Future Vision -->
           <div class="hero-stage hero-stage--3" data-stage="3">
             <div class="hero-stage-col hero-stage-col--left">
               <div class="hero-stage-quote">
@@ -181,7 +177,6 @@
               </div>
             </div>
             <div class="hero-stage-col hero-stage-col--right">
-              <span class="hero-stage-tag">THE COLLECTIVE</span>
               <p class="hero-stage-sub">
                 Connecting Pan-African creative vision with global audiences across 18 countries, 42 curated talents, and 35,000 live attendees.
               </p>
@@ -191,7 +186,6 @@
           <!-- STAGE 4: Final Master Message & Call to Action -->
           <div class="hero-stage hero-stage--4" data-stage="4">
             <div class="hero-stage-col hero-stage-col--left">
-              <span class="hero-stage-tag">OUR MISSION</span>
               <h2 class="hero-stage-headline">
                 We don't just<br>
                 produce events.<br>
@@ -228,12 +222,33 @@
 
         </div>
 
-        <!-- Creative Bottom Scroll Pill (matching screenshots) -->
-        <div class="hero-scroll-pill" role="button" tabindex="0" aria-label="Scroll through the hero story">
-          <span class="hero-pill-bar" aria-hidden="true"><span class="hero-pill-fill"></span></span>
-          <span class="hero-pill-text">CONTINUE TO SCROLL</span>
-          <span class="hero-pill-divider" aria-hidden="true">|</span>
-          <span class="hero-pill-counter"><span class="hero-pill-current">01</span> / 04</span>
+        <!-- Bespoke Orbital Scrollytelling Compass & Chapter HUD -->
+        <div class="hero-scroll-hud" role="button" tabindex="0" aria-label="Scroll through the hero story">
+          <div class="hero-dial-wrapper">
+            <svg class="hero-dial-svg" viewBox="0 0 100 100" aria-hidden="true">
+              <!-- Base Circular Track -->
+              <circle cx="50" cy="50" r="44" class="hero-dial-track" />
+              <!-- Live Orange Progress Meter -->
+              <circle cx="50" cy="50" r="44" class="hero-dial-progress" />
+              <!-- Rotating Typographic Text Ring -->
+              <path id="hero-dial-path" d="M 50, 50 m -33, 0 a 33,33 0 1,1 66,0 a 33,33 0 1,1 -66,0" fill="none" />
+              <text class="hero-dial-rotating-text">
+                <textPath href="#hero-dial-path" startOffset="0%">
+                  ✦ SCROLL TO EXPLORE ✦ ETERNAL STUDIO ✦
+                </textPath>
+              </text>
+            </svg>
+
+            <!-- Center Disc: Stage & Pulsing Arrow -->
+            <div class="hero-dial-center">
+              <div class="hero-dial-stage">
+                <span class="hero-dial-current">01</span><span class="hero-dial-slash">/</span><span class="hero-dial-total">04</span>
+              </div>
+              <svg class="hero-dial-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+              </svg>
+            </div>
+          </div>
         </div>
 
         <!-- Right-Edge Vertical Progress Rail (matching screenshots) -->
