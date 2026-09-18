@@ -11,9 +11,10 @@ import { initHero } from './hero.js';
 import { initAbout } from './about.js';
 import { initServices } from './services.js';
 import { initPortfolio } from './portfolio.js';
+import { initFAQ } from './faq.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('%c ETERNAL STUDIO %c Spatial Architecture & Immersive Experiences ', 'background: #ff5a36; color: #fff; font-weight: bold; padding: 4px;', 'background: #080808; color: #f1f1f1; padding: 4px;');
+  console.log('%c ETERNAL STUDIO %c Spatial Architecture & Immersive Experiences ', 'background: #EC6430; color: #fff; font-weight: bold; padding: 4px;', 'background: #080808; color: #f1f1f1; padding: 4px;');
 
   // Initialize Core Systems
   initTheme();
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAbout();
   initServices();
   initPortfolio();
+  initFAQ();
 
   // Global Components
   initStatsCounter();

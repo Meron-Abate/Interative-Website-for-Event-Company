@@ -4,6 +4,8 @@
  * interactive progress pill, and vertical rail tracking.
  */
 
+import { getLenis } from './smooth-scroll.js';
+
 export function initHero() {
   const heroContainer = document.querySelector('.hero-scrolly-container') || document.querySelector('.hero-section');
   if (!heroContainer) return;
@@ -27,14 +29,10 @@ export function initHero() {
     }
   } else if (canvas) {
     initAmbientCanvas(canvas);
-  }
-
-  // Identify Stages & Controls
+  }  // Identify Stages & Controls
   const stage1 = heroContainer.querySelector('.hero-stage--1');
   const stage2 = heroContainer.querySelector('.hero-stage--2');
-  const stage3 = heroContainer.querySelector('.hero-stage--3');
-  const stage4 = heroContainer.querySelector('.hero-stage--4');
-  const stages = [stage1, stage2, stage3, stage4].filter(Boolean);
+  const stages = [stage1, stage2].filter(Boolean);
 
   const hud = heroContainer.querySelector('.hero-scroll-hud');
   const dialProgress = heroContainer.querySelector('.hero-dial-progress');
@@ -48,9 +46,7 @@ export function initHero() {
 
   const chapterTitles = {
     1: '01 — MANIFESTO',
-    2: '02 — SPATIAL ARCHITECTURE',
-    3: '03 — PAN-AFRICAN VISION',
-    4: '04 — OUR MISSION'
+    2: '02 — OUR MISSION'
   };
 
   // Circumference for r=44 circle: 2 * PI * 44 ≈ 276.46
@@ -88,8 +84,6 @@ export function initHero() {
   // Initial State Setup
   gsap.set(stage1, { autoAlpha: 1, y: 0, pointerEvents: 'auto' });
   if (stage2) gsap.set(stage2, { autoAlpha: 0, y: 30, pointerEvents: 'none' });
-  if (stage3) gsap.set(stage3, { autoAlpha: 0, y: 30, pointerEvents: 'none' });
-  if (stage4) gsap.set(stage4, { autoAlpha: 0, y: 30, pointerEvents: 'none' });
 
   // Initial Entrance Animation on Page Load
   if (window.scrollY < 40) {
@@ -127,25 +121,56 @@ export function initHero() {
   }
 
   // Navigation helper to jump to a specific progress or stage
-  function scrollToHeroProgress(targetProgress) {
+  let navTween = null;
+
+  function scrollToHeroProgress(targetProgress, onComplete) {
     const containerRect = heroContainer.getBoundingClientRect();
-    const currentScroll = window.scrollY;
+    const currentScroll = window.scrollY || window.pageYOffset;
     const startY = currentScroll + containerRect.top;
     const scrollableDistance = heroContainer.offsetHeight - window.innerHeight;
 
     if (targetProgress > 1) {
       const aboutEl = document.getElementById('about');
       if (aboutEl) {
-        aboutEl.scrollIntoView({ behavior: 'smooth' });
+        const lenis = getLenis();
+        if (lenis) {
+          lenis.scrollTo(aboutEl, { duration: 0.85, onComplete });
+        } else {
+          aboutEl.scrollIntoView({ behavior: 'smooth' });
+          if (onComplete) setTimeout(onComplete, 800);
+        }
         return;
       }
     }
 
     const targetY = startY + (targetProgress * scrollableDistance);
-    window.scrollTo({ top: targetY, behavior: 'smooth' });
+    const lenis = getLenis();
+
+    if (lenis) {
+      lenis.scrollTo(targetY, {
+        duration: 0.75,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        onComplete: onComplete
+      });
+    } else {
+      if (navTween) navTween.kill();
+      const scrollObj = { y: currentScroll };
+      navTween = gsap.to(scrollObj, {
+        y: targetY,
+        duration: 0.75,
+        ease: 'power2.out',
+        onUpdate: () => {
+          window.scrollTo(0, scrollObj.y);
+        },
+        onComplete: () => {
+          window.scrollTo(0, targetY);
+          if (onComplete) onComplete();
+        }
+      });
+    }
   }
 
-  // Active stage tracker for click-to-advance
+  // Active stage tracker for single-scroll navigation
   let currentStageIndex = 1;
 
   // Master Scrollytelling Scrub Timeline
@@ -154,7 +179,13 @@ export function initHero() {
       trigger: heroContainer,
       start: 'top top',
       end: 'bottom bottom',
-      scrub: 0.5,
+      scrub: 0.3,
+      snap: {
+        snapTo: [0, 0.65],
+        duration: { min: 0.2, max: 0.45 },
+        ease: 'power2.out',
+        delay: 0.05
+      },
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         const p = self.progress;
@@ -169,12 +200,8 @@ export function initHero() {
         if (railFill) railFill.style.height = `${p * 100}%`;
         if (railDot) railDot.style.top = `${p * 100}%`;
 
-        // Determine current stage index based on progress
-        if (p >= 0.74) {
-          currentStageIndex = 4;
-        } else if (p >= 0.48) {
-          currentStageIndex = 3;
-        } else if (p >= 0.22) {
+        // Determine current stage index based on progress (2 stages)
+        if (p >= 0.32) {
           currentStageIndex = 2;
         } else {
           currentStageIndex = 1;
@@ -212,32 +239,101 @@ export function initHero() {
     }
   });
 
-  // Stage 1 -> Stage 2 (Transition around 0.18 - 0.28)
+  // Stage 1 -> Stage 2:
+  // Immediate, responsive crossfade where Stage 2 reaches full 100% opacity early and holds
   scrollyTl
-    .to(stage1, { autoAlpha: 0, y: -26, duration: 0.08, ease: 'power1.inOut' }, 0.18)
-    .set(stage1, { pointerEvents: 'none' }, 0.22)
-    .fromTo(stage2, { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.08, ease: 'power1.inOut' }, 0.22)
-    .set(stage2, { pointerEvents: 'auto' }, 0.26)
+    .to(stage1, { autoAlpha: 0, y: -24, duration: 0.28, ease: 'power2.inOut' }, 0.04)
+    .set(stage1, { pointerEvents: 'none' }, 0.32)
+    .fromTo(stage2, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.28, ease: 'power2.inOut' }, 0.16)
+    .set(stage2, { pointerEvents: 'auto' }, 0.44)
+    .to({}, { duration: 0.56 }, 0.44); // Hold stage 2 fully visible and steady until 1.0
 
-  // Stage 2 -> Stage 3 (Transition around 0.44 - 0.52)
-    .to(stage2, { autoAlpha: 0, y: -26, duration: 0.08, ease: 'power1.inOut' }, 0.44)
-    .set(stage2, { pointerEvents: 'none' }, 0.48)
-    .fromTo(stage3, { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.08, ease: 'power1.inOut' }, 0.48)
-    .set(stage3, { pointerEvents: 'auto' }, 0.52)
+  // Single-Scroll Gesture Navigation
+  // User scrolls once (wheel or swipe) -> smoothly transitions directly to the next slide
+  let isNavigating = false;
+  let touchStartY = null;
 
-  // Stage 3 -> Stage 4 (Transition around 0.70 - 0.78)
-    .to(stage3, { autoAlpha: 0, y: -26, duration: 0.08, ease: 'power1.inOut' }, 0.70)
-    .set(stage3, { pointerEvents: 'none' }, 0.74)
-    .fromTo(stage4, { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.08, ease: 'power1.inOut' }, 0.74)
-    .set(stage4, { pointerEvents: 'auto' }, 0.78);
+  function handleHeroWheel(e) {
+    const containerRect = heroContainer.getBoundingClientRect();
+    // Only intercept when hero container is pinned/visible in viewport
+    if (containerRect.top > 50 || containerRect.bottom < 100) return;
+
+    // Swallow residual wheel events during active transition
+    if (isNavigating) {
+      e.preventDefault();
+      return;
+    }
+
+    const deltaY = e.deltaY;
+    if (Math.abs(deltaY) < 15) return;
+
+    const scrollableDistance = heroContainer.offsetHeight - window.innerHeight;
+    if (scrollableDistance <= 0) return;
+    const currentProgress = Math.max(0, Math.min(1, -containerRect.top / scrollableDistance));
+
+    // If on Slide 1 and scrolling down: 1 scroll immediately navigates to Slide 2
+    if (currentProgress < 0.30 && deltaY > 0) {
+      isNavigating = true;
+      e.preventDefault();
+      scrollToHeroProgress(0.65, () => {
+        setTimeout(() => { isNavigating = false; }, 350);
+      });
+    }
+    // If on Slide 2 and scrolling up: 1 scroll returns to Slide 1
+    else if (currentProgress >= 0.35 && currentProgress <= 0.85 && deltaY < 0) {
+      isNavigating = true;
+      e.preventDefault();
+      scrollToHeroProgress(0.0, () => {
+        setTimeout(() => { isNavigating = false; }, 350);
+      });
+    }
+    // If on Slide 2 and scrolling down: standard scroll unpins hero and enters #about naturally
+  }
+
+  window.addEventListener('wheel', handleHeroWheel, { passive: false });
+
+  // Touch gesture swipe support for mobile/tablets
+  window.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches.length > 0) {
+      touchStartY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    if (touchStartY === null || !e.changedTouches || e.changedTouches.length === 0) return;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaY = touchStartY - touchEndY;
+    touchStartY = null;
+
+    if (Math.abs(deltaY) < 40) return;
+
+    const containerRect = heroContainer.getBoundingClientRect();
+    if (containerRect.top > 50 || containerRect.bottom < 100) return;
+
+    const scrollableDistance = heroContainer.offsetHeight - window.innerHeight;
+    if (scrollableDistance <= 0) return;
+    const currentProgress = Math.max(0, Math.min(1, -containerRect.top / scrollableDistance));
+
+    if (currentProgress < 0.30 && deltaY > 0) {
+      if (isNavigating) return;
+      isNavigating = true;
+      scrollToHeroProgress(0.65, () => {
+        setTimeout(() => { isNavigating = false; }, 350);
+      });
+    } else if (currentProgress >= 0.35 && currentProgress <= 0.85 && deltaY < 0) {
+      if (isNavigating) return;
+      isNavigating = true;
+      scrollToHeroProgress(0.0, () => {
+        setTimeout(() => { isNavigating = false; }, 350);
+      });
+    }
+  }, { passive: true });
 
   // Click-to-Advance Interactive Orbital HUD
   if (hud) {
     hud.addEventListener('click', (e) => {
       e.preventDefault();
-      if (currentStageIndex === 1) scrollToHeroProgress(0.35);
-      else if (currentStageIndex === 2) scrollToHeroProgress(0.60);
-      else if (currentStageIndex === 3) scrollToHeroProgress(0.86);
+      if (currentStageIndex === 1) scrollToHeroProgress(0.65);
       else scrollToHeroProgress(1.05);
     });
 
@@ -249,15 +345,13 @@ export function initHero() {
     });
   }
 
-  // Interactive Rail Steps (Clicking 01, 02, 03, 04 navigates directly)
+  // Interactive Rail Steps (Clicking 01 or 02 navigates directly)
   railSteps.forEach((step) => {
     step.addEventListener('click', (e) => {
       e.preventDefault();
       const stepNum = parseInt(step.dataset.step, 10);
-      if (stepNum === 1) scrollToHeroProgress(0.02);
-      else if (stepNum === 2) scrollToHeroProgress(0.35);
-      else if (stepNum === 3) scrollToHeroProgress(0.60);
-      else if (stepNum === 4) scrollToHeroProgress(0.86);
+      if (stepNum === 1) scrollToHeroProgress(0.0);
+      else if (stepNum === 2) scrollToHeroProgress(0.65);
     });
   });
 }
@@ -302,8 +396,8 @@ function initAmbientCanvas(canvas) {
       if (p.y > height + p.radius) p.y = -p.radius;
 
       const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
-      grad.addColorStop(0, `rgba(255, 90, 54, ${p.alpha})`);
-      grad.addColorStop(0.6, `rgba(255, 90, 54, ${p.alpha * 0.3})`);
+      grad.addColorStop(0, `rgba(236, 100, 48, ${p.alpha})`);
+      grad.addColorStop(0.6, `rgba(236, 100, 48, ${p.alpha * 0.3})`);
       grad.addColorStop(1, 'rgba(8, 8, 8, 0)');
 
       ctx.fillStyle = grad;

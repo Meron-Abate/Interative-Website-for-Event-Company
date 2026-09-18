@@ -2,14 +2,14 @@
   <defs>
     <linearGradient id="ggrad_africa-creative-summit_1" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#18100d"/>
-      <stop offset="50%" stop-color="#ff5a36" stop-opacity="0.2"/>
+      <stop offset="50%" stop-color="#EC6430" stop-opacity="0.2"/>
       <stop offset="100%" stop-color="#080808"/>
     </linearGradient>
   </defs>
   <rect width="1200" height="800" fill="url(#ggrad_africa-creative-summit_1)"/>
-  <circle cx="300" cy="400" r="200" fill="none" stroke="#ff5a36" stroke-width="1.5" stroke-opacity="0.35" stroke-dasharray="6 4"/>
+  <circle cx="300" cy="400" r="200" fill="none" stroke="#EC6430" stroke-width="1.5" stroke-opacity="0.35" stroke-dasharray="6 4"/>
   <rect x="100" y="100" width="1000" height="600" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.1"/>
-  <text x="140" y="160" fill="#ff5a36" font-family="monospace" font-size="14" letter-spacing="3">PERSPECTIVE 01 // SCENOGRAPHIC CAPTURE</text>
+  <text x="140" y="160" fill="#EC6430" font-family="monospace" font-size="14" letter-spacing="3">PERSPECTIVE 01 // SCENOGRAPHIC CAPTURE</text>
   <text x="140" y="690" fill="#ffffff" font-family="sans-serif" font-size="24" font-weight="700">AFRICA CREATIVE SUMMIT — ARCHIVE 01</text>
   <text x="140" y="720" fill="#858585" font-family="monospace" font-size="13">Curated Environmental Detail // 35mm Equivalent</text>
 </svg>

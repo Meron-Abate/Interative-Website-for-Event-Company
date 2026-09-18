@@ -8,12 +8,13 @@ export function initAbout() {
   const scrollyContainer = document.querySelector('.about-scrolly-container') || aboutSection;
   const scrollyPin = document.querySelector('.about-scrolly-pin');
   const statement = document.querySelector('.about-statement');
-  const progressCircle = document.querySelector('.indicator-progress');
-  const indicatorDot = document.querySelector('.indicator-dot');
+  const railFill = aboutSection.querySelector('.about-rail-fill');
+  const railDot = aboutSection.querySelector('.about-rail-dot');
+  const railSteps = aboutSection.querySelectorAll('.about-rail-step');
 
   if (!aboutSection || !statement) return;
 
-  // Specific keywords to highlight in vivid fiery orange (#FF5A36) matching reference
+  // Specific keywords to highlight in vivid fiery orange (#EC6430) matching reference
   const accentList = ['PRECISION', 'SPATIAL', 'GLOBAL', 'ARCHITECTURAL', 'UNFORGETTABLE', 'CONNECTION'];
 
   // Split words if not already wrapped
@@ -39,13 +40,6 @@ export function initAbout() {
   }
 
   if (typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined') {
-    // Circumference for r=14 circle: 2 * PI * 14 ≈ 87.96
-    const circumference = 87.96;
-    if (progressCircle) {
-      progressCircle.style.strokeDasharray = `${circumference}`;
-      progressCircle.style.strokeDashoffset = `${circumference}`;
-    }
-
     // Determine pinning scroll distance based on device screen height
     const getPinDistance = () => {
       const isMobile = window.innerWidth < 768;
@@ -53,6 +47,7 @@ export function initAbout() {
     };
 
     window.ScrollTrigger.create({
+      id: 'about-scrolly',
       trigger: scrollyContainer,
       pin: scrollyPin || true,
       start: 'top top',
@@ -77,18 +72,35 @@ export function initAbout() {
           }
         }
 
-        // Circular progress ring update
-        if (progressCircle) {
-          const offset = circumference * (1 - progress);
-          progressCircle.style.strokeDashoffset = Math.max(0, offset);
-        }
+        // Vertical progress rail update (matching hero section)
+        if (railFill) railFill.style.height = `${progress * 100}%`;
+        if (railDot) railDot.style.top = `${progress * 100}%`;
 
-        // Rotating dot update
-        if (indicatorDot) {
-          const angle = progress * 360 - 90;
-          indicatorDot.style.transform = `rotate(${angle}deg) translate(14px) rotate(${-angle}deg)`;
-        }
+        // Update rail step indicators (01 -> 02)
+        const currentStep = progress >= 0.5 ? 2 : 1;
+        railSteps.forEach((step) => {
+          const stepNum = parseInt(step.dataset.step, 10);
+          if (stepNum === currentStep) {
+            step.classList.add('is-active');
+          } else {
+            step.classList.remove('is-active');
+          }
+        });
       }
+    });
+
+    // Step navigation click handlers
+    railSteps.forEach((step) => {
+      step.addEventListener('click', (e) => {
+        e.preventDefault();
+        const stepNum = parseInt(step.dataset.step, 10);
+        const targetProgress = stepNum === 2 ? 0.85 : 0;
+        const st = window.ScrollTrigger.getById('about-scrolly');
+        if (st) {
+          const scrollPos = st.start + (st.end - st.start) * targetProgress;
+          window.scrollTo({ top: scrollPos, behavior: 'smooth' });
+        }
+      });
     });
 
     // Reveal architectural pillar cards below the pinned scrollytelling section

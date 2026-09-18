@@ -82,6 +82,12 @@
     width: 100% !important;
   }
 
+  .portfolio-card--more .portfolio-more-card-inner {
+    aspect-ratio: auto;
+    min-height: 280px;
+    padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
+  }
+
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
     row-gap: 3.5rem;
@@ -92,11 +98,8 @@
     gap: 4rem;
   }
 
-  .about-scroll-indicator {
-    position: static;
-    margin: 0 auto 1.25rem auto;
-    left: auto;
-    top: auto;
+  .about-progress-rail {
+    right: 0.85rem;
   }
 
   .about-pillars-grid {
@@ -275,8 +278,10 @@
   }
 
   .btn-learn-more-pill {
-    padding: 0.8rem 2rem;
-    font-size: 0.75rem;
+    padding: 0.85rem 2rem;
+    min-height: 48px;
+    font-size: 0.8125rem;
+    box-sizing: border-box;
   }
 
   .brand-logo-img {
@@ -482,7 +487,8 @@
   .service-cta-btn {
     width: 100%;
     justify-content: center;
-    padding: 0.9rem 1.5rem;
+    padding: 0.85rem 2rem;
+    min-height: 48px;
     font-size: 0.8125rem;
     box-sizing: border-box;
   }

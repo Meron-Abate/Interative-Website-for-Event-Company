@@ -1,6 +1,6 @@
 /**
- * ETERNAL STUDIO — CUSTOM MAGNETIC CURSOR
- * Dual-element follower with contextual hover states
+ * ETERNAL STUDIO — CONCENTRIC CIRCLE CURSOR
+ * 1:1 Synchronous positioning with zero drift or lag
  */
 
 export function initCursor() {
@@ -10,66 +10,52 @@ export function initCursor() {
     return;
   }
 
-  // Check if cursor elements already exist
-  let dot = document.querySelector('.cursor-dot');
-  let ring = document.querySelector('.cursor-ring');
+  // Remove any legacy spotlight element from DOM
+  const oldSpotlight = document.querySelector('.cursor-spotlight');
+  if (oldSpotlight) oldSpotlight.remove();
 
+  // Create or retrieve cursor elements
+  let dot = document.querySelector('.cursor-dot');
   if (!dot) {
     dot = document.createElement('div');
     dot.className = 'cursor-dot';
     document.body.appendChild(dot);
   }
 
+  let ring = document.querySelector('.cursor-ring');
   if (!ring) {
     ring = document.createElement('div');
     ring.className = 'cursor-ring';
-    ring.innerHTML = '<span class="cursor-ring-text">VIEW</span>';
     document.body.appendChild(ring);
   }
 
-  const ringText = ring.querySelector('.cursor-ring-text');
+  // Pure circle: remove any inner camera/reticle HTML elements
+  ring.innerHTML = '';
 
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let ringX = mouseX;
-  let ringY = mouseY;
-  let isMoving = false;
+  // Start hidden and positioned offscreen until user interacts with pointer
+  document.body.classList.add('cursor-hidden');
+  const offscreen = 'translate3d(-100px, -100px, 0) translate(-50%, -50%)';
+  dot.style.transform = offscreen;
+  ring.style.transform = offscreen;
 
   window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
     document.body.classList.remove('cursor-hidden');
+    const transformStr = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+    dot.style.transform = transformStr;
+    ring.style.transform = transformStr;
+  }, { passive: true });
 
-    // Immediate sharp dot positioning
-    dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+  window.addEventListener('mousedown', () => {
+    document.body.classList.add('cursor-pressed');
+  });
 
-    if (!isMoving) {
-      isMoving = true;
-      requestAnimationFrame(renderRing);
-    }
+  window.addEventListener('mouseup', () => {
+    document.body.classList.remove('cursor-pressed');
   });
 
   document.addEventListener('mouseleave', () => {
     document.body.classList.add('cursor-hidden');
   });
-
-  function renderRing() {
-    // Smooth trailing inertia for the outer ring
-    const factor = 0.18;
-    ringX += (mouseX - ringX) * factor;
-    ringY += (mouseY - ringY) * factor;
-
-    ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
-
-    const diffX = Math.abs(mouseX - ringX);
-    const diffY = Math.abs(mouseY - ringY);
-
-    if (diffX > 0.1 || diffY > 0.1) {
-      requestAnimationFrame(renderRing);
-    } else {
-      isMoving = false;
-    }
-  }
 
   // Contextual Hover States Delegation
   document.addEventListener('mouseover', (e) => {
@@ -78,28 +64,21 @@ export function initCursor() {
     // View state on project cards / case study links
     const projectCard = target.closest('[data-cursor="view"], .portfolio-card, .work-archive-card, .case-next-project');
     if (projectCard) {
-      setCursorState('cursor--view', 'VIEW');
+      setCursorState('cursor--view');
       return;
     }
 
     // Drag state on horizontal exhibition
     const dragArea = target.closest('[data-cursor="drag"], .portfolio-horizontal-wrapper');
     if (dragArea) {
-      setCursorState('cursor--drag', 'DRAG');
-      return;
-    }
-
-    // Image state
-    const imageElement = target.closest('[data-cursor="image"], .gallery-item');
-    if (imageElement) {
-      setCursorState('cursor--image', 'LOOK');
+      setCursorState('cursor--drag');
       return;
     }
 
     // Link state on interactive anchors / buttons / toggles
     const linkElement = target.closest('a, button, .service-item, input, textarea, select, [data-cursor="link"]');
     if (linkElement) {
-      setCursorState('cursor--link', '');
+      setCursorState('cursor--link');
       return;
     }
 
@@ -107,18 +86,12 @@ export function initCursor() {
     resetCursorState();
   });
 
-  function setCursorState(className, text) {
-    document.body.classList.remove('cursor--link', 'cursor--view', 'cursor--drag', 'cursor--image');
+  function setCursorState(className) {
+    document.body.classList.remove('cursor--link', 'cursor--view', 'cursor--drag');
     document.body.classList.add(className);
-    if (ringText) {
-      ringText.textContent = text || '';
-    }
   }
 
   function resetCursorState() {
-    document.body.classList.remove('cursor--link', 'cursor--view', 'cursor--drag', 'cursor--image');
-    if (ringText) {
-      ringText.textContent = '';
-    }
+    document.body.classList.remove('cursor--link', 'cursor--view', 'cursor--drag');
   }
 }

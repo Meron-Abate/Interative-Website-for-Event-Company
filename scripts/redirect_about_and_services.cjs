@@ -1,4 +1,4 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 const projectRoot = path.resolve(__dirname, '..');
@@ -15,7 +15,7 @@ const aboutRedirectHtml = `<!DOCTYPE html>
   <script>window.location.replace('/#about' + window.location.search);</script>
 </head>
 <body style="background: #080808; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
-  <p>Redirecting to <a href="/#about" style="color: #ff5a36;">About Us</a>...</p>
+  <p>Redirecting to <a href="/#about" style="color: #EC6430;">About Us</a>...</p>
 </body>
 </html>
 `;
@@ -31,7 +31,7 @@ const servicesRedirectHtml = `<!DOCTYPE html>
   <script>window.location.replace('/#services' + window.location.search);</script>
 </head>
 <body style="background: #080808; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
-  <p>Redirecting to <a href="/#services" style="color: #ff5a36;">Services</a>...</p>
+  <p>Redirecting to <a href="/#services" style="color: #EC6430;">Services</a>...</p>
 </body>
 </html>
 `;
