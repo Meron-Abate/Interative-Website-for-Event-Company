@@ -559,9 +559,14 @@
     align-items: flex-start;
     gap: 1rem;
   }
+
+  .footer-canvas-wrapper {
+    min-height: 200px;
+    width: 100%;
+  }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .faq-dir-trigger {
     gap: 0.85rem;
     padding: 1.2rem 0;
@@ -578,9 +583,151 @@
   }
 
   .footer-canvas-wrapper {
-    min-height: 130px;
+    min-height: 240px;
+    width: 100%;
   }
 }
+
+/* --- Service Orbital Scrollytelling Responsive System --- */
+@media (max-width: 1200px) {
+  .service-scrolly-arena {
+    grid-template-columns: 270px 1fr 340px;
+    gap: 1.5rem;
+  }
+
+  .service-orbit-wrapper {
+    width: 270px;
+  }
+
+  .service-orbit-wheel {
+    width: 380px;
+    height: 380px;
+    margin-top: -190px;
+  }
+
+  .orbit-node {
+    left: calc(50% + 180px * cos(var(--node-angle)));
+    top: calc(50% + 180px * sin(var(--node-angle)));
+    padding: 0.38rem 0.8rem;
+  }
+
+  .orbit-node-label {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 991px) {
+  .service-scrolly-sticky {
+    min-height: auto;
+    padding: clamp(3rem, 5vw, 4.5rem) 0;
+  }
+
+  .service-scrolly-arena {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    min-height: auto;
+  }
+
+  .service-orbit-wrapper {
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    overflow-x: auto;
+    padding: 0.25rem 0 0.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .service-orbit-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .service-orbit-center-glow,
+  .service-orbit-rings-svg,
+  .service-orbit-focal-hub {
+    display: none !important;
+  }
+
+  .service-orbit-wheel {
+    position: static;
+    width: auto;
+    height: auto;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    pointer-events: auto;
+    transform: none !important;
+  }
+
+  .orbit-node {
+    position: static;
+    left: auto;
+    top: auto;
+    transform: none !important;
+    flex-shrink: 0;
+  }
+
+  .service-scrolly-narrative {
+    min-height: auto;
+    width: 100%;
+  }
+
+  .scrolly-panel {
+    position: relative;
+    inset: auto;
+    display: none;
+    transform: none !important;
+  }
+
+  .scrolly-panel.is-active {
+    display: flex;
+  }
+
+  .service-scrolly-console {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .service-scrolly-title {
+    font-size: 1.85rem;
+  }
+
+  .service-scrolly-tag {
+    font-size: 0.72rem;
+  }
+
+  .scrolly-panel-title {
+    font-size: 1.7rem;
+  }
+
+  .scrolly-panel-lead {
+    font-size: 0.96rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .scrolly-specs-list {
+    margin-bottom: 1.4rem;
+    gap: 0.65rem;
+  }
+
+  .scrolly-specs-list li {
+    font-size: 0.88rem;
+  }
+
+  .console-tablet {
+    padding: 1.15rem;
+    border-radius: 18px;
+  }
+
+  .console-screen-stage {
+    min-height: 220px;
+  }
+}
+
 
 
 
