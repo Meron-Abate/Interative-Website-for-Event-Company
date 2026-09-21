@@ -12,6 +12,7 @@ import { initAbout } from './about.js';
 import { initServices } from './services.js';
 import { initPortfolio } from './portfolio.js';
 import { initFAQ } from './faq.js';
+import { initFooterParticles } from './footer-particles.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c ETERNAL STUDIO %c Spatial Architecture & Immersive Experiences ', 'background: #EC6430; color: #fff; font-weight: bold; padding: 4px;', 'background: #080808; color: #f1f1f1; padding: 4px;');
@@ -28,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initServices();
   initPortfolio();
   initFAQ();
+  initFooterParticles();
 
   // Global Components
   initStatsCounter();
