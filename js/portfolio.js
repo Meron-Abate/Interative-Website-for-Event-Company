@@ -17,13 +17,16 @@ function initHorizontalScroll() {
   
   if (!portfolioSection || !horizontalWrapper) return;
 
-  const isDesktop = window.innerWidth >= 992 && !window.matchMedia('(pointer: coarse)').matches;
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion || typeof window.gsap === 'undefined' || typeof window.ScrollTrigger === 'undefined') return;
 
-  if (isDesktop && !prefersReducedMotion && typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined') {
+  // Use ScrollTrigger matchMedia for responsive activation on all viewports >= 768px
+  const mm = window.ScrollTrigger.matchMedia();
+
+  mm.add("(min-width: 768px)", () => {
     function getScrollAmount() {
       const wrapperWidth = horizontalWrapper.scrollWidth;
-      return -(wrapperWidth - window.innerWidth + 120);
+      return -(wrapperWidth - window.innerWidth + 80);
     }
 
     const tween = window.gsap.to(horizontalWrapper, {
@@ -31,35 +34,49 @@ function initHorizontalScroll() {
       ease: 'none'
     });
 
-    window.ScrollTrigger.create({
+    const pinTrigger = window.ScrollTrigger.create({
       trigger: portfolioSection,
       start: 'top top',
       end: () => `+=${Math.abs(getScrollAmount())}`,
       pin: true,
       animation: tween,
-      scrub: 1,
+      scrub: 0.5,
       invalidateOnRefresh: true
     });
 
     // Subtly parallax card images inside horizontal track
     const cardImages = horizontalWrapper.querySelectorAll('.portfolio-card-media img');
+    const parallaxTweens = [];
+
     cardImages.forEach((img) => {
-      window.gsap.fromTo(img, 
-        { scale: 1.15, xPercent: -5 },
+      const pTween = window.gsap.fromTo(img, 
+        { scale: 1.12, xPercent: -4 },
         {
           scale: 1,
-          xPercent: 5,
+          xPercent: 4,
           ease: 'none',
           scrollTrigger: {
             trigger: portfolioSection,
             start: 'top top',
             end: () => `+=${Math.abs(getScrollAmount())}`,
-            scrub: true
+            scrub: 0.5
           }
         }
       );
+      parallaxTweens.push(pTween);
     });
-  }
+
+    return () => {
+      tween.kill();
+      pinTrigger.kill();
+      parallaxTweens.forEach(pt => {
+        if (pt.scrollTrigger) pt.scrollTrigger.kill();
+        pt.kill();
+      });
+      window.gsap.set(horizontalWrapper, { clearProps: 'transform' });
+      cardImages.forEach(img => window.gsap.set(img, { clearProps: 'all' }));
+    };
+  });
 }
 
 /**

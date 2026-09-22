@@ -37,6 +37,8 @@ export function initSmoothScroll() {
       infinite: false
     });
 
+    window.lenis = lenisInstance;
+
     // Synchronize Lenis scroll with GSAP ScrollTrigger
     if (typeof window.ScrollTrigger !== 'undefined') {
       lenisInstance.on('scroll', window.ScrollTrigger.update);

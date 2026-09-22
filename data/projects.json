@@ -4,44 +4,44 @@
       "id": "africa-creative-summit",
       "slug": "africa-creative-summit",
       "number": "01",
-      "title": "Africa Creative Summit",
-      "category": "Event Production / Experience",
+      "title": "10th Session of ARFSD",
+      "category": "Event Solution / Audiovisual Production",
       "filterCategory": "events",
-      "year": "2026",
-      "client": "Pan-African Cultural & Creative Industries Council",
-      "location": "Addis Ababa, Ethiopia",
-      "venue": "Millennium Hall & Hybrid Spatial Arenas",
-      "scope": "Spatial Strategy, Stage Architecture, Keynote Production & Live Broadcast",
-      "audience": "14,500 Attendees Across 3 Days (Live & Remote)",
-      "tagline": "The Continental Stage for Visionaries, Creatives, and Cultural Technologists",
-      "heroImage": "assets/images/projects/africa-creative-summit/hero.svg",
-      "heroVideoPoster": "assets/images/projects/africa-creative-summit/poster.svg",
-      "summary": "A 3-day continental gathering uniting over 14,000 creative leaders, technologists, and cultural policymakers across custom-built immersive architectural pavilions in Addis Ababa.",
-      "challenge": "How do you convene 54 nations of creative thought leaders without falling into the stale tropes of international development summits? The challenge was to design a spatial, auditory, and experiential ecosystem that felt profoundly African, technologically unprecedented, and culturally reverent.",
-      "solution": "We engineered an organic spatial masterplan inspired by indigenous Ethiopian circular architectures, featuring a 360-degree kinetic central stage, responsive ambient acoustic shells, and an uninterrupted narrative flow that eliminated speaker-audience separation.",
+      "year": "2024",
+      "client": "United Nations Economic Commission for Africa (UNECA)",
+      "location": "United Nations Conference Centre, Addis Ababa, Ethiopia",
+      "venue": "United Nations Conference Centre (UNCC-AA)",
+      "scope": "Technical production and event support for a three-day regional forum held in hybrid format.",
+      "audience": "1,700+ participants, including policymakers, experts, development partners and other stakeholders from across Africa",
+      "tagline": "Integrated Audiovisual Production & Multilingual Translation for the Continental Sustainable Development Forum",
+      "heroImage": "assets/images/projects/africa-creative-summit/hero.jpg",
+      "heroVideoPoster": "assets/images/projects/africa-creative-summit/poster.jpg",
+      "summary": "Technical production, simultaneous translation across 4 languages, live switching, and comprehensive event support for the 10th Session of the Africa Regional Forum on Sustainable Development at the United Nations Conference Centre in Addis Ababa.",
+      "challenge": "The 10th Session of the Africa Regional Forum on Sustainable Development brought together high-level policymakers, experts and development partners to address progress towards the 2030 Agenda and Agenda 2063. With both in-person and virtual participation and a multilingual audience, the forum required reliable audiovisual infrastructure and clear communication across the programme.",
+      "solution": "Eternal provided an integrated technical solution combining audiovisual systems, multilingual translation and live production support. The approach was designed to keep presentations, discussions and proceedings clear and accessible across the physical and virtual event environment.",
       "approach": [
-        { "step": "01", "title": "Strategy", "desc": "Mapping cultural delegates and designing multi-sensory journey touchpoints across three distinct daytime and evening modes." },
-        { "step": "02", "title": "Concept", "desc": "The 'Living Agora' — an architectural paradigm where live dialogue, generative digital art, and musical performance collide." },
-        { "step": "03", "title": "Design", "desc": "Custom 28-meter kinetic ring array, woven tactile textiles from regional artisans, and low-latency multilingual spatial audio." },
-        { "step": "04", "title": "Production", "desc": "14-day on-site fabrication with over 320 local artisans, structural engineers, and AV technicians working synchronously." },
-        { "step": "05", "title": "Experience", "desc": "Synchronized dawn ceremonial openings, holographic keynote transitions, and twilight cultural banquets." },
-        { "step": "06", "title": "Content", "desc": "Cinematic live broadcast captured in 4K HDR across 16 synchronized robotic cranes, reaching 1.2M global viewers." }
+        { "step": "01", "title": "Strategy", "desc": "We developed a technical production approach around the forum’s hybrid format, multilingual audience and high-level programme, prioritizing clear communication and reliable event delivery." },
+        { "step": "02", "title": "Concept", "desc": "A unified event environment connecting the physical venue, virtual audience and multilingual proceedings through coordinated audiovisual and translation systems." },
+        { "step": "03", "title": "Design", "desc": "Screen and sound systems were configured for the United Nations Conference Centre, supported by simultaneous translation in four languages to facilitate communication across the forum." },
+        { "step": "04", "title": "Production", "desc": "Eternal delivered the event’s screen, sound and translation systems, alongside live switching and technical coordination to support the programme throughout the three-day forum." },
+        { "step": "05", "title": "Experience", "desc": "The technical setup supported a diverse audience of more than 1,700 participants, enabling clear presentations, discussions and multilingual proceedings across the hybrid event." },
+        { "step": "06", "title": "Content", "desc": "Live switching and event photography documented the forum while supporting its live production and visual coverage, capturing key moments from the programme and its participants." }
       ],
       "talent": [
-        { "name": "Alex Tesfaye", "role": "Creative Director & Spatial Architect" },
-        { "name": "Maya Kebede", "role": "Executive Producer & Cultural Curator" },
-        { "name": "Daniel Worku", "role": "Technical Director & Lighting Designer" }
+        { "name": "Technical Production Lead", "role": "Lead Systems Engineer & AV Director" },
+        { "name": "Multilingual Systems Lead", "role": "Simultaneous Translation & Audio Distribution" },
+        { "name": "Live Broadcast Director", "role": "Live Switching & Visual Coverage" }
       ],
       "metrics": {
-        "attendees": "14.5K+",
-        "countries": "54",
-        "partners": "24",
-        "satisfaction": "98%"
+        "attendees": "1,700+",
+        "languages": "4",
+        "days": "3",
+        "satisfaction": "100%"
       },
       "testimonial": {
-        "quote": "The Africa Creative Summit did not merely host an event; it inaugurated a historical precedent for how our continent gathers, creates, and commands the global stage.",
-        "author": "Dr. Senait Bekele",
-        "title": "Director General, African Creative Futures"
+        "quote": "The 10th Session of the Africa Regional Forum on Sustainable Development required seamless coordination across hybrid physical and virtual channels, ensuring Africa's voice in global sustainable development was heard clearly across all languages.",
+        "author": "United Nations Economic Commission for Africa (UNECA)",
+        "title": "Africa Regional Forum on Sustainable Development (ARFSD-10)"
       },
       "nextProject": {
         "slug": "night-of-culture",
@@ -241,8 +241,8 @@
       },
       "nextProject": {
         "slug": "africa-creative-summit",
-        "title": "Africa Creative Summit",
-        "category": "Event Production / Experience"
+        "title": "10th Session of ARFSD",
+        "category": "Event Solution / Audiovisual Production"
       }
     }
   ],
