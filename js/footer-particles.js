@@ -1,8 +1,11 @@
 /**
- * ETERNAL GROUPS — INTERACTIVE FOOTER PARTICLE MATRIX
- * Renders "ETERNAL GROUPS" as a dot-matrix raster on canvas.
- * Particles disperse with fluid repulsion force on cursor movement and
- * smoothly spring back into position with elastic physics.
+ * ETERNAL STUDIO — INTERACTIVE FOOTER LOGO PARTICLE MATRIX & SOCIAL SHOWCASE
+ * - Renders the official ETERNAL logo (orange flame emblem + white wordmark)
+ *   as an interactive dot-matrix canvas.
+ * - Particles disperse with fluid repulsion physics on cursor movement and touch,
+ *   returning elastically with viscous damping.
+ * - Clicking/tapping canvas sends an explosive radial shockwave through the particles.
+ * - Adds magnetic cursor pull and interactive dynamic sheen to the social media pills.
  */
 
 export function initFooterParticles() {
@@ -20,6 +23,22 @@ export function initFooterParticles() {
   let animationFrameId = null;
   let isVisible = false;
 
+  // Preload official Eternal logo
+  const logoImg = new Image();
+  logoImg.crossOrigin = 'anonymous';
+  logoImg.src = 'assets/images/logo/eternal-footer-logo.png';
+  let isLogoReady = false;
+
+  logoImg.onload = () => {
+    isLogoReady = true;
+    initDimensions();
+    startAnimation();
+  };
+
+  if (logoImg.complete && logoImg.naturalWidth > 0) {
+    isLogoReady = true;
+  }
+
   const mouse = {
     x: -9999,
     y: -9999,
@@ -27,12 +46,12 @@ export function initFooterParticles() {
     prevY: -9999,
     vx: 0,
     vy: 0,
-    radius: 90,
+    radius: 95,
     isActive: false
   };
 
   class Particle {
-    constructor(originX, originY, radius) {
+    constructor(originX, originY, radius, isOrange) {
       this.originX = originX;
       this.originY = originY;
       this.x = originX;
@@ -40,7 +59,10 @@ export function initFooterParticles() {
       this.vx = 0;
       this.vy = 0;
       this.radius = radius;
+      this.isOrange = isOrange;
       this.distFromOrigin = 0;
+      this.friction = 0.86;
+      this.springStrength = 0.082;
     }
 
     update() {
@@ -49,25 +71,25 @@ export function initFooterParticles() {
         const dy = this.y - mouse.y;
         const dist = Math.hypot(dx, dy);
 
-        if (dist < mouse.radius) {
+        if (dist < mouse.radius && dist > 0) {
           const force = (mouse.radius - dist) / mouse.radius;
           const angle = Math.atan2(dy, dx);
-          const repulsion = force * 8.5;
+          const repulsion = force * 9.5;
 
           this.vx += Math.cos(angle) * repulsion + mouse.vx * 0.18;
           this.vy += Math.sin(angle) * repulsion + mouse.vy * 0.18;
         }
       }
 
-      // Spring back to home origin
-      const springX = (this.originX - this.x) * 0.08;
-      const springY = (this.originY - this.y) * 0.08;
+      // Elastic spring back to home origin
+      const springX = (this.originX - this.x) * this.springStrength;
+      const springY = (this.originY - this.y) * this.springStrength;
       this.vx += springX;
       this.vy += springY;
 
-      // Viscous damping / friction
-      this.vx *= 0.86;
-      this.vy *= 0.86;
+      // Friction / damping
+      this.vx *= this.friction;
+      this.vy *= this.friction;
 
       this.x += this.vx;
       this.y += this.vy;
@@ -79,12 +101,26 @@ export function initFooterParticles() {
       context.beginPath();
       context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
 
-      if (this.distFromOrigin > 2.0) {
-        // Highlight active dispersed particles with signature #EC6430 accent
-        const intensity = Math.min(1, this.distFromOrigin / 20);
-        context.fillStyle = `rgba(236, 100, 48, ${0.85 + intensity * 0.15})`;
+      if (this.isOrange) {
+        // Geometric Emblem Particle
+        if (this.distFromOrigin > 2.0) {
+          const glow = Math.min(1, this.distFromOrigin / 25);
+          context.fillStyle = `rgba(255, 125, 60, ${0.9 + glow * 0.1})`;
+        } else {
+          context.fillStyle = 'rgba(236, 100, 48, 0.96)';
+        }
       } else {
-        context.fillStyle = isLightMode ? 'rgba(20, 20, 25, 0.88)' : 'rgba(245, 245, 250, 0.88)';
+        // Typography Particle (White / Neutral)
+        if (this.distFromOrigin > 2.0) {
+          const intensity = Math.min(1, this.distFromOrigin / 22);
+          context.fillStyle = isLightMode
+            ? `rgba(236, 100, 48, ${0.75 + intensity * 0.25})`
+            : `rgba(255, 150, 100, ${0.85 + intensity * 0.15})`;
+        } else {
+          context.fillStyle = isLightMode
+            ? 'rgba(25, 25, 30, 0.9)'
+            : 'rgba(255, 255, 255, 0.92)';
+        }
       }
 
       context.fill();
@@ -105,14 +141,15 @@ export function initFooterParticles() {
     const rect = wrapper.getBoundingClientRect();
     width = Math.floor(rect.width || window.innerWidth || 360);
 
-    // On screens < 768px, use 2 stacked lines for maximum impact and bold readability
     const isMobile = width < 768;
+    const naturalRatio = 300 / 69; // ~4.348
 
-    if (isMobile) {
-      height = Math.floor(Math.max(220, Math.min(360, width * 0.55)));
-    } else {
-      height = Math.floor(Math.max(160, Math.min(320, width * 0.2)));
-    }
+    // Size logo keeping proportional aspect ratio
+    const maxTargetW = isMobile ? Math.min(width * 0.95, 480) : Math.min(width * 0.88, 960);
+    const targetW = Math.round(maxTargetW);
+    const targetH = Math.round(targetW / naturalRatio);
+
+    height = Math.round(targetH + (isMobile ? 36 : 60));
 
     canvas.width = Math.floor(width * dpr);
     canvas.height = Math.floor(height * dpr);
@@ -123,14 +160,14 @@ export function initFooterParticles() {
     ctx.scale(dpr, dpr);
 
     mouse.radius = isMobile
-      ? Math.max(65, Math.min(95, width * 0.2))
-      : Math.max(70, Math.min(130, width * 0.08));
+      ? Math.max(65, Math.min(95, width * 0.22))
+      : Math.max(80, Math.min(135, width * 0.1));
 
-    createParticleMatrix(isMobile);
+    createParticleMatrix(targetW, targetH, isMobile);
     drawFrame();
   }
 
-  function createParticleMatrix(isMobile) {
+  function createParticleMatrix(targetW, targetH, isMobile) {
     particles = [];
 
     const offCanvas = document.createElement('canvas');
@@ -138,79 +175,68 @@ export function initFooterParticles() {
     offCanvas.width = width;
     offCanvas.height = height;
 
-    offCtx.fillStyle = '#ffffff';
-    offCtx.textAlign = 'center';
-    offCtx.textBaseline = 'middle';
+    const startX = Math.round((width - targetW) / 2);
+    const startY = Math.round((height - targetH) / 2);
 
-    let gap, dotRadius;
-
-    if (isMobile) {
-      // 2 Stacked Lines on Mobile / Tablet: ETERNAL / GROUPS
-      const line1 = 'ETERNAL';
-      const line2 = 'GROUPS';
-
-      let fontSize = Math.floor(height * 0.38);
-      offCtx.font = `900 ${fontSize}px "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-      const m1 = offCtx.measureText(line1).width;
-      const m2 = offCtx.measureText(line2).width;
-      const maxW = Math.max(m1, m2);
-      const targetW = width * 0.88;
-
-      if (maxW > 0) {
-        fontSize = Math.floor(fontSize * (targetW / maxW));
-      }
-      fontSize = Math.min(fontSize, Math.floor(height * 0.42));
-      offCtx.font = `900 ${fontSize}px "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-
-      const lineSpacing = fontSize * 1.02;
-      const centerY = height / 2;
-      const y1 = Math.floor(centerY - lineSpacing * 0.48);
-      const y2 = Math.floor(centerY + lineSpacing * 0.52);
-
-      offCtx.fillText(line1, Math.floor(width / 2), y1);
-      offCtx.fillText(line2, Math.floor(width / 2), y2);
-
-      gap = width < 480 ? 3 : 4;
-      dotRadius = width < 480 ? 1.1 : 1.35;
+    if (isLogoReady || (logoImg.complete && logoImg.naturalWidth > 0)) {
+      offCtx.clearRect(0, 0, width, height);
+      offCtx.drawImage(logoImg, startX, startY, targetW, targetH);
     } else {
-      // Single wide line on Desktop
-      const text = 'ETERNAL GROUPS';
-
-      let fontSize = Math.floor(height * 0.68);
-      offCtx.font = `900 ${fontSize}px "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-      let textWidth = offCtx.measureText(text).width;
-      const targetWidth = width * 0.94;
-
-      if (textWidth > 0) {
-        fontSize = Math.floor(fontSize * (targetWidth / textWidth));
-      }
-      fontSize = Math.min(fontSize, Math.floor(height * 0.82));
-      offCtx.font = `900 ${fontSize}px "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-
-      offCtx.fillText(text, Math.floor(width / 2), Math.floor(height / 2 + fontSize * 0.03));
-
-      gap = width < 1024 ? 4 : 5;
-      dotRadius = width < 1024 ? 1.3 : 1.55;
+      // Clean fallback if logo is pending
+      offCtx.fillStyle = '#ffffff';
+      offCtx.textAlign = 'center';
+      offCtx.textBaseline = 'middle';
+      const fontSize = Math.floor(targetH * 0.65);
+      offCtx.font = `900 ${fontSize}px "Lato", sans-serif`;
+      offCtx.fillText('ETERNAL', Math.floor(width / 2), Math.floor(height / 2));
     }
 
     const imgData = offCtx.getImageData(0, 0, width, height);
     const data = imgData.data;
     const imgW = imgData.width;
     const imgH = imgData.height;
-    const step = Math.max(2, Math.round(gap));
 
-    // Pure integer iteration ensuring data[index] is never undefined
+    // Adaptive step & radius for optimal dot density & performance
+    const step = isMobile ? (width < 480 ? 3 : 4) : (width < 1024 ? 4 : 5);
+    const dotRadius = isMobile ? (width < 480 ? 1.2 : 1.35) : (width < 1024 ? 1.45 : 1.7);
+
     for (let y = 0; y < imgH; y += step) {
       const rowOffset = y * imgW;
       for (let x = 0; x < imgW; x += step) {
         const index = (rowOffset + x) * 4;
+        const r = data[index];
+        const g = data[index + 1];
+        const b = data[index + 2];
         const alpha = data[index + 3];
 
-        if (alpha > 70) {
-          particles.push(new Particle(x, y, dotRadius));
+        if (alpha > 50) {
+          // Detect orange emblem vs white wordmark
+          const isOrange = (r > 150 && (r - b) > 40 && (r - g) > 20) || (r > 180 && b < 100);
+          particles.push(new Particle(x, y, dotRadius, isOrange));
         }
       }
     }
+  }
+
+  function triggerShockwave(clickX, clickY) {
+    const isMobile = width < 768;
+    const blastRadius = isMobile ? 180 : 260;
+    const blastForce = isMobile ? 16 : 22;
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      const dx = p.x - clickX;
+      const dy = p.y - clickY;
+      const dist = Math.hypot(dx, dy);
+
+      if (dist < blastRadius && dist > 0) {
+        const force = ((blastRadius - dist) / blastRadius) * blastForce;
+        const angle = Math.atan2(dy, dx);
+        p.vx += Math.cos(angle) * force;
+        p.vy += Math.sin(angle) * force;
+      }
+    }
+    startAnimation();
   }
 
   function animate() {
@@ -239,7 +265,6 @@ export function initFooterParticles() {
       }
     }
 
-    // Keep loop active while in view or when particles are settling
     animationFrameId = requestAnimationFrame(animate);
   }
 
@@ -283,9 +308,17 @@ export function initFooterParticles() {
     mouse.vy = 0;
   });
 
+  canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    triggerShockwave(e.clientX - rect.left, e.clientY - rect.top);
+  });
+
   canvas.addEventListener('touchstart', (e) => {
     if (e.touches.length > 0) {
-      handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+      const touch = e.touches[0];
+      handlePointerMove(touch.clientX, touch.clientY);
+      const rect = canvas.getBoundingClientRect();
+      triggerShockwave(touch.clientX - rect.left, touch.clientY - rect.top);
     }
   }, { passive: true });
 
@@ -309,11 +342,11 @@ export function initFooterParticles() {
         startAnimation();
       }
     });
-  }, { threshold: 0.01, rootMargin: '100px 0px' });
+  }, { threshold: 0.01, rootMargin: '120px 0px' });
 
   observer.observe(wrapper);
 
-  // Check initial visibility in case page loaded scrolled down
+  // Check initial visibility
   const rect = wrapper.getBoundingClientRect();
   if (rect.top < window.innerHeight && rect.bottom > 0) {
     isVisible = true;
@@ -333,10 +366,39 @@ export function initFooterParticles() {
   initDimensions();
   startAnimation();
 
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => {
-      initDimensions();
-      startAnimation();
+  // Social Pills Magnetic & Dynamic Sheen Interaction
+  initSocialPills();
+}
+
+/**
+ * Creative Social Pills Micro-Interactions
+ * - Dynamic cursor sheen tracking
+ * - Smooth magnetic pull toward cursor on hover
+ */
+function initSocialPills() {
+  const pills = document.querySelectorAll('.footer-social-pill');
+  if (!pills.length) return;
+
+  pills.forEach((pill) => {
+    pill.addEventListener('mousemove', (e) => {
+      const rect = pill.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Update sheen coordinates in CSS
+      pill.style.setProperty('--mouse-x', `${x.toFixed(1)}px`);
+      pill.style.setProperty('--mouse-y', `${y.toFixed(1)}px`);
+
+      // Micro magnetic cursor pull (max ±5px)
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const deltaX = ((x - centerX) / centerX) * 4.5;
+      const deltaY = ((y - centerY) / centerY) * 4.5;
+      pill.style.transform = `translate(${deltaX.toFixed(1)}px, ${deltaY.toFixed(1)}px)`;
     });
-  }
+
+    pill.addEventListener('mouseleave', () => {
+      pill.style.transform = '';
+    });
+  });
 }
