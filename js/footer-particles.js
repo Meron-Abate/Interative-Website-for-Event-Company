@@ -23,10 +23,27 @@ export function initFooterParticles() {
   let animationFrameId = null;
   let isVisible = false;
 
-  // Preload official Eternal logo
+  // Preload official Eternal logo with adaptive path resolution
   const logoImg = new Image();
   logoImg.crossOrigin = 'anonymous';
-  logoImg.src = 'assets/images/logo/eternal-footer-logo.png';
+
+  const possibleLogoPaths = [
+    'assets/images/logo/eternal-footer-logo.png',
+    '../assets/images/logo/eternal-footer-logo.png',
+    '../../assets/images/logo/eternal-footer-logo.png',
+    '/assets/images/logo/eternal-footer-logo.png'
+  ];
+
+  let pathIdx = 0;
+  const pathParts = window.location.pathname.replace(/\/index\.html$/, '').split('/').filter(Boolean);
+  if (pathParts.length >= 2 && pathParts[0] === 'work' && pathParts[1] !== 'index.html') {
+    pathIdx = 2; // e.g. /work/10th-session-arfsd/
+  } else if (pathParts.length >= 1 && ['work', 'works', 'services', 'contact', 'about'].includes(pathParts[0])) {
+    pathIdx = 1; // e.g. /work/ or /services/
+  } else {
+    pathIdx = 0;
+  }
+
   let isLogoReady = false;
 
   logoImg.onload = () => {
@@ -34,6 +51,15 @@ export function initFooterParticles() {
     initDimensions();
     startAnimation();
   };
+
+  logoImg.onerror = () => {
+    pathIdx++;
+    if (pathIdx < possibleLogoPaths.length) {
+      logoImg.src = possibleLogoPaths[pathIdx];
+    }
+  };
+
+  logoImg.src = possibleLogoPaths[pathIdx];
 
   if (logoImg.complete && logoImg.naturalWidth > 0) {
     isLogoReady = true;
@@ -367,15 +393,16 @@ export function initFooterParticles() {
   startAnimation();
 
   // Social Pills Magnetic & Dynamic Sheen Interaction
-  initSocialPills();
+  initSocialPills(triggerShockwave, canvas);
 }
 
 /**
  * Creative Social Pills Micro-Interactions
  * - Dynamic cursor sheen tracking
  * - Smooth magnetic pull toward cursor on hover
+ * - Interactive particle ripple trigger on canvas
  */
-function initSocialPills() {
+function initSocialPills(triggerShockwave, canvas) {
   const pills = document.querySelectorAll('.footer-social-pill');
   if (!pills.length) return;
 
@@ -392,13 +419,31 @@ function initSocialPills() {
       // Micro magnetic cursor pull (max ±5px)
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      const deltaX = ((x - centerX) / centerX) * 4.5;
-      const deltaY = ((y - centerY) / centerY) * 4.5;
+      const deltaX = ((x - centerX) / centerX) * 5;
+      const deltaY = ((y - centerY) / centerY) * 5;
       pill.style.transform = `translate(${deltaX.toFixed(1)}px, ${deltaY.toFixed(1)}px)`;
+    });
+
+    pill.addEventListener('mouseenter', () => {
+      if (canvas && triggerShockwave) {
+        const cRect = canvas.getBoundingClientRect();
+        const pRect = pill.getBoundingClientRect();
+        const startX = pRect.left + pRect.width / 2 - cRect.left;
+        triggerShockwave(startX, 15);
+      }
     });
 
     pill.addEventListener('mouseleave', () => {
       pill.style.transform = '';
+    });
+
+    pill.addEventListener('click', () => {
+      if (canvas && triggerShockwave) {
+        const cRect = canvas.getBoundingClientRect();
+        const pRect = pill.getBoundingClientRect();
+        const startX = pRect.left + pRect.width / 2 - cRect.left;
+        triggerShockwave(startX, 30);
+      }
     });
   });
 }

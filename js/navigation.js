@@ -105,6 +105,54 @@ export function initNavigation() {
   // Local Time Indicators
   updateStudioClocks();
   setInterval(updateStudioClocks, 30000);
+
+  // Section Scroll-Spy (Reflect active section in URL and document title)
+  initSectionScrollSpy();
+}
+
+function initSectionScrollSpy() {
+  // Only activate on homepage where multiple main sections coexist
+  const isHomepage = window.location.pathname === '/' || 
+                     window.location.pathname.endsWith('/index.html') || 
+                     window.location.pathname === '';
+  if (!isHomepage) return;
+
+  const sections = [
+    { id: 'hero', hash: '', title: 'ETERNAL — Spatial Architecture & Immersive Event Production' },
+    { id: 'services', hash: '#services', title: 'Services — How We Can Help | ETERNAL' },
+    { id: 'portfolio', hash: '#work', title: 'Selected Work — Portfolio | ETERNAL Studio' },
+    { id: 'about', hash: '#about', title: 'About Us — ETERNAL Studio' },
+    { id: 'faq', hash: '#faq', title: 'FAQ — ETERNAL Studio' },
+    { id: 'footer', hash: '#contact', title: 'Stay Connected — Contact | ETERNAL Studio' }
+  ];
+
+  let currentHash = window.location.hash || '';
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const match = sections.find((s) => s.id === entry.target.id);
+        if (match && currentHash !== match.hash) {
+          currentHash = match.hash;
+          const targetUrl = match.hash ? `${window.location.pathname}${match.hash}` : window.location.pathname;
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, '', targetUrl);
+          }
+          if (match.title) {
+            document.title = match.title;
+          }
+        }
+      }
+    });
+  }, {
+    rootMargin: '-30% 0px -40% 0px',
+    threshold: 0.1
+  });
+
+  sections.forEach((s) => {
+    const el = document.getElementById(s.id);
+    if (el) observer.observe(el);
+  });
 }
 
 function highlightActiveNav() {

@@ -175,50 +175,77 @@
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-top-grid">
-        <div class="footer-brand">
-          <a href="/" class="brand-logo footer-logo" aria-label="ETERNAL Events Home">
-            <img src="assets/images/logo/eternal-events-dark.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-dark">
-            <img src="assets/images/logo/eternal-events-light.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-light">
+  <!-- GLOBAL INTERACTIVE FOOTER (ETERNAL Dot Matrix & Social Hub) -->
+  <footer class="site-footer" id="footer" aria-label="Site Footer">
+    <div class="container footer-container">
+      
+      <!-- Social Media Engagement Showcase (Creative & Interactive) -->
+      <div class="footer-top-bar footer-social-showcase" aria-label="Social Media Connections">
+        <div class="footer-social-header">
+          <div class="footer-live-beacon" aria-hidden="true">
+            <span class="beacon-pulse"></span>
+            <span class="beacon-core"></span>
+          </div>
+          <span class="footer-social-title">STAY CONNECTED</span>
+        </div>
+        <div class="footer-social-pills-row">
+          <!-- Instagram -->
+          <a href="https://www.instagram.com/eternal_media_communication/?hl=en" target="_blank" rel="noopener" class="footer-social-pill footer-social-pill--ig" data-platform="instagram" data-cursor="link" aria-label="Follow Eternal on Instagram">
+            <span class="social-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </span>
+            <span class="social-label">INSTAGRAM</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
           </a>
-          <p>We engineer moments that move people. Pan-African experiential architecture and creative production.</p>
-        </div>
-        <div class="footer-col">
-          <h5>Navigation</h5>
-          <div class="footer-links">
-            <a href="work.html">Work</a>
-            <a href="/#services">Services</a>
-            <a href="/#about">About</a>
-            <a href="contact.html">Contact</a>
-          </div>
-        </div>
-        <div class="footer-col">
-          <h5>Locations</h5>
-          <div class="footer-locations">
-            <div class="location-item"><span class="location-city">Addis Ababa</span><span class="location-time" data-clock="addis">--:-- EAT</span></div>
-            <div class="location-item"><span class="location-city">Nairobi</span><span class="location-time" data-clock="nairobi">--:-- EAT</span></div>
-            <div class="location-item"><span class="location-city">London</span><span class="location-time" data-clock="london">--:-- GMT</span></div>
-          </div>
-        </div>
-        <div class="footer-col">
-          <h5>Social</h5>
-          <div class="footer-links">
-            <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
-            <a href="https://vimeo.com" target="_blank" rel="noopener">Vimeo</a>
-          </div>
+
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/company/eternal-media-and-promotion?originalSubdomain=et" target="_blank" rel="noopener" class="footer-social-pill footer-social-pill--li" data-platform="linkedin" data-cursor="link" aria-label="Connect with Eternal on LinkedIn">
+            <span class="social-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </span>
+            <span class="social-label">LINKEDIN</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <!-- YouTube -->
+          <a href="https://www.youtube.com/@eternalmediaandcommunication" target="_blank" rel="noopener" class="footer-social-pill footer-social-pill--yt" data-platform="youtube" data-cursor="link" aria-label="Subscribe to Eternal on YouTube">
+            <span class="social-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+            </span>
+            <span class="social-label">YOUTUBE</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
         </div>
       </div>
-      <div class="footer-bottom">
-        <div>© 2026 ETERNAL STUDIO. ALL RIGHTS RESERVED.</div>
-        <div style="display: flex; gap: 2rem;">
+
+      <!-- Large Interactive Particle Canvas: ETERNAL Logo Dot Matrix -->
+      <div class="footer-canvas-wrapper" aria-label="Interactive ETERNAL logo particle canvas">
+        <canvas id="footer-particle-canvas" class="footer-particle-canvas"></canvas>
+      </div>
+
+      <!-- Minimal Bottom Sub-Bar (Locations Left, Copyright Center, Legal Right) -->
+      <div class="footer-bottom-bar">
+        <div class="footer-locations-strip">
+          <span class="footer-loc-dot"></span>
+          <span>ADDIS ABABA</span>
+          <span class="footer-loc-sep">/</span>
+          <span>DUBAI</span>
+        </div>
+
+        <div class="footer-copy-center">
+          <span class="footer-copy-main">&copy; 2026 ETERNAL.</span>
+          <span class="footer-copy-sub">ETERNAL EVENTS IS PART OF ETERNAL MEDIA AND COMMUNICATION PLC</span>
+        </div>
+
+        <div class="footer-legal-strip">
           <a href="sitemap.xml">SITEMAP</a>
+          <span class="footer-loc-sep">&bull;</span>
           <a href="robots.txt">ROBOTS</a>
+          <span class="footer-loc-sep">&bull;</span>
+          <span>ALL RIGHTS RESERVED</span>
         </div>
       </div>
+
     </div>
   </footer>
 
