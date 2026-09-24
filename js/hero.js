@@ -10,26 +10,24 @@ export function initHero() {
   const heroContainer = document.querySelector('.hero-scrolly-container') || document.querySelector('.hero-section');
   if (!heroContainer) return;
 
-  const video = heroContainer.querySelector('video');
   const canvas = heroContainer.querySelector('.hero-ambient-canvas');
 
-  // Video Autoplay & Fallback Handling
-  // Crucial: The video plays continuously and uninterrupted during all scroll interactions
-  if (video) {
-    video.muted = true;
-    video.defaultMuted = true;
-    video.playsInline = true;
+  // Ambient canvas fallback (used if slideshow somehow fails)
+  if (canvas) initAmbientCanvas(canvas);
 
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-      playPromise.catch((err) => {
-        console.info('[Hero] Video autoplay notice or blocked; activating ambient canvas fallback.', err);
-        if (canvas) initAmbientCanvas(canvas);
-      });
-    }
-  } else if (canvas) {
-    initAmbientCanvas(canvas);
-  }  // Identify Stages & Controls
+  // Authentic Production Media Slideshow Rotator — 7 event photos, 3s per slide
+  const heroSlides = heroContainer.querySelectorAll('.hero-slide');
+  if (heroSlides.length > 1) {
+    let currentSlideIdx = 0;
+    setInterval(() => {
+      heroSlides[currentSlideIdx].classList.remove('is-active');
+      currentSlideIdx = (currentSlideIdx + 1) % heroSlides.length;
+      heroSlides[currentSlideIdx].classList.add('is-active');
+    }, 3000);
+  }
+
+
+  // Identify Stages & Controls
   const stage1 = heroContainer.querySelector('.hero-stage--1');
   const stage2 = heroContainer.querySelector('.hero-stage--2');
   const stages = [stage1, stage2].filter(Boolean);

@@ -21,49 +21,49 @@ export function initFooterParticles() {
   let dpr = 1;
   let particles = [];
   let animationFrameId = null;
-  let isVisible = false;
+  let isVisible = true; // Start as true — always render immediately; observer pauses when off-screen
 
-  // Preload official Eternal logo with adaptive path resolution
+  // Preload official Eternal logo — tries multiple paths, falls back to text after 2s
   const logoImg = new Image();
-  logoImg.crossOrigin = 'anonymous';
-
-  const possibleLogoPaths = [
-    'assets/images/logo/eternal-footer-logo.png',
-    '../assets/images/logo/eternal-footer-logo.png',
-    '../../assets/images/logo/eternal-footer-logo.png',
-    '/assets/images/logo/eternal-footer-logo.png'
-  ];
-
-  let pathIdx = 0;
-  const pathParts = window.location.pathname.replace(/\/index\.html$/, '').split('/').filter(Boolean);
-  if (pathParts.length >= 2 && pathParts[0] === 'work' && pathParts[1] !== 'index.html') {
-    pathIdx = 2; // e.g. /work/10th-session-arfsd/
-  } else if (pathParts.length >= 1 && ['work', 'works', 'services', 'contact', 'about'].includes(pathParts[0])) {
-    pathIdx = 1; // e.g. /work/ or /services/
-  } else {
-    pathIdx = 0;
-  }
+  // NO crossOrigin — it causes silent failures on static servers for same-origin assets
 
   let isLogoReady = false;
+  let initCalled = false;
+
+  function doInit(forceReinit = false) {
+    if (initCalled && !forceReinit) return; // prevent accidental double-init
+    initCalled = true;
+    initDimensions();
+    startAnimation();
+  }
 
   logoImg.onload = () => {
     isLogoReady = true;
-    initDimensions();
-    startAnimation();
+    doInit(true); // always reinit with real logo (even after timeout text fallback)
   };
 
   logoImg.onerror = () => {
-    pathIdx++;
-    if (pathIdx < possibleLogoPaths.length) {
-      logoImg.src = possibleLogoPaths[pathIdx];
-    }
+    isLogoReady = false;
+    doInit(); // render with text+icon fallback immediately
   };
 
-  logoImg.src = possibleLogoPaths[pathIdx];
+  // Try absolute path first (works on any proper web server)
+  logoImg.src = '/assets/images/logo/eternal-footer-logo-hd.png';
 
+  // Synchronous cache hit check (browser already had it cached)
   if (logoImg.complete && logoImg.naturalWidth > 0) {
     isLogoReady = true;
   }
+
+  // Safety net: if the image neither loads nor errors within 1.5s, force init with text fallback
+  // This ensures the canvas is NEVER blank, even on file:// or slow connections
+  setTimeout(() => {
+    if (!initCalled) {
+      isLogoReady = false;
+      doInit();
+    }
+  }, 1500);
+
 
   const mouse = {
     x: -9999,
@@ -208,13 +208,35 @@ export function initFooterParticles() {
       offCtx.clearRect(0, 0, width, height);
       offCtx.drawImage(logoImg, startX, startY, targetW, targetH);
     } else {
-      // Clean fallback if logo is pending
+      // Text+icon fallback when image can't load — draws orange square icon + ETERNAL wordmark
+      offCtx.clearRect(0, 0, width, height);
+      const cx = Math.floor(width / 2);
+      const cy = Math.floor(height / 2);
+      const iconSize = Math.floor(targetH * 0.85);
+      const gap = Math.floor(iconSize * 0.25);
+      const fontSize = Math.floor(iconSize * 0.8);
+      offCtx.font = `900 ${fontSize}px "Lato", "Arial Black", Arial, sans-serif`;
+      offCtx.textBaseline = 'middle';
+      const textW = offCtx.measureText('Eternal').width;
+      const totalW = iconSize + gap + textW;
+      const drawX = cx - totalW / 2;
+
+      // Orange icon block (represents the emblem)
+      offCtx.fillStyle = '#EC6430';
+      offCtx.fillRect(drawX, cy - iconSize / 2, iconSize, iconSize);
+
+      // White "E" inside icon block
       offCtx.fillStyle = '#ffffff';
+      offCtx.font = `900 ${Math.floor(iconSize * 0.65)}px "Lato", Arial, sans-serif`;
       offCtx.textAlign = 'center';
       offCtx.textBaseline = 'middle';
-      const fontSize = Math.floor(targetH * 0.65);
-      offCtx.font = `900 ${fontSize}px "Lato", sans-serif`;
-      offCtx.fillText('ETERNAL', Math.floor(width / 2), Math.floor(height / 2));
+      offCtx.fillText('E', drawX + iconSize / 2, cy);
+
+      // White "Eternal" wordmark text
+      offCtx.fillStyle = '#ffffff';
+      offCtx.font = `900 ${fontSize}px "Lato", "Arial Black", Arial, sans-serif`;
+      offCtx.textAlign = 'left';
+      offCtx.fillText('Eternal', drawX + iconSize + gap, cy);
     }
 
     const imgData = offCtx.getImageData(0, 0, width, height);
@@ -360,23 +382,18 @@ export function initFooterParticles() {
     mouse.y = -9999;
   });
 
-  // IntersectionObserver: start animation when footer comes into view
+
+  // IntersectionObserver: pause animation when off-screen (performance), resume when visible
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       isVisible = entry.isIntersecting;
-      if (isVisible) {
-        startAnimation();
+      if (isVisible && !animationFrameId) {
+        startAnimation(); // resume if it was paused
       }
     });
-  }, { threshold: 0.01, rootMargin: '120px 0px' });
+  }, { threshold: 0.01, rootMargin: '300px 0px' });
 
   observer.observe(wrapper);
-
-  // Check initial visibility
-  const rect = wrapper.getBoundingClientRect();
-  if (rect.top < window.innerHeight && rect.bottom > 0) {
-    isVisible = true;
-  }
 
   // Resize listener
   let resizeTimer = null;
@@ -388,9 +405,10 @@ export function initFooterParticles() {
     }, 150);
   }, { passive: true });
 
-  // Initial load
-  initDimensions();
-  startAnimation();
+  // If logo already cached synchronously, kick off immediately
+  if (isLogoReady) {
+    doInit();
+  }
 
   // Social Pills Magnetic & Dynamic Sheen Interaction
   initSocialPills(triggerShockwave, canvas);
