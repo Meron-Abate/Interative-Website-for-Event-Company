@@ -1,62 +1,57 @@
-/**
- * ETERNAL STUDIO — INTERACTIVE FOOTER LOGO PARTICLE MATRIX & SOCIAL SHOWCASE
- * - Renders the official ETERNAL logo (orange flame emblem + white wordmark)
- *   as an interactive dot-matrix canvas.
- * - Particles disperse with fluid repulsion physics on cursor movement and touch,
- *   returning elastically with viscous damping.
- * - Clicking/tapping canvas sends an explosive radial shockwave through the particles.
- * - Adds magnetic cursor pull and interactive dynamic sheen to the social media pills.
- */
-
 export function initFooterParticles() {
   const canvas = document.getElementById('footer-particle-canvas');
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
-  if (!ctx) return;
-
   const wrapper = canvas.parentElement;
   let width = 0;
   let height = 0;
   let dpr = 1;
   let particles = [];
   let animationFrameId = null;
-  let isVisible = true; // Start as true — always render immediately; observer pauses when off-screen
+  let isVisible = true; // Start as true
 
-  // Preload official Eternal logo — tries multiple paths, falls back to text after 2s
   const logoImg = new Image();
-  // NO crossOrigin — it causes silent failures on static servers for same-origin assets
-
+  // Optional: prevent CORS taint on some local servers if absolute paths are used
+  logoImg.crossOrigin = 'anonymous';
   let isLogoReady = false;
   let initCalled = false;
 
   function doInit(forceReinit = false) {
-    if (initCalled && !forceReinit) return; // prevent accidental double-init
+    if (initCalled && !forceReinit) return;
     initCalled = true;
     initDimensions();
     startAnimation();
   }
 
+  // Paths to try
+  const paths = [
+    '/assets/images/logo/eternal-footer-logo-hd.png', // Try absolute first if on web server
+    './assets/images/logo/eternal-footer-logo-hd.png', 
+    '../assets/images/logo/eternal-footer-logo-hd.png', 
+    '../../assets/images/logo/eternal-footer-logo-hd.png'
+  ];
+  let pathIdx = 0;
+
   logoImg.onload = () => {
     isLogoReady = true;
-    doInit(true); // always reinit with real logo (even after timeout text fallback)
+    doInit(true);
   };
 
   logoImg.onerror = () => {
-    isLogoReady = false;
-    doInit(); // render with text+icon fallback immediately
+    if (pathIdx < paths.length) {
+      // Remove crossOrigin for relative paths to avoid local file:// CORS errors
+      logoImg.removeAttribute("crossOrigin"); 
+      logoImg.src = paths[pathIdx++];
+    } else {
+      isLogoReady = false;
+      doInit(); // text fallback
+    }
   };
 
-  // Try absolute path first (works on any proper web server)
-  logoImg.src = '/assets/images/logo/eternal-footer-logo-hd.png';
+  logoImg.src = paths[pathIdx++];
 
-  // Synchronous cache hit check (browser already had it cached)
-  if (logoImg.complete && logoImg.naturalWidth > 0) {
-    isLogoReady = true;
-  }
-
-  // Safety net: if the image neither loads nor errors within 1.5s, force init with text fallback
-  // This ensures the canvas is NEVER blank, even on file:// or slow connections
+  // Safety net: if image completely hangs, force render fallback after 1.5s
   setTimeout(() => {
     if (!initCalled) {
       isLogoReady = false;
@@ -64,99 +59,61 @@ export function initFooterParticles() {
     }
   }, 1500);
 
-
-  const mouse = {
-    x: -9999,
-    y: -9999,
-    prevX: -9999,
-    prevY: -9999,
-    vx: 0,
-    vy: 0,
-    radius: 95,
-    isActive: false
-  };
+  const mouse = { x: -9999, y: -9999, prevX: -9999, prevY: -9999, vx: 0, vy: 0, radius: 95, isActive: false };
 
   class Particle {
     constructor(originX, originY, radius, isOrange) {
       this.originX = originX;
       this.originY = originY;
-      this.x = originX;
-      this.y = originY;
-      this.vx = 0;
-      this.vy = 0;
+      this.x = originX + (Math.random() - 0.5) * 100;
+      this.y = originY + (Math.random() - 0.5) * 100;
+      this.vx = (Math.random() - 0.5) * 2;
+      this.vy = (Math.random() - 0.5) * 2;
       this.radius = radius;
       this.isOrange = isOrange;
-      this.distFromOrigin = 0;
-      this.friction = 0.86;
-      this.springStrength = 0.082;
+      this.color = isOrange ? '#EC6430' : 'rgba(255, 255, 255, 0.8)';
+      this.friction = 0.82;
+      this.springFactor = 0.08;
     }
+    update(isLightMode) {
+      this.color = this.isOrange ? '#EC6430' : (isLightMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)');
+      let dx = mouse.x - this.x;
+      let dy = mouse.y - this.y;
+      let dist = Math.hypot(dx, dy);
 
-    update() {
-      if (mouse.isActive) {
-        const dx = this.x - mouse.x;
-        const dy = this.y - mouse.y;
-        const dist = Math.hypot(dx, dy);
-
-        if (dist < mouse.radius && dist > 0) {
-          const force = (mouse.radius - dist) / mouse.radius;
-          const angle = Math.atan2(dy, dx);
-          const repulsion = force * 9.5;
-
-          this.vx += Math.cos(angle) * repulsion + mouse.vx * 0.18;
-          this.vy += Math.sin(angle) * repulsion + mouse.vy * 0.18;
-        }
+      if (dist < mouse.radius && mouse.isActive) {
+        let forceDirectionX = dx / dist;
+        let forceDirectionY = dy / dist;
+        let force = (mouse.radius - dist) / mouse.radius;
+        
+        // NEW INTERACTIVITY: Vortex / Swirl effect instead of basic repel
+        // Calculate tangent vector for swirling motion
+        let tangentX = -forceDirectionY;
+        let tangentY = forceDirectionX;
+        
+        // Mix a slight gravitational pull with a stronger swirling motion
+        this.vx += (forceDirectionX * 1.5 + tangentX * 3.5) * force;
+        this.vy += (forceDirectionY * 1.5 + tangentY * 3.5) * force;
       }
 
-      // Elastic spring back to home origin
-      const springX = (this.originX - this.x) * this.springStrength;
-      const springY = (this.originY - this.y) * this.springStrength;
-      this.vx += springX;
-      this.vy += springY;
-
-      // Friction / damping
+      this.vx += (this.originX - this.x) * this.springFactor;
+      this.vy += (this.originY - this.y) * this.springFactor;
       this.vx *= this.friction;
       this.vy *= this.friction;
-
       this.x += this.vx;
       this.y += this.vy;
-
-      this.distFromOrigin = Math.hypot(this.x - this.originX, this.y - this.originY);
     }
-
-    draw(context, isLightMode) {
-      context.beginPath();
-      context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-
-      if (this.isOrange) {
-        // Geometric Emblem Particle
-        if (this.distFromOrigin > 2.0) {
-          const glow = Math.min(1, this.distFromOrigin / 25);
-          context.fillStyle = `rgba(255, 125, 60, ${0.9 + glow * 0.1})`;
-        } else {
-          context.fillStyle = 'rgba(236, 100, 48, 0.96)';
-        }
-      } else {
-        // Typography Particle (White / Neutral)
-        if (this.distFromOrigin > 2.0) {
-          const intensity = Math.min(1, this.distFromOrigin / 22);
-          context.fillStyle = isLightMode
-            ? `rgba(236, 100, 48, ${0.75 + intensity * 0.25})`
-            : `rgba(255, 150, 100, ${0.85 + intensity * 0.15})`;
-        } else {
-          context.fillStyle = isLightMode
-            ? 'rgba(25, 25, 30, 0.9)'
-            : 'rgba(255, 255, 255, 0.92)';
-        }
-      }
-
-      context.fill();
+    draw(ctx) {
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fill();
     }
   }
 
   function drawFrame() {
-    const isLightMode = document.documentElement.getAttribute('data-theme') === 'light';
     ctx.clearRect(0, 0, width, height);
-
+    const isLightMode = document.body.classList.contains('light-mode');
     for (let i = 0; i < particles.length; i++) {
       particles[i].draw(ctx, isLightMode);
     }
@@ -164,17 +121,15 @@ export function initFooterParticles() {
 
   function initDimensions() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Safer width retrieval
     const rect = wrapper.getBoundingClientRect();
-    width = Math.floor(rect.width || window.innerWidth || 360);
+    width = Math.floor(wrapper.offsetWidth || rect.width || window.innerWidth || 360);
 
     const isMobile = width < 768;
-    const naturalRatio = 300 / 69; // ~4.348
-
-    // Size logo keeping proportional aspect ratio
+    const naturalRatio = 300 / 69; 
     const maxTargetW = isMobile ? Math.min(width * 0.95, 480) : Math.min(width * 0.88, 960);
     const targetW = Math.round(maxTargetW);
     const targetH = Math.round(targetW / naturalRatio);
-
     height = Math.round(targetH + (isMobile ? 36 : 60));
 
     canvas.width = Math.floor(width * dpr);
@@ -185,9 +140,7 @@ export function initFooterParticles() {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
 
-    mouse.radius = isMobile
-      ? Math.max(65, Math.min(95, width * 0.22))
-      : Math.max(80, Math.min(135, width * 0.1));
+    mouse.radius = isMobile ? Math.max(65, Math.min(95, width * 0.22)) : Math.max(80, Math.min(135, width * 0.1));
 
     createParticleMatrix(targetW, targetH, isMobile);
     drawFrame();
@@ -195,58 +148,75 @@ export function initFooterParticles() {
 
   function createParticleMatrix(targetW, targetH, isMobile) {
     particles = [];
-
-    const offCanvas = document.createElement('canvas');
-    const offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
+    let offCanvas = document.createElement('canvas');
+    let offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
     offCanvas.width = width;
     offCanvas.height = height;
 
     const startX = Math.round((width - targetW) / 2);
     const startY = Math.round((height - targetH) / 2);
 
+    let useFallback = false;
+
     if (isLogoReady || (logoImg.complete && logoImg.naturalWidth > 0)) {
-      offCtx.clearRect(0, 0, width, height);
-      offCtx.drawImage(logoImg, startX, startY, targetW, targetH);
+      try {
+        offCtx.clearRect(0, 0, width, height);
+        offCtx.drawImage(logoImg, startX, startY, targetW, targetH);
+        offCtx.getImageData(0, 0, 1, 1); // Test taint
+      } catch (e) {
+        useFallback = true;
+      }
     } else {
-      // Text+icon fallback when image can't load — draws orange square icon + ETERNAL wordmark
+      useFallback = true;
+    }
+
+    if (useFallback) {
+      // CRITICAL FIX: If canvas was tainted, we MUST create a fresh untainted canvas!
+      offCanvas = document.createElement('canvas');
+      offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
+      offCanvas.width = width;
+      offCanvas.height = height;
+
       offCtx.clearRect(0, 0, width, height);
       const cx = Math.floor(width / 2);
       const cy = Math.floor(height / 2);
       const iconSize = Math.floor(targetH * 0.85);
       const gap = Math.floor(iconSize * 0.25);
       const fontSize = Math.floor(iconSize * 0.8);
-      offCtx.font = `900 ${fontSize}px "Lato", "Arial Black", Arial, sans-serif`;
-      offCtx.textBaseline = 'middle';
-      const textW = offCtx.measureText('Eternal').width;
-      const totalW = iconSize + gap + textW;
-      const drawX = cx - totalW / 2;
-
-      // Orange icon block (represents the emblem)
+      
+      // Draw programmatic fallback
       offCtx.fillStyle = '#EC6430';
+      offCtx.fillRect(cx - (iconSize + gap + offCtx.measureText('Eternal').width)/2, cy - iconSize / 2, iconSize, iconSize);
+      
+      // We'll use simple text mapping to ensure it never fails
+      const drawX = cx - (iconSize + gap + (fontSize * 3.5)) / 2;
       offCtx.fillRect(drawX, cy - iconSize / 2, iconSize, iconSize);
 
-      // White "E" inside icon block
       offCtx.fillStyle = '#ffffff';
       offCtx.font = `900 ${Math.floor(iconSize * 0.65)}px "Lato", Arial, sans-serif`;
       offCtx.textAlign = 'center';
       offCtx.textBaseline = 'middle';
       offCtx.fillText('E', drawX + iconSize / 2, cy);
 
-      // White "Eternal" wordmark text
-      offCtx.fillStyle = '#ffffff';
       offCtx.font = `900 ${fontSize}px "Lato", "Arial Black", Arial, sans-serif`;
       offCtx.textAlign = 'left';
       offCtx.fillText('Eternal', drawX + iconSize + gap, cy);
     }
 
-    const imgData = offCtx.getImageData(0, 0, width, height);
+    let imgData;
+    try {
+      imgData = offCtx.getImageData(0, 0, width, height);
+    } catch (e) {
+      return;
+    }
+    
     const data = imgData.data;
     const imgW = imgData.width;
     const imgH = imgData.height;
 
-    // Adaptive step & radius for optimal dot density & performance
-    const step = isMobile ? (width < 480 ? 3 : 4) : (width < 1024 ? 4 : 5);
-    const dotRadius = isMobile ? (width < 480 ? 1.2 : 1.35) : (width < 1024 ? 1.45 : 1.7);
+    // Use finer density
+    const step = isMobile ? (width < 480 ? 3 : 4) : 4;
+    const dotRadius = isMobile ? (width < 480 ? 1.2 : 1.35) : 1.5;
 
     for (let y = 0; y < imgH; y += step) {
       const rowOffset = y * imgW;
@@ -258,7 +228,6 @@ export function initFooterParticles() {
         const alpha = data[index + 3];
 
         if (alpha > 50) {
-          // Detect orange emblem vs white wordmark
           const isOrange = (r > 150 && (r - b) > 40 && (r - g) > 20) || (r > 180 && b < 100);
           particles.push(new Particle(x, y, dotRadius, isOrange));
         }
@@ -292,110 +261,68 @@ export function initFooterParticles() {
       animationFrameId = null;
       return;
     }
-
-    const isLightMode = document.documentElement.getAttribute('data-theme') === 'light';
+    const isLightMode = document.body.classList.contains('light-mode');
+    let isMoving = false;
 
     ctx.clearRect(0, 0, width, height);
 
-    // Mouse velocity decay
-    mouse.vx *= 0.55;
-    mouse.vy *= 0.55;
-
-    let hasActiveMotion = mouse.isActive;
-
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
-      p.update();
-      p.draw(ctx, isLightMode);
-
-      if (p.distFromOrigin > 0.1 || Math.abs(p.vx) > 0.05 || Math.abs(p.vy) > 0.05) {
-        hasActiveMotion = true;
-      }
+      p.update(isLightMode);
+      p.draw(ctx);
+      if (Math.abs(p.vx) > 0.05 || Math.abs(p.vy) > 0.05) isMoving = true;
     }
 
-    animationFrameId = requestAnimationFrame(animate);
+    if (mouse.isActive) isMoving = true;
+
+    if (isMoving) {
+      animationFrameId = requestAnimationFrame(animate);
+    } else {
+      animationFrameId = null;
+    }
   }
 
   function startAnimation() {
-    if (!animationFrameId) {
-      animationFrameId = requestAnimationFrame(animate);
-    }
+    if (!animationFrameId) animate();
   }
 
-  // Pointer interactions
-  function handlePointerMove(clientX, clientY) {
+  function getMousePos(e) {
     const rect = canvas.getBoundingClientRect();
-    const curX = clientX - rect.left;
-    const curY = clientY - rect.top;
-
-    if (mouse.prevX !== -9999) {
-      mouse.vx = curX - mouse.prevX;
-      mouse.vy = curY - mouse.prevY;
+    let clientX = e.clientX;
+    let clientY = e.clientY;
+    if (e.touches && e.touches.length > 0) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
     }
-
-    mouse.prevX = curX;
-    mouse.prevY = curY;
-    mouse.x = curX;
-    mouse.y = curY;
-    mouse.isActive = true;
-
-    startAnimation();
+    mouse.prevX = mouse.x;
+    mouse.prevY = mouse.y;
+    mouse.x = (clientX - rect.left) * (width / rect.width);
+    mouse.y = (clientY - rect.top) * (height / rect.height);
+    mouse.vx = mouse.x - mouse.prevX;
+    mouse.vy = mouse.y - mouse.prevY;
   }
 
-  canvas.addEventListener('mousemove', (e) => {
-    handlePointerMove(e.clientX, e.clientY);
-  });
+  canvas.addEventListener('mousemove', (e) => { mouse.isActive = true; getMousePos(e); startAnimation(); }, { passive: true });
+  canvas.addEventListener('mouseleave', () => { mouse.isActive = false; mouse.x = -9999; mouse.y = -9999; });
+  canvas.addEventListener('click', (e) => { getMousePos(e); triggerShockwave(mouse.x, mouse.y); });
+  canvas.addEventListener('touchstart', (e) => { mouse.isActive = true; getMousePos(e); startAnimation(); }, { passive: true });
+  canvas.addEventListener('touchmove', (e) => { mouse.isActive = true; getMousePos(e); startAnimation(); }, { passive: true });
+  canvas.addEventListener('touchend', () => { mouse.isActive = false; mouse.x = -9999; mouse.y = -9999; });
 
-  canvas.addEventListener('mouseleave', () => {
-    mouse.isActive = false;
-    mouse.x = -9999;
-    mouse.y = -9999;
-    mouse.prevX = -9999;
-    mouse.prevY = -9999;
-    mouse.vx = 0;
-    mouse.vy = 0;
-  });
-
-  canvas.addEventListener('click', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    triggerShockwave(e.clientX - rect.left, e.clientY - rect.top);
-  });
-
-  canvas.addEventListener('touchstart', (e) => {
-    if (e.touches.length > 0) {
-      const touch = e.touches[0];
-      handlePointerMove(touch.clientX, touch.clientY);
-      const rect = canvas.getBoundingClientRect();
-      triggerShockwave(touch.clientX - rect.left, touch.clientY - rect.top);
-    }
-  }, { passive: true });
-
-  canvas.addEventListener('touchmove', (e) => {
-    if (e.touches.length > 0) {
-      handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
-    }
-  }, { passive: true });
-
-  canvas.addEventListener('touchend', () => {
-    mouse.isActive = false;
-    mouse.x = -9999;
-    mouse.y = -9999;
-  });
-
-
-  // IntersectionObserver: pause animation when off-screen (performance), resume when visible
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       isVisible = entry.isIntersecting;
-      if (isVisible && !animationFrameId) {
-        startAnimation(); // resume if it was paused
+      if (isVisible) {
+        if (particles.length === 0 && initCalled) {
+          initDimensions();
+        }
+        startAnimation();
       }
     });
   }, { threshold: 0.01, rootMargin: '300px 0px' });
 
   observer.observe(wrapper);
 
-  // Resize listener
   let resizeTimer = null;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
@@ -404,64 +331,4 @@ export function initFooterParticles() {
       startAnimation();
     }, 150);
   }, { passive: true });
-
-  // If logo already cached synchronously, kick off immediately
-  if (isLogoReady) {
-    doInit();
-  }
-
-  // Social Pills Magnetic & Dynamic Sheen Interaction
-  initSocialPills(triggerShockwave, canvas);
-}
-
-/**
- * Creative Social Pills Micro-Interactions
- * - Dynamic cursor sheen tracking
- * - Smooth magnetic pull toward cursor on hover
- * - Interactive particle ripple trigger on canvas
- */
-function initSocialPills(triggerShockwave, canvas) {
-  const pills = document.querySelectorAll('.footer-social-pill');
-  if (!pills.length) return;
-
-  pills.forEach((pill) => {
-    pill.addEventListener('mousemove', (e) => {
-      const rect = pill.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      // Update sheen coordinates in CSS
-      pill.style.setProperty('--mouse-x', `${x.toFixed(1)}px`);
-      pill.style.setProperty('--mouse-y', `${y.toFixed(1)}px`);
-
-      // Micro magnetic cursor pull (max ±5px)
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const deltaX = ((x - centerX) / centerX) * 5;
-      const deltaY = ((y - centerY) / centerY) * 5;
-      pill.style.transform = `translate(${deltaX.toFixed(1)}px, ${deltaY.toFixed(1)}px)`;
-    });
-
-    pill.addEventListener('mouseenter', () => {
-      if (canvas && triggerShockwave) {
-        const cRect = canvas.getBoundingClientRect();
-        const pRect = pill.getBoundingClientRect();
-        const startX = pRect.left + pRect.width / 2 - cRect.left;
-        triggerShockwave(startX, 15);
-      }
-    });
-
-    pill.addEventListener('mouseleave', () => {
-      pill.style.transform = '';
-    });
-
-    pill.addEventListener('click', () => {
-      if (canvas && triggerShockwave) {
-        const cRect = canvas.getBoundingClientRect();
-        const pRect = pill.getBoundingClientRect();
-        const startX = pRect.left + pRect.width / 2 - cRect.left;
-        triggerShockwave(startX, 30);
-      }
-    });
-  });
 }

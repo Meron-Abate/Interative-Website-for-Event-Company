@@ -5,14 +5,18 @@
 
 export function initAbout() {
   const aboutSection = document.querySelector('.about-section');
+  
+  if (!aboutSection) return;
+
   const scrollyContainer = document.querySelector('.about-scrolly-container') || aboutSection;
   const scrollyPin = document.querySelector('.about-scrolly-pin');
   const statement = document.querySelector('.about-statement');
+  
+  if (!statement) return;
+
   const railFill = aboutSection.querySelector('.about-rail-fill');
   const railDot = aboutSection.querySelector('.about-rail-dot');
   const railSteps = aboutSection.querySelectorAll('.about-rail-step');
-
-  if (!aboutSection || !statement) return;
 
   // Specific keywords to highlight in vivid fiery orange (#EC6430) matching reference
   const accentList = ['PRECISION', 'SPATIAL', 'GLOBAL', 'ARCHITECTURAL', 'UNFORGETTABLE', 'CONNECTION'];

@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Global Components
   initStatsCounter();
   initContactForm();
+  initServiceRequestForm();
   initParallaxEffects();
 
   // Handle Resize Debounce for ScrollTrigger
@@ -164,4 +165,86 @@ function initParallaxEffects() {
       }
     );
   });
+}
+
+/**
+ * Premium Service Request Form (Landing Page Contact Section)
+ */
+function initServiceRequestForm() {
+  const form = document.getElementById('contact-service-form');
+  if (!form) return;
+
+  const feedbackAlert = form.nextElementSibling;
+  
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let isValid = true;
+
+    // Reset error states
+    form.querySelectorAll('.form-group').forEach(group => group.classList.remove('has-error'));
+
+    const nameInput = form.querySelector('[name="name"]');
+    const emailInput = form.querySelector('[name="email"]');
+    const serviceInput = form.querySelector('[name="service"]');
+    const messageInput = form.querySelector('[name="message"]');
+
+    if (nameInput && !nameInput.value.trim()) {
+      showError(nameInput, 'Please enter your full name.');
+      isValid = false;
+    }
+
+    if (emailInput) {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailInput.value.trim() || !emailPattern.test(emailInput.value.trim())) {
+        showError(emailInput, 'Please provide a valid email address.');
+        isValid = false;
+      }
+    }
+
+    if (serviceInput && !serviceInput.value) {
+      showError(serviceInput, 'Please select a service.');
+      isValid = false;
+    }
+
+    if (messageInput && !messageInput.value.trim()) {
+      showError(messageInput, 'Please tell us about your project.');
+      isValid = false;
+    }
+
+    if (isValid) {
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'SENDING REQUEST...';
+      }
+
+      // Simulate network request
+      setTimeout(() => {
+        form.reset();
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = 'SEND REQUEST ↗';
+        }
+        if (feedbackAlert) {
+          feedbackAlert.className = 'form-feedback success';
+          feedbackAlert.innerHTML = '<strong>Request Sent Successfully.</strong><br>Our creative team will review your brief and contact you shortly.';
+          
+          // Hide success message after 5 seconds
+          setTimeout(() => {
+            feedbackAlert.className = 'form-feedback';
+            feedbackAlert.innerHTML = '';
+          }, 5000);
+        }
+      }, 1500);
+    }
+  });
+
+  function showError(inputEl, msg) {
+    const group = inputEl.closest('.form-group');
+    if (group) {
+      group.classList.add('has-error');
+      const errEl = group.querySelector('.form-error-msg');
+      if (errEl) errEl.textContent = msg;
+    }
+  }
 }
