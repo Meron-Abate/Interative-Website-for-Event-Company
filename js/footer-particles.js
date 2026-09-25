@@ -76,7 +76,7 @@ export function initFooterParticles() {
       this.springFactor = 0.08;
     }
     update(isLightMode) {
-      this.color = this.isOrange ? '#EC6430' : (isLightMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)');
+      this.color = this.isOrange ? '#EC6430' : (isLightMode ? '#EC6430' : 'rgba(255, 255, 255, 0.8)');
       let dx = mouse.x - this.x;
       let dy = mouse.y - this.y;
       let dist = Math.hypot(dx, dy);
@@ -86,14 +86,19 @@ export function initFooterParticles() {
         let forceDirectionY = dy / dist;
         let force = (mouse.radius - dist) / mouse.radius;
         
-        // NEW INTERACTIVITY: Vortex / Swirl effect instead of basic repel
-        // Calculate tangent vector for swirling motion
-        let tangentX = -forceDirectionY;
-        let tangentY = forceDirectionX;
-        
-        // Mix a slight gravitational pull with a stronger swirling motion
-        this.vx += (forceDirectionX * 1.5 + tangentX * 3.5) * force;
-        this.vy += (forceDirectionY * 1.5 + tangentY * 3.5) * force;
+        // Use vortex on home page, but standard clearer repel on work pages
+        if (window.location.pathname.includes('/work/')) {
+          let pvx = forceDirectionX * force * 5;
+          let pvy = forceDirectionY * force * 5;
+          this.vx -= pvx + mouse.vx * force * 0.1;
+          this.vy -= pvy + mouse.vy * force * 0.1;
+        } else {
+          // Vortex / Swirl effect for home page
+          let tangentX = -forceDirectionY;
+          let tangentY = forceDirectionX;
+          this.vx += (forceDirectionX * 1.5 + tangentX * 3.5) * force;
+          this.vy += (forceDirectionY * 1.5 + tangentY * 3.5) * force;
+        }
       }
 
       this.vx += (this.originX - this.x) * this.springFactor;
@@ -332,3 +337,4 @@ export function initFooterParticles() {
     }, 150);
   }, { passive: true });
 }
+

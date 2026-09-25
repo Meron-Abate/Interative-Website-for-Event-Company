@@ -106,7 +106,7 @@ export function initServiceStack() {
 
     activeId = targetId;
 
-    // 1. Collapse previously expanded item
+    // 1. Smoothly shrink previously expanded item
     if (currentItem && currentItem !== nextItem) {
       const curHeader = currentItem.querySelector('.service-stack-header');
       const curIcon = currentItem.querySelector('.service-stack-toggle-icon');
@@ -115,86 +115,40 @@ export function initServiceStack() {
       currentItem.classList.remove('is-expanded');
     }
 
-    // 2. Expand target item
+    // 2. Smoothly expand target item
     nextItem.classList.add('is-expanded');
     const nextHeader = nextItem.querySelector('.service-stack-header');
     const nextIcon = nextItem.querySelector('.service-stack-toggle-icon');
     if (nextHeader) nextHeader.setAttribute('aria-expanded', 'true');
     if (nextIcon) nextIcon.textContent = '−';
 
-    // 3. Subtle content fade-in (ensures image and all text are 100% visible on any click)
-    const nextMedia = nextItem.querySelector('.service-media-frame');
-    const nextInfo = nextItem.querySelector('.service-stack-info');
-
-    if (typeof window.gsap !== 'undefined' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      if (nextMedia && nextInfo) {
-        window.gsap.fromTo(
-          [nextMedia, nextInfo],
-          { opacity: 0, y: 12 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            stagger: 0.08,
-            ease: 'power2.out',
-            clearProps: 'all'
-          }
-        );
-      }
-    }
-
-    // 4. Stable view anchoring: Keep the clicked service cleanly in view without jumping to other sections!
-    const navOffset = 90;
-    setTimeout(() => {
-      const rect = nextItem.getBoundingClientRect();
+    // 3. Optional: If header is scrolled out of view above top, gently bring it into view
+    const rect = nextItem.getBoundingClientRect();
+    const navHeight = 90;
+    if (rect.top < navHeight) {
       const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-      const targetScroll = currentScroll + rect.top - navOffset;
-
+      const targetScroll = currentScroll + rect.top - navHeight;
       if (window.lenis) {
-        window.lenis.scrollTo(targetScroll, {
-          duration: 0.7,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-        });
+        window.lenis.scrollTo(targetScroll, { duration: 0.6 });
       } else {
-        window.scrollTo({
-          top: targetScroll,
-          behavior: 'smooth'
-        });
+        window.scrollTo({ top: targetScroll, behavior: 'smooth' });
       }
-    }, 40);
-
-    // 5. Always refresh ScrollTrigger after drawer transition so downstream sections (Selected Work) don't get misaligned
-    if (typeof window.ScrollTrigger !== 'undefined') {
-      setTimeout(() => {
-        window.ScrollTrigger.refresh();
-      }, 620);
     }
-  }
 
-  function closeItem(id) {
-    const item = section.querySelector(`.service-stack-item[data-service-id="${id}"]`);
-    if (!item) return;
-
-    activeId = null;
-    item.classList.remove('is-expanded');
-    const header = item.querySelector('.service-stack-header');
-    const icon = item.querySelector('.service-stack-toggle-icon');
-    if (header) header.setAttribute('aria-expanded', 'false');
-    if (icon) icon.textContent = '+';
-
+    // 4. Refresh ScrollTrigger after transition finishes
     if (typeof window.ScrollTrigger !== 'undefined') {
       setTimeout(() => {
         window.ScrollTrigger.refresh();
-      }, 620);
+      }, 720);
     }
   }
 
   function toggleItem(targetId) {
     if (targetId === activeId) {
-      closeItem(targetId);
-    } else {
-      openItem(targetId);
+      // Keep open: always maintain an active open service for the user
+      return;
     }
+    openItem(targetId);
   }
 
   items.forEach((item) => {
