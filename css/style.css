@@ -4588,7 +4588,8 @@ button, input, textarea, select {
   position: relative;
   overflow: hidden;
   padding: 7rem 0 5rem;
-  background: #080808;
+  background: var(--bg-primary);
+  transition: background var(--transition-normal);
 }
 
 /* Oversized background outline "ETERNAL" text */
@@ -4638,13 +4639,13 @@ button, input, textarea, select {
   font-weight: 900;
   line-height: 1.0;
   letter-spacing: -0.02em;
-  color: #f1f1f1;
+  color: var(--text-primary);
   margin: 0 0 1.5rem;
 }
 
 .contact-subtext {
   font-size: 1rem;
-  color: rgba(241, 241, 241, 0.6);
+  color: var(--text-secondary);
   max-width: 520px;
   line-height: 1.7;
   margin: 0;
@@ -4663,7 +4664,7 @@ button, input, textarea, select {
 .contact-locations-heading {
   font-size: 0.7rem;
   letter-spacing: 0.18em;
-  color: rgba(241, 241, 241, 0.4);
+  color: var(--text-muted);
   font-family: var(--font-mono, monospace);
   margin-bottom: 2rem;
   text-transform: uppercase;
@@ -4671,7 +4672,7 @@ button, input, textarea, select {
 
 .contact-loc-card {
   padding: 1.5rem 0;
-  border-top: 1px solid rgba(241, 241, 241, 0.07);
+  border-top: 1px solid var(--border-color);
   display: grid;
   grid-template-columns: 2rem 1fr;
   gap: 0 1.25rem;
@@ -4703,7 +4704,7 @@ button, input, textarea, select {
   font-size: 0.8rem;
   letter-spacing: 0.1em;
   font-weight: 700;
-  color: #f1f1f1;
+  color: var(--text-primary);
   margin: 0 0 0.4rem;
   transition: color 0.3s;
   text-transform: uppercase;
@@ -4712,7 +4713,7 @@ button, input, textarea, select {
 .loc-addr {
   font-style: normal;
   font-size: 0.85rem;
-  color: rgba(241, 241, 241, 0.5);
+  color: var(--text-secondary);
   line-height: 1.65;
   margin: 0;
 }
@@ -4721,41 +4722,42 @@ button, input, textarea, select {
 .contact-reach {
   margin-top: 2.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(241, 241, 241, 0.07);
+  border-top: 1px solid var(--border-color);
 }
 
 .contact-reach p {
   font-size: 0.8rem;
-  color: rgba(241, 241, 241, 0.45);
+  color: var(--text-secondary);
   line-height: 2;
   margin: 0;
   font-family: var(--font-mono, monospace);
 }
 
 .contact-reach strong {
-  color: rgba(241, 241, 241, 0.7);
+  color: var(--text-primary);
 }
 
 /* ── Form panel ──────────────────────────────── */
 .contact-form-panel {
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: clamp(1.75rem, 4vw, 2.75rem);
+  transition: background var(--transition-normal), border-color var(--transition-normal);
 }
 
 .contact-form-title {
   font-size: 1rem;
   letter-spacing: 0.14em;
   font-weight: 700;
-  color: #f1f1f1;
+  color: var(--text-primary);
   margin: 0 0 0.5rem;
   text-transform: uppercase;
 }
 
 .contact-form-subtext {
   font-size: 0.85rem;
-  color: rgba(241, 241, 241, 0.45);
+  color: var(--text-secondary);
   margin: 0 0 2rem;
   line-height: 1.65;
 }
@@ -4777,7 +4779,7 @@ button, input, textarea, select {
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(241, 241, 241, 0.5);
+  color: var(--text-secondary);
   margin-bottom: 0.45rem;
   font-weight: 600;
 }
@@ -4786,22 +4788,21 @@ button, input, textarea, select {
 .form-group select,
 .form-group textarea {
   width: 100%;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 0.7rem 0.9rem;
-  color: #f1f1f1;
+  color: var(--text-primary);
   font-size: 0.875rem;
   font-family: inherit;
   transition: border-color 0.2s, background 0.2s;
   outline: none;
   box-sizing: border-box;
-  color-scheme: dark;
 }
 
 .form-group select option {
-  background: #1a1a1a;
-  color: #f1f1f1;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 .form-group input:focus,

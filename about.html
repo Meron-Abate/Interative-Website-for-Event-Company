@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Immediately set dark theme to prevent flash of light mode -->
+  <script>
+    (function(){
+      var saved = localStorage.getItem('eternal-theme-preference');
+      if (saved === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
   <meta charset="UTF-8">
   <meta http-equiv="refresh" content="0; url=/#about">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,4 +21,5 @@
   <p>Redirecting to <a href="/#about" style="color: #EC6430;">About Us</a>...</p>
 </body>
 </html>
+
 

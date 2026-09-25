@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Immediately set dark theme to prevent flash of light mode -->
+  <script>
+    (function(){
+      var saved = localStorage.getItem('eternal-theme-preference');
+      if (saved === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Selected Works & Case Studies — ETERNAL Studio</title>
@@ -14,4 +23,5 @@
   <p>Redirecting to <a href="/work/" style="color: #EC6430; text-decoration: none;">Selected Works (/work/)</a>...</p>
 </body>
 </html>
+
 
