@@ -61,6 +61,10 @@ export function initFooterParticles() {
 
   const mouse = { x: -9999, y: -9999, prevX: -9999, prevY: -9999, vx: 0, vy: 0, radius: 95, isActive: false };
 
+  function isLightModeActive() {
+    return document.documentElement.getAttribute('data-theme') === 'light';
+  }
+
   class Particle {
     constructor(originX, originY, radius, isOrange) {
       this.originX = originX;
@@ -71,12 +75,13 @@ export function initFooterParticles() {
       this.vy = (Math.random() - 0.5) * 2;
       this.radius = radius;
       this.isOrange = isOrange;
-      this.color = isOrange ? '#EC6430' : 'rgba(255, 255, 255, 0.8)';
+      const isLight = isLightModeActive();
+      this.color = isOrange ? '#EC6430' : (isLight ? '#EC6430' : 'rgba(255, 255, 255, 0.85)');
       this.friction = 0.82;
       this.springFactor = 0.08;
     }
     update(isLightMode) {
-      this.color = this.isOrange ? '#EC6430' : (isLightMode ? '#EC6430' : 'rgba(255, 255, 255, 0.8)');
+      this.color = this.isOrange ? '#EC6430' : (isLightMode ? '#EC6430' : 'rgba(255, 255, 255, 0.85)');
       let dx = mouse.x - this.x;
       let dy = mouse.y - this.y;
       let dist = Math.hypot(dx, dy);
@@ -118,9 +123,9 @@ export function initFooterParticles() {
 
   function drawFrame() {
     ctx.clearRect(0, 0, width, height);
-    const isLightMode = document.body.classList.contains('light-mode');
+    const isLightMode = isLightModeActive();
     for (let i = 0; i < particles.length; i++) {
-      particles[i].draw(ctx, isLightMode);
+      particles[i].draw(ctx);
     }
   }
 
@@ -266,7 +271,7 @@ export function initFooterParticles() {
       animationFrameId = null;
       return;
     }
-    const isLightMode = document.body.classList.contains('light-mode');
+    const isLightMode = isLightModeActive();
     let isMoving = false;
 
     ctx.clearRect(0, 0, width, height);
@@ -313,6 +318,16 @@ export function initFooterParticles() {
   canvas.addEventListener('touchstart', (e) => { mouse.isActive = true; getMousePos(e); startAnimation(); }, { passive: true });
   canvas.addEventListener('touchmove', (e) => { mouse.isActive = true; getMousePos(e); startAnimation(); }, { passive: true });
   canvas.addEventListener('touchend', () => { mouse.isActive = false; mouse.x = -9999; mouse.y = -9999; });
+
+  // Listen to live theme changes (dark/light switch)
+  window.addEventListener('themechange', (e) => {
+    const isLightMode = e.detail?.theme === 'light' || isLightModeActive();
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].color = particles[i].isOrange ? '#EC6430' : (isLightMode ? '#EC6430' : 'rgba(255, 255, 255, 0.85)');
+    }
+    drawFrame();
+    startAnimation();
+  });
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {

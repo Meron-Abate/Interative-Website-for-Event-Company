@@ -8,18 +8,9 @@ const STORAGE_KEY = 'eternal-theme-preference';
 export function initTheme() {
   const toggleBtn = document.querySelector('[data-theme-toggle]');
   
-  // Determine initial theme:
-  // 1. Saved preference in localStorage
-  // 2. System preference
-  // 3. Default to 'dark'
+  // Default to 'dark' (black theme) as requested
   const savedTheme = localStorage.getItem(STORAGE_KEY);
-  let currentTheme = 'dark';
-
-  if (savedTheme === 'light' || savedTheme === 'dark') {
-    currentTheme = savedTheme;
-  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-    currentTheme = 'light';
-  }
+  let currentTheme = savedTheme === 'light' ? 'light' : 'dark';
 
   applyTheme(currentTheme);
 
@@ -28,15 +19,6 @@ export function initTheme() {
       const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
       applyTheme(newTheme);
       localStorage.setItem(STORAGE_KEY, newTheme);
-    });
-  }
-
-  // Listen for system changes if user hasn't set an explicit preference
-  if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
-      if (!localStorage.getItem(STORAGE_KEY)) {
-        applyTheme(e.matches ? 'light' : 'dark');
-      }
     });
   }
 }
