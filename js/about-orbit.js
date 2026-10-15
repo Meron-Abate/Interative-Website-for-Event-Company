@@ -1,27 +1,14 @@
 /**
- * ETERNAL STUDIO — ABOUT ORBIT
- * The portal particles from the opening screen, continued inside the About section.
- * Scattered dust gathers into an orbiting ring around the statement as the words
- * illuminate (driven by the About ScrollTrigger progress). The cursor parts the field.
+ * ETERNAL STUDIO — ABOUT UNIVERSE
+ * A large orbital "universe circle" behind the About statement (replaces the old
+ * particle field). Driven by the About ScrollTrigger progress: the orbits draw in,
+ * the circle grows and tilts as the words illuminate, and the cursor adds parallax.
  */
 
-const TAU = Math.PI * 2;
+import { createUniverse, UNIVERSE_PALETTES } from './universe.js';
+
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const smooth = (t) => t * t * (3 - 2 * t);
-
-// Same brand palette as the portal, tuned for each theme's background
-const TONES = {
-  dark: [
-    { color: '#ffffff', weight: 0.52 },
-    { color: '#ffd9c4', weight: 0.2 },
-    { color: '#ED632E', weight: 0.28 }
-  ],
-  light: [
-    { color: '#1a1a1a', weight: 0.5 },
-    { color: '#8a4a2c', weight: 0.2 },
-    { color: '#ED632E', weight: 0.3 }
-  ]
-};
 
 export function initAboutOrbit(pin) {
   if (!pin) return null;
@@ -39,26 +26,22 @@ export function initAboutOrbit(pin) {
   }
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const narrow = () => window.innerWidth < 768;
+  let universe = createUniverse({ starCount: narrow() ? 70 : 140, dustScale: narrow() ? 0.6 : 1 });
 
   let w = 0;
   let h = 0;
   let cx = 0;
   let cy = 0;
-  let rx = 0;
-  let ry = 0;
-  let tilt = 0;
-  let safe = { x0: 0, y0: 0, x1: 0, y1: 0 };
-  let particles = [];
+  let baseR = 0;
+  let safe = null;
   let progress = 0;
-  let shownProgress = 0;
-  let pointer = { x: -9999, y: -9999, active: false };
+  let shown = 0;
+  let pointer = { x: 0, y: 0 };
+  let pointerShown = { x: 0, y: 0 };
   let rafId = null;
   let visible = false;
   let last = 0;
-
-  function gauss() {
-    return Math.sqrt(-2 * Math.log(Math.random() || 1e-6)) * Math.cos(TAU * Math.random());
-  }
 
   function measure() {
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -72,127 +55,68 @@ export function initAboutOrbit(pin) {
     const t = textBlock ? textBlock.getBoundingClientRect() : rect;
     cx = t.left - rect.left + t.width / 2;
     cy = t.top - rect.top + t.height / 2;
-    rx = Math.min(w * 0.46, Math.max(t.width * 0.56, Math.min(w * 0.42, 700)));
-    ry = Math.min(h * 0.46, Math.max(t.height * 0.65, h * 0.36));
-    tilt = w > 768 ? -0.12 : 0;
-    // Particles passing behind the copy are dimmed to keep it legible
+    baseR = w < 768
+      ? Math.min(w * 0.62, h * 0.42)
+      : Math.min(w * 0.46, Math.max(t.width * 0.62, h * 0.5));
+    // Points passing behind the copy are dimmed so the statement stays crisp
     safe = {
-      x0: t.left - rect.left - 12,
-      y0: t.top - rect.top - 12,
-      x1: t.right - rect.left + 12,
-      y1: t.bottom - rect.top + 12
+      x0: t.left - rect.left - 10,
+      y0: t.top - rect.top - 10,
+      x1: t.right - rect.left + 10,
+      y1: t.bottom - rect.top + 10
     };
-  }
-
-  function seed() {
-    const count = Math.round(Math.min(1100, (w * h) / (w < 768 ? 820 : 1150)));
-    const theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-    particles = [];
-    TONES[theme].forEach((tone, toneIndex) => {
-      const n = Math.round(count * tone.weight);
-      for (let i = 0; i < n; i += 1) {
-        particles.push({
-          tone: toneIndex,
-          theta: Math.random() * TAU,
-          band: gauss() * 0.075,
-          omega: 0.05 + Math.random() * 0.09,
-          sx: Math.random() * w,
-          sy: Math.random() * h,
-          vx: (Math.random() - 0.5) * 9,
-          vy: (Math.random() - 0.5) * 9,
-          delay: Math.random(),
-          size: 0.8 + Math.random() * 1.8,
-          alpha: 0.35 + Math.random() * 0.6,
-          ox: 0,
-          oy: 0
-        });
-      }
-    });
   }
 
   function draw(dt) {
     const theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-    const palette = TONES[theme];
-    const p = shownProgress;
-    const ignite = clamp01((p - 0.82) / 0.18);
+    const p = shown;
+    const reveal = smooth(clamp01(0.15 + p / 0.75));
+    const mobile = w < 768;
 
+    universe.update(dt * (1 + p * 0.8));
     ctx.clearRect(0, 0, w, h);
 
-    // Warm ember glow behind the statement, growing as the words light up
-    const glowR = Math.max(rx, ry) * 1.15;
-    const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, glowR);
-    const glowA = (theme === 'light' ? 0.05 : 0.06) + p * 0.08 + ignite * 0.05;
-    glow.addColorStop(0, `rgba(237, 99, 46, ${glowA})`);
-    glow.addColorStop(0.55, `rgba(237, 99, 46, ${glowA * 0.35})`);
-    glow.addColorStop(1, 'rgba(237, 99, 46, 0)');
-    ctx.fillStyle = glow;
-    ctx.fillRect(0, 0, w, h);
+    pointerShown.x += (pointer.x - pointerShown.x) * Math.min(1, dt * 3);
+    pointerShown.y += (pointer.y - pointerShown.y) * Math.min(1, dt * 3);
 
-    const cosT = Math.cos(tilt);
-    const sinT = Math.sin(tilt);
-    const spin = 1 + p * 1.6 + ignite * 1.5;
-    const pointerR = w < 768 ? 90 : 140;
-    let currentTone = -1;
+    universe.draw(ctx, {
+      cx: cx + pointerShown.x * 18,
+      cy: cy + pointerShown.y * 12,
+      R: baseR * (0.82 + p * 0.24),
+      tilt: (mobile ? 0.62 : 1.2) - p * 0.2 + pointerShown.y * 0.08,
+      rot: -0.18 + p * 0.35 + pointerShown.x * 0.1,
+      palette: UNIVERSE_PALETTES[theme],
+      alpha: theme === 'light' ? 0.85 : 1,
+      reveal,
+      coreAlpha: (theme === 'light' ? 0.12 : 0.22) + p * 0.2,
+      safe,
+      starAlpha: theme === 'light' ? 0.7 : 1
+    });
 
-    for (let i = 0; i < particles.length; i += 1) {
-      const q = particles[i];
-
-      // Free-floating dust
-      q.sx += q.vx * dt;
-      q.sy += q.vy * dt;
-      if (q.sx < -10) q.sx = w + 10; else if (q.sx > w + 10) q.sx = -10;
-      if (q.sy < -10) q.sy = h + 10; else if (q.sy > h + 10) q.sy = -10;
-
-      // Orbit position on the tilted ellipse
-      q.theta += q.omega * spin * dt;
-      const k = 1 + q.band + ignite * Math.sin(q.theta * 3 + q.delay * TAU) * 0.02;
-      const ex = Math.cos(q.theta) * rx * k;
-      const ey = Math.sin(q.theta) * ry * k;
-      const ox = cx + ex * cosT - ey * sinT;
-      const oy = cy + ex * sinT + ey * cosT;
-
-      // Staggered gathering from dust to ring as the section progresses
-      const m = smooth(clamp01((p - q.delay * 0.35) / 0.55));
-      let x = q.sx + (ox - q.sx) * m;
-      let y = q.sy + (oy - q.sy) * m;
-
-      // Cursor parts the field
-      let tx = 0;
-      let ty = 0;
-      if (pointer.active) {
-        const dx = x - pointer.x;
-        const dy = y - pointer.y;
-        const d2 = dx * dx + dy * dy;
-        if (d2 < pointerR * pointerR) {
-          const d = Math.sqrt(d2) || 1;
-          const push = (1 - d / pointerR) * 36;
-          tx = (dx / d) * push;
-          ty = (dy / d) * push;
-        }
-      }
-      q.ox += (tx - q.ox) * Math.min(1, dt * 8);
-      q.oy += (ty - q.oy) * Math.min(1, dt * 8);
-      x += q.ox;
-      y += q.oy;
-
-      let a = q.alpha * (0.3 + 0.7 * m) * (1 + ignite * 0.35);
-      if (x > safe.x0 && x < safe.x1 && y > safe.y0 && y < safe.y1) a *= 0.22;
-      if (a < 0.02) continue;
-
-      if (q.tone !== currentTone) {
-        currentTone = q.tone;
-        ctx.fillStyle = palette[currentTone].color;
-      }
-      ctx.globalAlpha = Math.min(1, a);
-      ctx.fillRect(x - q.size / 2, y - q.size / 2, q.size, q.size);
+    // Softly fade the orbits behind the statement so the copy stays easy to read
+    if (safe) {
+      const rx = (safe.x1 - safe.x0) / 2;
+      const ry = (safe.y1 - safe.y0) / 2;
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.translate((safe.x0 + safe.x1) / 2, (safe.y0 + safe.y1) / 2);
+      ctx.scale(1, ry / rx);
+      const fade = ctx.createRadialGradient(0, 0, 0, 0, 0, rx * 1.08);
+      fade.addColorStop(0, 'rgba(0, 0, 0, 0.6)');
+      fade.addColorStop(0.72, 'rgba(0, 0, 0, 0.5)');
+      fade.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = fade;
+      ctx.beginPath();
+      ctx.arc(0, 0, rx * 1.08, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
     }
-    ctx.globalAlpha = 1;
   }
 
   function frame(now) {
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
-    shownProgress += (progress - shownProgress) * Math.min(1, dt * 5);
+    shown += (progress - shown) * Math.min(1, dt * 4);
     draw(dt);
     rafId = visible ? requestAnimationFrame(frame) : null;
   }
@@ -204,27 +128,25 @@ export function initAboutOrbit(pin) {
   }
 
   function renderStatic() {
-    shownProgress = progress;
+    shown = progress;
     draw(0);
   }
 
-  function rebuild() {
-    measure();
-    seed();
-    if (prefersReducedMotion) renderStatic();
-  }
-
-  rebuild();
+  measure();
+  if (prefersReducedMotion) renderStatic();
 
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(rebuild, 200);
+    resizeTimer = setTimeout(() => {
+      universe = createUniverse({ starCount: narrow() ? 70 : 140, dustScale: narrow() ? 0.6 : 1 });
+      measure();
+      if (prefersReducedMotion) renderStatic();
+    }, 200);
   }, { passive: true });
 
-  // Re-tint when the theme toggles
+  // Repaint immediately when the theme changes (reduced-motion has no loop)
   new MutationObserver(() => {
-    seed();
     if (prefersReducedMotion) renderStatic();
   }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
@@ -237,12 +159,16 @@ export function initAboutOrbit(pin) {
     }
   }).observe(pin);
 
+  // Gentle cursor parallax
   pin.addEventListener('pointermove', (e) => {
     const rect = canvas.getBoundingClientRect();
-    pointer = { x: e.clientX - rect.left, y: e.clientY - rect.top, active: true };
+    pointer = {
+      x: ((e.clientX - rect.left) / rect.width - 0.5) * 2,
+      y: ((e.clientY - rect.top) / rect.height - 0.5) * 2
+    };
   }, { passive: true });
   pin.addEventListener('pointerleave', () => {
-    pointer.active = false;
+    pointer = { x: 0, y: 0 };
   });
 
   return {

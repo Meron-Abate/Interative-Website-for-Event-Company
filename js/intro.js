@@ -8,6 +8,17 @@
  */
 
 import { getLenis } from './smooth-scroll.js';
+import { createUniverse, UNIVERSE_PALETTES } from './universe.js';
+
+// Orbits around the portal, as fractions of the universe radius (3.2 × the hole)
+const INTRO_RINGS = [
+  { r: 0.38, width: 1.2, tone: 'warm', alpha: 0.75, speed: 0.3, dash: null, dust: 50, comets: 1 },
+  { r: 0.5, width: 1.6, tone: 'line', alpha: 0.9, speed: -0.2, dash: [2, 8], dust: 80, comets: 1 },
+  { r: 0.63, width: 1, tone: 'accent', alpha: 0.55, speed: 0.13, dash: null, dust: 90, comets: 1 },
+  { r: 0.77, width: 1.3, tone: 'line', alpha: 0.45, speed: -0.09, dash: [26, 12, 2, 12], dust: 110, comets: 1 },
+  { r: 0.9, width: 0.9, tone: 'warm', alpha: 0.35, speed: 0.06, dash: [1, 10], dust: 130, comets: 0 },
+  { r: 1, width: 1, tone: 'accent', alpha: 0.35, speed: -0.04, dash: null, dust: 120, comets: 1 }
+];
 
 export const INTRO_COMPLETE_EVENT = 'eternal:intro-complete';
 
@@ -51,10 +62,14 @@ export function initIntro() {
   const scene = !prefersReducedMotion && !isLowPower() ? createPortalScene(canvas) : null;
   intro.classList.toggle('is-lite', !scene);
 
-  // The stage-build sequence (three.js) loads during the counter on capable devices
-  const buildModule = scene && buildCanvas && buildHud
-    ? import('./build-stage.js').catch(() => null)
-    : null;
+  // The stage-build sequence (three.js) is fetched once the counter has finished, so it
+  // never competes with the first paint; it is ready long before the portal can be clicked
+  const canBuild = !!(scene && buildCanvas && buildHud);
+  let buildModule = null;
+  const loadBuildModule = () => {
+    if (canBuild && !buildModule) buildModule = import('./build-stage.js').catch(() => null);
+    return buildModule;
+  };
   let buildPromise = null;
   let stage = null;
   let isBuilding = false;
@@ -62,8 +77,8 @@ export function initIntro() {
 
   function prepareBuild() {
     if (!buildPromise) {
-      buildPromise = buildModule
-        ? buildModule.then((mod) => {
+      buildPromise = loadBuildModule()
+        ? loadBuildModule().then((mod) => {
           if (!mod) return null;
           try {
             stage = mod.createBuildStage({
@@ -103,6 +118,7 @@ export function initIntro() {
 
   // --- Sequence: count → letters → portal → ready ---
   function onCounted() {
+    loadBuildModule();
     setCount(COUNT_TARGET);
     intro.classList.add('is-counted');
     const lettersDone = prefersReducedMotion ? 0 : (letterCount - 1) * LETTER_STAGGER + LETTER_DURATION;
@@ -119,8 +135,11 @@ export function initIntro() {
     isReady = true;
     intro.classList.add('is-ready');
     if (portalBtn) portalBtn.disabled = false;
+    // Start buffering the hero video (it plays on the LED wall during the build)
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo) heroVideo.preload = 'auto';
     // Build the 3D scene while the visitor looks at the portal
-    if (buildModule) setTimeout(prepareBuild, 150);
+    if (canBuild) setTimeout(prepareBuild, 150);
   }
 
   if (prefersReducedMotion) {
@@ -145,7 +164,7 @@ export function initIntro() {
 
     if (scene) {
       scene.dive(DIVE_DURATION, TUNNEL_DURATION);
-      if (buildModule) {
+      if (canBuild) {
         // Fall through the portal into the darkness of the venue, then start building
         setTimeout(startBuild, DIVE_DURATION * 0.9);
         return;
@@ -268,19 +287,16 @@ function portalRadius(w, h) {
 }
 
 /**
- * Canvas scene: orange field, gravity-well halo, orbiting particles and the dark hole.
+ * Canvas scene: orange field, gravity-well halo, an orbital universe and the dark hole.
  * The dive zooms the camera into the hole with a spin, then runs a warp-star tunnel.
  */
 function createPortalScene(canvas) {
   const ctx = canvas.getContext('2d', { alpha: false });
   const BG = '#ED632E';
   const HOLE = '#080808';
-  // Brand-derived particle tones: white, warm peach, deep ember
-  const TONES = [
-    { color: '#ffffff', weight: 0.6 },
-    { color: '#ffd9c4', weight: 0.26 },
-    { color: '#3a1206', weight: 0.14 }
-  ];
+  const narrow = window.innerWidth < 700;
+  // A tilted orbital system around the portal (same language as the About universe)
+  const universe = createUniverse({ rings: INTRO_RINGS, starCount: narrow ? 90 : 170, dustScale: narrow ? 0.6 : 1 });
 
   let w = 0;
   let h = 0;
@@ -289,11 +305,10 @@ function createPortalScene(canvas) {
   let baseR = 0;
   let maxR = 0;
   let coverZoom = 1;
-  let particles = [];
   let stars = [];
   let rafId = null;
   let last = 0;
-  let slowFrames = 0;
+  const pointer = { x: 0, y: 0, sx: 0, sy: 0 };
 
   const state = {
     mode: 'idle',
@@ -318,46 +333,13 @@ function createPortalScene(canvas) {
     baseR = portalRadius(w, h);
     maxR = Math.hypot(w, h) / 2 + 30;
     coverZoom = (maxR / (baseR * 0.82)) * 1.15;
-    seed();
   }
 
-  function gauss() {
-    return Math.sqrt(-2 * Math.log(Math.random() || 1e-6)) * Math.cos(TAU * Math.random());
+  function onPointer(e) {
+    pointer.x = (e.clientX / w - 0.5) * 2;
+    pointer.y = (e.clientY / h - 0.5) * 2;
   }
-
-  function placeParticle(p, initial) {
-    if (p.ring) {
-      p.r = baseR * (1.03 + Math.abs(gauss()) * 0.42);
-      if (!initial) p.r += baseR * 0.4;
-    } else {
-      p.r = initial
-        ? baseR * 1.1 + Math.sqrt(Math.random()) * (maxR - baseR * 1.1)
-        : maxR * (0.88 + Math.random() * 0.12);
-    }
-    p.a = Math.random() * TAU;
-  }
-
-  function seed() {
-    const density = w < 700 ? 340 : 400;
-    const count = Math.round(Math.min(3400, (w * h) / density));
-    particles = [];
-    TONES.forEach((tone) => {
-      const n = Math.round(count * tone.weight);
-      for (let i = 0; i < n; i += 1) {
-        const p = {
-          color: tone.color,
-          ring: Math.random() < 0.58,
-          size: 0.9 + Math.random() * (tone.color === '#3a1206' ? 2.4 : 2),
-          alpha: 0.45 + Math.random() * 0.55,
-          drift: 0.25 + Math.random() * 0.75,
-          px: null,
-          py: null
-        };
-        placeParticle(p, true);
-        particles.push(p);
-      }
-    });
-  }
+  window.addEventListener('pointermove', onPointer, { passive: true });
 
   function seedStars() {
     const n = w < 700 ? 140 : 280;
@@ -373,20 +355,11 @@ function createPortalScene(canvas) {
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
 
-    // Adaptive quality: thin the particle field if frames keep running slow
-    if (dt > 0.034) {
-      slowFrames += 1;
-      if (slowFrames > 40 && particles.length > 400) {
-        particles = particles.filter((_, i) => i % 3 !== 0);
-        slowFrames = 0;
-      }
-    } else {
-      slowFrames = Math.max(0, slowFrames - 1);
-    }
-
     const t = now / 1000;
     const open = easeOutCubic(clamp01((now - state.openStart) / state.openDur));
     state.hover += (state.hoverTarget - state.hover) * Math.min(1, dt * 6);
+    pointer.sx += (pointer.x - pointer.sx) * Math.min(1, dt * 2.5);
+    pointer.sy += (pointer.y - pointer.sy) * Math.min(1, dt * 2.5);
 
     let zoom = 1;
     let spin = 0;
@@ -401,6 +374,7 @@ function createPortalScene(canvas) {
       spin = fall * 1.2;
     }
     const speed = 1 + state.hover * 1.6 + diveP * 6;
+    universe.update(dt * speed);
 
     ctx.fillStyle = BG;
     ctx.fillRect(0, 0, w, h);
@@ -418,57 +392,20 @@ function createPortalScene(canvas) {
       ctx.fillRect(0, 0, w, h);
     }
 
-    // Orbiting particles (Keplerian: faster near the hole, slowly spiralling in)
-    const fieldAlpha = open * (1 - tunnelP);
-    if (fieldAlpha > 0.01) {
-      // While diving, particles become motion streaks
-      const streaks = diveP > 0.04;
-      let currentColor = null;
-      if (streaks) ctx.lineWidth = 1.5;
-      for (let i = 0; i < particles.length; i += 1) {
-        const p = particles[i];
-        const omega = (0.05 + 0.6 * Math.pow(baseR / p.r, 1.5)) * speed;
-        p.a += omega * dt;
-        p.r -= p.drift * 9 * (baseR / p.r) * speed * dt;
-        if (p.r < baseR * 0.97) {
-          placeParticle(p, false);
-          p.px = null;
-        }
-
-        const rr = p.r * (1 + (1 - open) * 0.7) * zoom;
-        const ang = p.a + spin;
-        const x = cx + Math.cos(ang) * rr;
-        const y = cy + Math.sin(ang) * rr;
-        if (x < -30 || x > w + 30 || y < -30 || y > h + 30) {
-          p.px = null;
-          continue;
-        }
-
-        if (streaks) {
-          if (p.color !== currentColor) {
-            currentColor = p.color;
-            ctx.strokeStyle = currentColor;
-          }
-          if (p.px !== null) {
-            ctx.globalAlpha = p.alpha * fieldAlpha;
-            ctx.beginPath();
-            ctx.moveTo(p.px, p.py);
-            ctx.lineTo(x, y);
-            ctx.stroke();
-          }
-        } else {
-          if (p.color !== currentColor) {
-            currentColor = p.color;
-            ctx.fillStyle = currentColor;
-          }
-          ctx.globalAlpha = p.alpha * fieldAlpha;
-          ctx.fillRect(x - p.size / 2, y - p.size / 2, p.size, p.size);
-        }
-        p.px = x;
-        p.py = y;
-      }
-      ctx.globalAlpha = 1;
-    }
+    // The universe: stars and the far halves of the orbits sit behind the hole,
+    // the near halves cross in front of it (drawn after the hole below)
+    const universeView = {
+      cx: cx + pointer.sx * 14 * (1 - diveP),
+      cy: cy + pointer.sy * 10 * (1 - diveP),
+      R: R * 3.2,
+      tilt: 1.05 + pointer.sy * 0.1 - diveP * 0.5,
+      rot: -0.22 + pointer.sx * 0.12 + spin,
+      palette: UNIVERSE_PALETTES.orange,
+      alpha: open * (1 - tunnelP),
+      reveal: open,
+      starAlpha: 0.9
+    };
+    universe.draw(ctx, universeView, 'back');
 
     // The hole: solid core with a soft, fuzzy edge
     if (R > 0.5) {
@@ -483,6 +420,8 @@ function createPortalScene(canvas) {
       ctx.arc(cx, cy, edge, 0, TAU);
       ctx.fill();
     }
+
+    universe.draw(ctx, universeView, 'front');
 
     // Warp tunnel: stars rushing past the camera inside the darkness
     if (tunnelP > 0 && stars.length) {
@@ -546,8 +485,8 @@ function createPortalScene(canvas) {
     destroy() {
       if (rafId !== null) cancelAnimationFrame(rafId);
       rafId = null;
-      particles = [];
       stars = [];
+      window.removeEventListener('pointermove', onPointer);
     }
   };
 }

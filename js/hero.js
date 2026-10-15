@@ -25,7 +25,8 @@ export function initHero() {
   const canvas = heroContainer.querySelector('.hero-ambient-canvas');
 
   // Ambient canvas fallback (used if slideshow somehow fails)
-  if (canvas) initAmbientCanvas(canvas);
+  // The slideshow/video sit on top of this canvas; it only needs to animate when they're absent
+  if (canvas) initAmbientCanvas(canvas, !heroContainer.querySelector('.hero-slide'));
 
   // Authentic Production Media Slideshow Rotator — fallback when the hero video can't play
   const heroSlides = heroContainer.querySelectorAll('.hero-slide');
@@ -429,14 +430,17 @@ export function initHero() {
  * Ambient Atmospheric Particle Canvas
  * Provides a rich, subtle, organic light field that feels like moving cinematic smoke and embers
  */
-function initAmbientCanvas(canvas) {
+function initAmbientCanvas(canvas, isVisibleLayer) {
   const ctx = canvas.getContext('2d');
-  let animationId;
+  let animationId = null;
+  let onScreen = false;
+  let ready = false;
   let width, height;
 
   function resize() {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
+    if (ready && !isVisibleLayer) drawFrame();
   }
 
   window.addEventListener('resize', resize, { passive: true });
@@ -452,7 +456,7 @@ function initAmbientCanvas(canvas) {
     alpha: Math.random() * 0.15 + 0.05
   }));
 
-  function render() {
+  function drawFrame() {
     ctx.clearRect(0, 0, width, height);
 
     particles.forEach((p) => {
@@ -475,8 +479,29 @@ function initAmbientCanvas(canvas) {
       ctx.fill();
     });
 
-    animationId = requestAnimationFrame(render);
   }
 
-  render();
+  function render() {
+    drawFrame();
+    animationId = onScreen && !document.hidden ? requestAnimationFrame(render) : null;
+  }
+
+  function start() {
+    if (animationId === null && onScreen && !document.hidden) animationId = requestAnimationFrame(render);
+  }
+
+  ready = true;
+
+  if (!isVisibleLayer) {
+    // Fully covered by the slideshow/video: paint one frame instead of a continuous loop
+    drawFrame();
+    return;
+  }
+
+  // Animate only while the hero is on screen and the tab is visible
+  new IntersectionObserver((entries) => {
+    onScreen = entries[0].isIntersecting;
+    start();
+  }).observe(canvas);
+  document.addEventListener('visibilitychange', start);
 }

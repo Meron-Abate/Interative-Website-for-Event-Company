@@ -8,10 +8,24 @@
  * centre beam.
  */
 
+import { createUniverse, UNIVERSE_PALETTES } from './universe.js';
+
 const TAU = Math.PI * 2;
+
+// A restrained orbital system around the lit portal, tying the section to the universe motif
+const EVENTS_RINGS = [
+  { r: 0.72, width: 1, tone: 'accent', alpha: 0.5, speed: 0.12, dash: [2, 9], dust: 26, comets: 1 },
+  { r: 0.88, width: 0.8, tone: 'line', alpha: 0.18, speed: -0.07, dash: null, dust: 30, comets: 0 },
+  { r: 1, width: 0.8, tone: 'warm', alpha: 0.16, speed: 0.05, dash: [18, 12, 2, 12], dust: 34, comets: 1 }
+];
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const smooth = (t) => t * t * (3 - 2 * t);
-const PARTICLE_TONES = ['#ffffff', '#ffd9c4', '#ED632E'];
+// Dust tones per theme: luminous on the dark stage, ember and charcoal on the light one
+const PARTICLE_TONES = {
+  dark: ['#ffffff', '#ffd9c4', '#ED632E'],
+  light: ['#3a2a20', '#8a4a2c', '#ED632E']
+};
+const currentTheme = () => (document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
 
 export function initEventTypes() {
   const section = document.querySelector('.events-scrolly');
@@ -24,6 +38,7 @@ export function initEventTypes() {
   const bgWord = section.querySelector('.events-bgword');
   const fill = section.querySelector('.events-progress-fill');
   const canvas = section.querySelector('.events-canvas');
+  const cosmos = section.querySelector('.events-cosmos');
   const count = visuals.length;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -53,12 +68,19 @@ export function initEventTypes() {
 
     items.forEach((item) => {
       // Shrink long single words (e.g. "International") so they never run into the portal
+      // Same result as stepping down 2px at a time, with far fewer forced layouts:
+      // jump close to the fitting size, then settle on the largest 2px step that fits.
       const title = item.querySelector('.events-title');
       title.style.fontSize = '';
-      let size = parseFloat(getComputedStyle(title).fontSize);
-      while (title.scrollWidth > title.clientWidth + 1 && size > 22) {
-        size -= 2;
-        title.style.fontSize = `${size}px`;
+      const base = parseFloat(getComputedStyle(title).fontSize);
+      const fits = () => title.scrollWidth <= title.clientWidth + 1;
+      if (!fits()) {
+        const ratio = title.clientWidth / title.scrollWidth;
+        let k = Math.max(1, Math.floor((base - base * ratio) / 2));
+        const at = (n) => { title.style.fontSize = `${base - 2 * n}px`; };
+        at(k);
+        while (!fits() && base - 2 * k > 22) at(++k);
+        while (k > 1) { at(k - 1); if (!fits()) { at(k); break; } k -= 1; }
       }
       if (mobile) {
         const titleH = item.querySelector('.events-item-title').offsetHeight;
@@ -188,14 +210,16 @@ export function initEventTypes() {
   }
 
   if (canvas) {
-    initBeamDust(canvas, section, () => layout, () => state.pos, () => smooth(state.enter));
+    initBeamDust(canvas, cosmos, section, () => layout, () => state.pos, () => smooth(state.enter));
   }
 }
 
 /** Brand-coloured dust drifting up through the centre beam; it stirs while scrolling. */
-function initBeamDust(canvas, section, getLayout, getPos, getEnter) {
+function initBeamDust(canvas, cosmos, section, getLayout, getPos, getEnter) {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
+  const cctx = cosmos ? cosmos.getContext('2d') : null;
+  const universe = createUniverse({ rings: EVENTS_RINGS, starCount: window.innerWidth < 768 ? 40 : 80 });
 
   let particles = [];
   let rafId = null;
@@ -212,9 +236,12 @@ function initBeamDust(canvas, section, getLayout, getPos, getEnter) {
     const L = getLayout();
     if (!L) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    canvas.width = Math.round(L.w * dpr);
-    canvas.height = Math.round(L.h * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    [[canvas, ctx], [cosmos, cctx]].forEach(([c, x]) => {
+      if (!c || !x) return;
+      c.width = Math.round(L.w * dpr);
+      c.height = Math.round(L.h * dpr);
+      x.setTransform(dpr, 0, 0, dpr, 0, 0);
+    });
 
     const n = L.mobile ? 110 : 200;
     particles = Array.from({ length: n }, (_, i) => ({
@@ -250,6 +277,26 @@ function initBeamDust(canvas, section, getLayout, getPos, getEnter) {
     const span = L.floor - top;
     const halfTop = (L.d * 1.35) / 2;
 
+    const theme = currentTheme();
+    const tones = PARTICLE_TONES[theme];
+
+    // Faint orbits and stars behind the centre portal; they loosen while scrolling
+    if (cctx) {
+      universe.update(dt * (1 + energy * 3));
+      cctx.clearRect(0, 0, L.w, L.h);
+      universe.draw(cctx, {
+        cx,
+        cy: L.cy,
+        R: L.d * (1.05 + (1 - settle) * 0.12),
+        tilt: 1.12,
+        rot: -0.12,
+        palette: UNIVERSE_PALETTES[theme],
+        alpha: getEnter() * (0.45 + settle * 0.55),
+        coreAlpha: 0,
+        starAlpha: 0.6
+      });
+    }
+
     ctx.clearRect(0, 0, L.w, L.h);
     if (strength > 0.01) {
       let tone = -1;
@@ -266,7 +313,7 @@ function initBeamDust(canvas, section, getLayout, getPos, getEnter) {
         const fade = Math.min(1, p.y * 8) * (1 - p.y * p.y * 0.7);
         if (p.tone !== tone) {
           tone = p.tone;
-          ctx.fillStyle = PARTICLE_TONES[tone];
+          ctx.fillStyle = tones[tone];
         }
         ctx.globalAlpha = p.alpha * fade * strength;
         ctx.fillRect(x - p.size / 2, y - p.size / 2, p.size, p.size);

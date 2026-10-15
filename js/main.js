@@ -11,8 +11,10 @@ import { initNavigation } from './navigation.js';
 import { initHero } from './hero.js';
 import { initAbout } from './about.js';
 import { initEventTypes } from './event-types.js';
+import { initServicePanels } from './services-panels.js';
 import { initServices } from './services.js';
 import { initPortfolio } from './portfolio.js';
+import { initWorkGallery } from './work-gallery.js';
 import { initFAQ } from './faq.js';
 import { initFooterParticles } from './footer-particles.js';
 import { initServiceScrolly } from './service-scrolly.js';
@@ -31,9 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initHero();
   initAbout();
   initEventTypes();
+  initServicePanels();
   initServices();
   initServiceScrolly();
   initPortfolio();
+  initWorkGallery();
   initFAQ();
   initFooterParticles();
 

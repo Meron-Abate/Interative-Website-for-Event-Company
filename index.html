@@ -28,15 +28,16 @@
   <meta property="og:url" content="https://eternalstudio.com/">
   <meta property="og:title" content="ETERNAL — Experiences That Move People">
   <meta property="og:description" content="We create moments that connect people, move brands, and stay with you. Premier international creative studio.">
-  <meta property="og:image" content="assets/images/hero/hero-poster.svg">
+  <meta property="og:image" content="https://eternalstudio.com/assets/images/hero/hero-poster.jpg">
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:title" content="ETERNAL — Experiences That Move People">
-  <meta property="twitter:description" content="International creative studio specializing in spatial architecture and cultural production.">
-  <meta property="twitter:image" content="assets/images/hero/hero-poster.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ETERNAL — Experiences That Move People">
+  <meta name="twitter:description" content="International creative studio specializing in spatial architecture and cultural production.">
+  <meta name="twitter:image" content="https://eternalstudio.com/assets/images/hero/hero-poster.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
@@ -51,7 +52,7 @@
     "@type": "Organization",
     "name": "ETERNAL Studio",
     "url": "https://eternalstudio.com",
-    "logo": "https://eternalstudio.com/assets/images/hero/hero-poster.svg",
+    "logo": "https://eternalstudio.com/assets/images/logo/eternal-footer-logo-hd.png",
     "description": "Pan-African & International Creative Agency and Experiential Production Studio.",
     "address": {
       "@type": "PostalAddress",
@@ -59,9 +60,11 @@
       "addressCountry": "Ethiopia"
     },
     "sameAs": [
-      "https://instagram.com",
-      "https://linkedin.com",
-      "https://vimeo.com"
+      "https://www.instagram.com/eternal_media_communication/",
+      "https://www.linkedin.com/company/eternal-media-and-promotion",
+      "https://www.tiktok.com/@eternal.media_comms",
+      "https://www.behance.net/Eternal_Media",
+      "https://www.youtube.com/@eternalmediaandcommunication"
     ]
   }
   </script>
@@ -80,7 +83,7 @@
       event company — where<br>
       you don't miss a thing.
     </p>
-    <button class="intro-portal" type="button" aria-label="Step inside and enter the site" disabled>
+    <button class="intro-portal" type="button" aria-label="Step inside, click to enter the site" disabled>
       <span class="intro-portal-ring" aria-hidden="true"></span>
       <span class="intro-portal-title">Step inside</span>
       <span class="intro-portal-hint">Click to enter</span>
@@ -125,8 +128,8 @@
         <span class="menu-btn-label">MENU</span>
       </button>
       <a href="/" class="brand-logo" aria-label="ETERNAL Events Home">
-        <img src="assets/images/logo/eternal-events-dark.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-dark">
-        <img src="assets/images/logo/eternal-events-light.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-light">
+        <img decoding="async" width="300" height="96" src="assets/images/logo/eternal-events-dark.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-dark">
+        <img decoding="async" width="300" height="96" src="assets/images/logo/eternal-events-light.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-light">
       </a>
 
       <nav class="desktop-nav" aria-label="Main Navigation">
@@ -181,7 +184,7 @@
             <div class="hero-slide" style="background-image: url('assets/images/hero/hero-slide-3.jpg');"></div>
           </div>
           <!-- Hero video — plays silently after the visitor enters; slideshow above is the fallback -->
-          <video class="hero-video" muted loop playsinline preload="auto" poster="assets/images/hero/hero-slide-1.jpg" aria-hidden="true" tabindex="-1">
+          <video class="hero-video" muted loop playsinline preload="metadata" poster="assets/images/hero/hero-slide-1.jpg" aria-hidden="true" tabindex="-1">
             <source src="assets/videos/hero.mp4" type="video/mp4">
           </video>
           <canvas class="hero-ambient-canvas" aria-hidden="true"></canvas>
@@ -297,6 +300,7 @@ We bring ideas to life through thoughtful design, meticulous planning and except
     <!-- EVENTS WE PRODUCE (Pinned portal scrollytelling — js/event-types.js) -->
     <section class="events-scrolly" id="event-types" aria-label="Events we produce">
       <div class="events-pin">
+        <canvas class="events-cosmos" aria-hidden="true"></canvas>
         <canvas class="events-canvas" aria-hidden="true"></canvas>
         <div class="events-bgword" aria-hidden="true">EVENTS</div>
         <p class="events-eyebrow">What we produce <span>(05)</span></p>
@@ -360,7 +364,7 @@ We bring ideas to life through thoughtful design, meticulous planning and except
           <div class="events-visual" data-index="3">
             <div class="events-portal">
               <div class="events-portal-inner">
-                <img src="assets/images/event-types/private.jpg" alt="" width="720" height="720" loading="lazy" decoding="async">
+                <img srcset="assets/images/_opt/event-types-private-480.webp 480w, assets/images/_opt/event-types-private-720.webp 720w" sizes="(max-width: 767px) 100vw, 60vw" src="assets/images/event-types/private.jpg" alt="" width="720" height="720" loading="lazy" decoding="async">
               </div>
             </div>
           </div>
@@ -412,379 +416,146 @@ We bring ideas to life through thoughtful design, meticulous planning and except
       </div>
     </section>
 
-    <!-- 02 SERVICES DETAILED BREAKDOWN (EDITORIAL SHOWCASE) -->
-    <section class="service-stack-section" id="services" aria-label="Services Detailed Breakdown">
-      <div class="container service-stack-container">
-        
-        <!-- Section Header with Centered Title -->
-        <div class="service-stack-header-center">
-          <h2 class="service-stack-main-title">HOW WE CAN HELP</h2>
-        </div>
-
-        <div class="service-stack-list">
-
-          <!-- 01. FULL-SERVICE EVENT MANAGEMENT (EXPANDED BY DEFAULT) -->
-          <article class="service-stack-item is-expanded" data-service-id="1" id="service-stack-1">
-            <div class="service-stack-header" tabindex="0" role="button" aria-expanded="true" aria-controls="service-drawer-1" data-cursor="link">
-              <div class="service-stack-header-left">
-                <span class="service-stack-num">/ 01 /</span>
-                <h3 class="service-stack-title">Full-Service Event Management</h3>
-              </div>
-              <div class="service-stack-toggle-wrap">
-                <span class="service-stack-toggle-icon" aria-hidden="true">−</span>
-              </div>
+    <!-- 02 SERVICES — vertical panels that expand on hover (js/services-panels.js) -->
+    <section class="svp-section" id="services" aria-label="Services">
+      <div class="container svp-intro">
+        <h2 class="service-stack-main-title">HOW WE CAN HELP</h2>
+      </div>
+      <div class="svp-row" data-svp>
+        <article class="svp is-active" data-index="0">
+          <button class="svp-trigger" type="button" aria-expanded="true" aria-controls="svp-body-0" id="svp-trigger-0">
+            <span class="svp-peek" aria-hidden="true"><img srcset="assets/images/_opt/projects-africa-creative-summit-still-2026-07-06-113005-1-31-1-480.webp 480w, assets/images/_opt/projects-africa-creative-summit-still-2026-07-06-113005-1-31-1-960.webp 960w, assets/images/_opt/projects-africa-creative-summit-still-2026-07-06-113005-1-31-1-1600.webp 1600w" sizes="(max-width: 767px) 64px, 22vw" decoding="async" width="1920" height="1080" src="assets/images/projects/africa-creative-summit/Still 2026-07-06 113005_1.31.1.jpg" alt="" loading="lazy" draggable="false"></span>
+            <span class="svp-label">Full-Service Event Management</span>
+            <span class="svp-explore" aria-hidden="true"><span>Explore</span><span class="svp-explore-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+          </button>
+          <div class="svp-media" aria-hidden="true"><img srcset="assets/images/_opt/projects-africa-creative-summit-still-2026-07-06-113005-1-31-1-480.webp 480w, assets/images/_opt/projects-africa-creative-summit-still-2026-07-06-113005-1-31-1-960.webp 960w, assets/images/_opt/projects-africa-creative-summit-still-2026-07-06-113005-1-31-1-1600.webp 1600w" sizes="(max-width: 767px) 100vw, 40vw" decoding="async" width="1920" height="1080" src="assets/images/projects/africa-creative-summit/Still 2026-07-06 113005_1.31.1.jpg" alt="" loading="lazy" draggable="false"></div>
+          <div class="svp-body" id="svp-body-0" role="region" aria-labelledby="svp-trigger-0">
+            <h3 class="svp-title">Full-Service Event Management</h3>
+            <p class="svp-desc">We manage the creative and operational requirements of your event, covering planning, creative direction, spatial design, branding, decor, logistics and on-site coordination. Our team delivers corporate events, conferences, exhibitions, product launches, brand activations and live productions.</p>
+            <div class="svp-caps-wrap">
+              <h4 class="svp-eyebrow">Capabilities</h4>
+              <ul class="svp-caps">
+                <li>Event Strategy &amp; Planning</li>
+                <li>Creative Direction &amp; Concept Development</li>
+                <li>Spatial Design &amp; Stage Architecture</li>
+                <li>Event Branding &amp; Decor</li>
+                <li>Conference &amp; Exhibition Management</li>
+                <li>Product Launches &amp; Brand Activations</li>
+                <li>Logistics Coordination</li>
+                <li>On-Site Event Management</li>
+                <li>Printed Materials &amp; Event Displays</li>
+              </ul>
             </div>
-
-            <div class="service-stack-drawer" id="service-drawer-1" role="region" aria-labelledby="service-stack-1">
-              <div class="service-stack-body">
-                <!-- Left: Large High-Res Image Column (~45%) -->
-                <div class="service-stack-media">
-                  <div class="service-media-frame">
-                    <img src="assets/images/projects/africa-creative-summit/Still 2026-07-06 113005_1.31.1.jpg" alt="Full-Service Event Management — 10th Session of ARFSD stage production" class="service-media-img" loading="lazy">
-                  </div>
-                </div>
-
-                <!-- Right: Editorial Narrative & Aesthetic Bulleted Capabilities Column (~45%) -->
-                <div class="service-stack-info">
-                  <p class="service-stack-desc">
-                    We manage the creative and operational requirements of your event, covering planning, creative direction, spatial design, branding, decor, logistics and on-site coordination. Our team delivers corporate events, conferences, exhibitions, product launches, brand activations and live productions.
-                  </p>
-
-                  <div class="service-stack-caps">
-                    <h4 class="service-caps-eyebrow">CAPABILITIES</h4>
-                    <ul class="service-caps-list">
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Event Strategy &amp; Planning</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Creative Direction &amp; Concept Development</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Spatial Design &amp; Stage Architecture</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Event Branding &amp; Decor</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Conference &amp; Exhibition Management</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Product Launches &amp; Brand Activations</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Logistics Coordination</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">On-Site Event Management</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Printed Materials &amp; Event Displays</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div class="service-stack-cta-wrap">
-                    <a href="#contact" class="service-stack-cta-btn" data-cursor="link">
-                      <span>INQUIRE THIS SERVICE</span>
-                      <span class="cta-arrow" aria-hidden="true">→</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
+            <a href="#contact" class="svp-cta" data-cursor="link">INQUIRE THIS SERVICE <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </article>
+        <article class="svp" data-index="1">
+          <button class="svp-trigger" type="button" aria-expanded="false" aria-controls="svp-body-1" id="svp-trigger-1">
+            <span class="svp-peek" aria-hidden="true"><img srcset="assets/images/_opt/projects-empowering-startups-in-ethiopia-screenshot-2026-07-06-115128-480.webp 480w, assets/images/_opt/projects-empowering-startups-in-ethiopia-screenshot-2026-07-06-115128-960.webp 960w, assets/images/_opt/projects-empowering-startups-in-ethiopia-screenshot-2026-07-06-115128-1329.webp 1329w" sizes="(max-width: 767px) 64px, 22vw" decoding="async" width="1329" height="739" src="assets/images/projects/Empowering Startups in Ethiopia/Screenshot 2026-07-06 115128.png" alt="" loading="lazy" draggable="false"></span>
+            <span class="svp-label">Technical Equipment &amp; Structural Setup</span>
+            <span class="svp-explore" aria-hidden="true"><span>Explore</span><span class="svp-explore-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+          </button>
+          <div class="svp-media" aria-hidden="true"><img srcset="assets/images/_opt/projects-empowering-startups-in-ethiopia-screenshot-2026-07-06-115128-480.webp 480w, assets/images/_opt/projects-empowering-startups-in-ethiopia-screenshot-2026-07-06-115128-960.webp 960w, assets/images/_opt/projects-empowering-startups-in-ethiopia-screenshot-2026-07-06-115128-1329.webp 1329w" sizes="(max-width: 767px) 100vw, 40vw" decoding="async" width="1329" height="739" src="assets/images/projects/Empowering Startups in Ethiopia/Screenshot 2026-07-06 115128.png" alt="" loading="lazy" draggable="false"></div>
+          <div class="svp-body" id="svp-body-1" role="region" aria-labelledby="svp-trigger-1">
+            <h3 class="svp-title">Technical Equipment &amp; Structural Setup</h3>
+            <p class="svp-desc">We provide technical production support for event organizers who need specialist equipment, technical expertise and on-site execution. We provide LED screens, professional sound, stage lighting, video systems, live switching, multi-camera production and live streaming, alongside staging, structural setups and custom event environments.</p>
+            <div class="svp-caps-wrap">
+              <h4 class="svp-eyebrow">Capabilities</h4>
+              <ul class="svp-caps">
+                <li>LED Screen Systems (Sub-2mm Fine Pitch)</li>
+                <li>Professional Line-Array Sound Systems</li>
+                <li>Stage &amp; Architectural Intelligent Lighting</li>
+                <li>Video &amp; Display Distribution Networks</li>
+                <li>Live Switching &amp; Vision Mixing</li>
+                <li>4K Multi-Camera Production</li>
+                <li>Live Streaming &amp; Low-Latency Broadcast</li>
+                <li>Ground-Support Stage &amp; Structural Truss Setup</li>
+                <li>Certified Technical Installation &amp; Operation</li>
+                <li>Custom Fabrication &amp; Stage Backdrops</li>
+              </ul>
             </div>
-          </article>
-
-          <!-- 02. TECHNICAL EQUIPMENT & STRUCTURAL SETUP (COLLAPSED BY DEFAULT) -->
-          <article class="service-stack-item" data-service-id="2" id="service-stack-2">
-            <div class="service-stack-header" tabindex="0" role="button" aria-expanded="false" aria-controls="service-drawer-2" data-cursor="link">
-              <div class="service-stack-header-left">
-                <span class="service-stack-num">/ 02 /</span>
-                <h3 class="service-stack-title">Technical Equipment &amp; Structural Setup</h3>
-              </div>
-              <div class="service-stack-toggle-wrap">
-                <span class="service-stack-toggle-icon" aria-hidden="true">+</span>
-              </div>
+            <a href="#contact" class="svp-cta" data-cursor="link">INQUIRE THIS SERVICE <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </article>
+        <article class="svp" data-index="2">
+          <button class="svp-trigger" type="button" aria-expanded="false" aria-controls="svp-body-2" id="svp-trigger-2">
+            <span class="svp-peek" aria-hidden="true"><img srcset="assets/images/_opt/projects-second-african-climate-summit-et-30-480.webp 480w, assets/images/_opt/projects-second-african-climate-summit-et-30-960.webp 960w, assets/images/_opt/projects-second-african-climate-summit-et-30-1600.webp 1600w" sizes="(max-width: 767px) 64px, 22vw" decoding="async" width="7929" height="5289" src="assets/images/projects/Second African Climate Summit/ET-30.jpg" alt="" loading="lazy" draggable="false"></span>
+            <span class="svp-label">Equipment Rentals (Dry Hire)</span>
+            <span class="svp-explore" aria-hidden="true"><span>Explore</span><span class="svp-explore-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+          </button>
+          <div class="svp-media" aria-hidden="true"><img srcset="assets/images/_opt/projects-second-african-climate-summit-et-30-480.webp 480w, assets/images/_opt/projects-second-african-climate-summit-et-30-960.webp 960w, assets/images/_opt/projects-second-african-climate-summit-et-30-1600.webp 1600w" sizes="(max-width: 767px) 100vw, 40vw" decoding="async" width="7929" height="5289" src="assets/images/projects/Second African Climate Summit/ET-30.jpg" alt="" loading="lazy" draggable="false"></div>
+          <div class="svp-body" id="svp-body-2" role="region" aria-labelledby="svp-trigger-2">
+            <h3 class="svp-title">Equipment Rentals (Dry Hire)</h3>
+            <p class="svp-desc">Our dry hire service is designed for companies, event managers and technical teams that already have their own crew but require professional event equipment. Our rental offering includes LED screens, sound systems, stage lighting, video equipment, staging and other event production equipment, available according to your event requirements.</p>
+            <div class="svp-caps-wrap">
+              <h4 class="svp-eyebrow">Capabilities</h4>
+              <ul class="svp-caps">
+                <li>High-Definition LED Screen Rental</li>
+                <li>Professional Audio Consoles &amp; Wireless Mics</li>
+                <li>Line-Array Speaker Systems &amp; Subwoofers</li>
+                <li>Moving Heads, Profile &amp; Wash Lighting Fixtures</li>
+                <li>4K Production Switchers &amp; Recorders</li>
+                <li>Modular Staging &amp; Ground-Support Trussing</li>
+                <li>Power Distribution &amp; Signal Management</li>
+                <li>Pre-Configured Technical Equipment Packages</li>
+                <li>Flight-Cased Preparation &amp; Warehouse Testing</li>
+                <li>Flexible Short &amp; Long-Term Dry Hire Solutions</li>
+              </ul>
             </div>
-
-            <div class="service-stack-drawer" id="service-drawer-2" role="region" aria-labelledby="service-stack-2">
-              <div class="service-stack-body">
-                <!-- Left: Large High-Res Image Column (~45%) -->
-                <div class="service-stack-media">
-                  <div class="service-media-frame">
-                    <img src="assets/images/projects/Empowering Startups in Ethiopia/Screenshot 2026-07-06 115128.png" alt="Technical Equipment, Audio, Lighting & Structural Setup — Empowering Startups in Ethiopia" class="service-media-img" loading="lazy">
-                  </div>
-                </div>
-
-                <!-- Right: Editorial Narrative & Aesthetic Bulleted Capabilities Column (~45%) -->
-                <div class="service-stack-info">
-                  <p class="service-stack-desc">
-                    We provide technical production support for event organizers who need specialist equipment, technical expertise and on-site execution. We provide LED screens, professional sound, stage lighting, video systems, live switching, multi-camera production and live streaming, alongside staging, structural setups and custom event environments.
-                  </p>
-
-                  <div class="service-stack-caps">
-                    <h4 class="service-caps-eyebrow">CAPABILITIES</h4>
-                    <ul class="service-caps-list">
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">LED Screen Systems (Sub-2mm Fine Pitch)</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Professional Line-Array Sound Systems</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Stage &amp; Architectural Intelligent Lighting</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Video &amp; Display Distribution Networks</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Live Switching &amp; Vision Mixing</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">4K Multi-Camera Production</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Live Streaming &amp; Low-Latency Broadcast</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Ground-Support Stage &amp; Structural Truss Setup</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Certified Technical Installation &amp; Operation</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Custom Fabrication &amp; Stage Backdrops</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div class="service-stack-cta-wrap">
-                    <a href="#contact" class="service-stack-cta-btn" data-cursor="link">
-                      <span>INQUIRE THIS SERVICE</span>
-                      <span class="cta-arrow" aria-hidden="true">→</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- 03. EQUIPMENT RENTALS (DRY HIRE) (COLLAPSED BY DEFAULT) -->
-          <article class="service-stack-item" data-service-id="3" id="service-stack-3">
-            <div class="service-stack-header" tabindex="0" role="button" aria-expanded="false" aria-controls="service-drawer-3" data-cursor="link">
-              <div class="service-stack-header-left">
-                <span class="service-stack-num">/ 03 /</span>
-                <h3 class="service-stack-title">Equipment Rentals (Dry Hire)</h3>
-              </div>
-              <div class="service-stack-toggle-wrap">
-                <span class="service-stack-toggle-icon" aria-hidden="true">+</span>
-              </div>
-            </div>
-
-            <div class="service-stack-drawer" id="service-drawer-3" role="region" aria-labelledby="service-stack-3">
-              <div class="service-stack-body">
-                <!-- Left: Large High-Res Image Column (~45%) -->
-                <div class="service-stack-media">
-                  <div class="service-media-frame">
-                    <img src="assets/images/projects/Second African Climate Summit/ET-30.jpg" alt="Equipment Rentals, Sound, Lighting & Staging Hardware — SDG Finance Academy" class="service-media-img" loading="lazy">
-                  </div>
-                </div>
-
-                <!-- Right: Editorial Narrative & Aesthetic Bulleted Capabilities Column (~45%) -->
-                <div class="service-stack-info">
-                  <p class="service-stack-desc">
-                    Our dry hire service is designed for companies, event managers and technical teams that already have their own crew but require professional event equipment. Our rental offering includes LED screens, sound systems, stage lighting, video equipment, staging and other event production equipment, available according to your event requirements.
-                  </p>
-
-                  <div class="service-stack-caps">
-                    <h4 class="service-caps-eyebrow">CAPABILITIES</h4>
-                    <ul class="service-caps-list">
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">High-Definition LED Screen Rental</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Professional Audio Consoles &amp; Wireless Mics</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Line-Array Speaker Systems &amp; Subwoofers</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Moving Heads, Profile &amp; Wash Lighting Fixtures</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">4K Production Switchers &amp; Recorders</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Modular Staging &amp; Ground-Support Trussing</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Power Distribution &amp; Signal Management</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Pre-Configured Technical Equipment Packages</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Flight-Cased Preparation &amp; Warehouse Testing</span>
-                      </li>
-                      <li class="service-cap-row">
-                        <span class="cap-bullet" aria-hidden="true"></span>
-                        <span class="cap-row-text">Flexible Short &amp; Long-Term Dry Hire Solutions</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div class="service-stack-cta-wrap">
-                    <a href="#contact" class="service-stack-cta-btn" data-cursor="link">
-                      <span>INQUIRE THIS SERVICE</span>
-                      <span class="cta-arrow" aria-hidden="true">→</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-
-        </div>
+            <a href="#contact" class="svp-cta" data-cursor="link">INQUIRE THIS SERVICE <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </article>
       </div>
     </section>
 
     <!-- 02.5 SERVICE ORBITAL SCROLLYTELLING (PRODUCTION LIFECYCLE) -->
 
-    <!-- PORTFOLIO SECTION (Pinned Horizontal Exhibition) -->
-    <section class="portfolio-section" id="portfolio" data-horizontal aria-label="Selected Projects">
-      <div class="portfolio-header-strip">
-        <div>
-          <h2 style="font-size: clamp(2rem, 3.5vw, 3.2rem); text-transform: uppercase;">SELECTED WORK</h2>
-        </div>
-        <a href="/work/" class="nav-link" data-cursor="link">VIEW ARCHIVE (05) →</a>
+    <!-- SELECTED WORK (Interactive portrait-card gallery — js/work-gallery.js) -->
+    <section class="portfolio-section work-gallery-section" id="portfolio" aria-labelledby="work-gallery-heading">
+      <div class="container work-gallery-intro">
+        <h2 id="work-gallery-heading" class="work-gallery-heading">SELECTED WORK</h2>
+        <a href="/work/" class="nav-link work-gallery-archive" data-cursor="link">VIEW ARCHIVE (04) →</a>
       </div>
 
-      <div class="portfolio-horizontal-wrapper" data-cursor="drag">
-        <!-- Project 01 -->
-        <article class="portfolio-card" data-cursor="view">
-          <a href="/work/10th-session-arfsd/" style="display: block;">
-            <div class="portfolio-card-media">
-              <div class="portfolio-card-action" aria-hidden="true">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-              </div>
-              <img src="assets/images/projects/africa-creative-summit/gallery-3.jpg" alt="10th Session of the Africa Regional Forum on Sustainable Development (ARFSD) at United Nations Conference Centre" loading="lazy">
-            </div>
-            <div class="portfolio-card-info">
-              <div class="portfolio-card-header">
-                <h3 class="portfolio-card-title">10th Session of ARFSD</h3>
-                <span class="portfolio-card-year">2024</span>
-              </div>
-              <p class="portfolio-card-category">Addis Ababa • UNECA Regional Forum &amp; Audiovisual Production</p>
-            </div>
-          </a>
-        </article>
+      <div class="work-gallery" data-work-gallery>
+        <span class="work-gallery-label" aria-hidden="true">Curated index</span>
+        <div class="work-gallery-stage" role="region" aria-label="Selected work">
+          <ol class="work-gallery-track">
+          <li class="work-card" data-year="2024" data-meta="Addis Ababa • UNECA Regional Forum &amp; Audiovisual Production" data-cursor="view">
+            <a class="work-card-link" href="/work/10th-session-arfsd/">
+              <span class="work-card-media"><img srcset="assets/images/_opt/projects-africa-creative-summit-gallery-3-480.webp 480w, assets/images/_opt/projects-africa-creative-summit-gallery-3-960.webp 960w, assets/images/_opt/projects-africa-creative-summit-gallery-3-1024.webp 1024w" sizes="(max-width: 640px) 46vw, 260px" decoding="async" width="1024" height="576" src="assets/images/projects/africa-creative-summit/gallery-3.jpg" alt="" draggable="false" loading="lazy"></span>
+              <span class="work-card-title">10th Session of ARFSD</span>
+            </a>
+          </li>
+          <li class="work-card" data-year="2023" data-meta="Addis Ababa • Ethiopia" data-cursor="view">
+            <a class="work-card-link" href="/work/empowering-startups-in-ethiopia/">
+              <span class="work-card-media"><img srcset="assets/images/_opt/projects-empowering-startups-in-ethiopia-image-480.webp 480w, assets/images/_opt/projects-empowering-startups-in-ethiopia-image-960.webp 960w" sizes="(max-width: 640px) 46vw, 260px" decoding="async" width="960" height="720" src="assets/images/projects/Empowering Startups in Ethiopia/image.png" alt="" draggable="false" loading="lazy"></span>
+              <span class="work-card-title">Empowering Startups in Ethiopia</span>
+            </a>
+          </li>
+          <li class="work-card" data-year="2024" data-meta="Addis International Convention Center (AICC), Addis Ababa, Ethiopia" data-cursor="view">
+            <a class="work-card-link" href="/work/sdg-finance-academy-2024/">
+              <span class="work-card-media"><img srcset="assets/images/_opt/projects-second-african-climate-summit-sdg-480.webp 480w, assets/images/_opt/projects-second-african-climate-summit-sdg-960.webp 960w, assets/images/_opt/projects-second-african-climate-summit-sdg-1200.webp 1200w" sizes="(max-width: 640px) 46vw, 260px" decoding="async" width="1200" height="675" src="assets/images/projects/Second African Climate Summit/SDG.png" alt="" draggable="false" loading="lazy"></span>
+              <span class="work-card-title">SDG Finance Academy 2024</span>
+            </a>
+          </li>
+          <li class="work-card" data-year="2023" data-meta="Addis Ababa, Ethiopia" data-cursor="view">
+            <a class="work-card-link" href="/work/amhara-bank-anniversary/">
+              <span class="work-card-media"><img srcset="assets/images/_opt/projects-amhara-bank-anniversary-event-amhara-bank-480.webp 480w, assets/images/_opt/projects-amhara-bank-anniversary-event-amhara-bank-960.webp 960w, assets/images/_opt/projects-amhara-bank-anniversary-event-amhara-bank-1200.webp 1200w" sizes="(max-width: 640px) 46vw, 260px" decoding="async" width="1200" height="774" src="assets/images/projects/Amhara Bank Anniversary Event/amhara bank.png" alt="" draggable="false" loading="lazy"></span>
+              <span class="work-card-title">Amhara Bank Anniversary Event</span>
+            </a>
+          </li>
+          <li class="work-card work-card--more" data-cursor="link">
+            <a class="work-card-link" href="/work/" aria-label="View all works in the archive">
+              <span class="work-more-badge">Curated archive</span>
+              <span class="work-more-title">More<br>works <span class="work-more-arrow" aria-hidden="true">&rarr;</span></span>
+              <span class="work-more-desc">Discover our full portfolio of cultural congresses, state summits, and architectural experiences.</span>
+              <span class="work-more-btn">View all works (04) <span aria-hidden="true">&rarr;</span></span>
+            </a>
+          </li>
+          </ol>
+        </div>
 
-        <!-- Project 02 -->
-        <article class="portfolio-card" data-cursor="view">
-          <a href="/work/empowering-startups-in-ethiopia/" style="display: block;">
-            <div class="portfolio-card-media">
-              <div class="portfolio-card-action" aria-hidden="true">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-              </div>
-              <img src="assets/images/projects/Empowering Startups in Ethiopia/image.png" alt="Empowering Startups in Ethiopia" loading="lazy">
-            </div>
-            <div class="portfolio-card-info">
-              <div class="portfolio-card-header">
-                <h3 class="portfolio-card-title">Empowering Startups in Ethiopia</h3>
-                <span class="portfolio-card-year">2023</span>
-              </div>
-              <p class="portfolio-card-category">Addis Ababa • Ethiopia</p>
-            </div>
-          </a>
-        </article>
-
-        <!-- Project 03 -->
-        <article class="portfolio-card" data-cursor="view">
-          <a href="/work/sdg-finance-academy-2024/" style="display: block;">
-            <div class="portfolio-card-media">
-              <div class="portfolio-card-action" aria-hidden="true">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-              </div>
-              <img src="assets/images/projects/Second African Climate Summit/SDG.png" alt="SDG Finance Academy 2024" loading="lazy">
-            </div>
-            <div class="portfolio-card-info">
-              <div class="portfolio-card-header">
-                <h3 class="portfolio-card-title">SDG Finance Academy 2024</h3>
-                <span class="portfolio-card-year">2024</span>
-              </div>
-              <p class="portfolio-card-category">Addis International Convention Center (AICC), Addis Ababa, Ethiopia
-</p>
-            </div>
-          </a>
-        </article>
-
-        <!-- Project 04 -->
-        <article class="portfolio-card" data-cursor="view">
-          <a href="/work/amhara-bank-anniversary/" style="display: block;">
-            <div class="portfolio-card-media">
-              <div class="portfolio-card-action" aria-hidden="true">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-              </div>
-              <img src="assets/images/projects/Amhara Bank Anniversary Event/amhara bank.png" alt="Amhara Bank Anniversary Event" loading="lazy">
-            </div>
-            <div class="portfolio-card-info">
-              <div class="portfolio-card-header">
-                <h3 class="portfolio-card-title">Amhara Bank Anniversary Event</h3>
-                <span class="portfolio-card-year">2023</span>
-              </div>
-              <p class="portfolio-card-category">Addis Ababa, Ethiopia</p>
-            </div>
-          </a>
-        </article>
-
-        <!-- Project 05 -->
-        <!-- Terminal Exhibition Card: Redirect to All Works -->
-        <article class="portfolio-card portfolio-card--more" data-cursor="link">
-          <a href="/work/" class="portfolio-more-card-inner" aria-label="View All Works in Archive">
-            <div class="portfolio-more-content">
-              <div class="portfolio-more-badge">CURATED ARCHIVE</div>
-              <h3 class="portfolio-more-title">
-                MORE<br>
-                WORKS<br>
-                <span class="accent-arrow">→</span>
-              </h3>
-              <p class="portfolio-more-desc">
-                Discover our full portfolio of cultural congresses, state summits, and architectural experiences.
-              </p>
-              <div class="portfolio-more-btn">
-                <span>VIEW ALL WORKS (05)</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </div>
-            </div>
-          </a>
-        </article>
       </div>
     </section>
 
@@ -1292,99 +1063,35 @@ We bring ideas to life through thoughtful design, meticulous planning and except
   <!-- GLOBAL INTERACTIVE FOOTER (ETERNAL GROUPS Particle Dispersion Matrix) -->
   <footer class="site-footer" id="footer" aria-label="Site Footer">
     <div class="container footer-container">
-      
-      <!-- Social Media Engagement Showcase (Creative & Interactive) -->
-      <div class="footer-top-bar footer-social-showcase" aria-label="Social Media Connections">
-        <div class="footer-social-header">
-          <div class="footer-live-beacon" aria-hidden="true">
-            <span class="beacon-pulse"></span>
-            <span class="beacon-core"></span>
-          </div>
-          <span class="footer-social-title">STAY CONNECTED</span>
-        </div>
-        <div class="footer-social-pills-row">
-          <!-- Instagram -->
-          <a href="https://www.instagram.com/eternal_media_communication/?hl=en" target="_blank" rel="noopener" class="footer-social-pill footer-social-pill--ig" data-platform="instagram" data-cursor="link" aria-label="Follow Eternal on Instagram">
-            <span class="social-icon" aria-hidden="true">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-            </span>
-            <span class="social-label">INSTAGRAM</span>
-            <span class="social-arrow" aria-hidden="true">↗</span>
-          </a>
-
-          <!-- LinkedIn -->
-          <a href="https://www.linkedin.com/company/eternal-media-and-promotion?originalSubdomain=et" target="_blank" rel="noopener" class="footer-social-pill footer-social-pill--li" data-platform="linkedin" data-cursor="link" aria-label="Connect with Eternal on LinkedIn">
-            <span class="social-icon" aria-hidden="true">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            </span>
-            <span class="social-label">LINKEDIN</span>
-            <span class="social-arrow" aria-hidden="true">↗</span>
-          </a>
-          <!-- TikTok -->
-          <a href="https://www.tiktok.com/@eternal.media_comms" target="_blank" rel="noopener" class="footer-social-pill footer-social-pill--tt" data-platform="tiktok" data-cursor="link" aria-label="Follow Eternal on TikTok">
-            <span class="social-icon" aria-hidden="true">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-            </span>
-            <span class="social-label">TIKTOK</span>
-            <span class="social-arrow" aria-hidden="true">↗</span>
-          </a>
-
-          <!-- Behance -->
-          <a href="https://www.behance.net/Eternal_Media" target="_blank" rel="noopener" class="footer-social-pill footer-social-pill--be" data-platform="behance" data-cursor="link" aria-label="View Eternal on Behance">
-            <span class="social-icon" aria-hidden="true">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-4.976 3-3.468 0-5.75-2.585-5.75-6 0-3.371 2.213-6 5.68-6 3.526 0 5.488 2.508 5.341 6h-8.083c.067 1.848 1.411 2.95 3.012 2.95 1.583 0 2.375-.688 2.776-1.55l2 1.6zm-2.326-4.5c-.073-1.428-.973-2.5-2.75-2.5-1.597 0-2.617 1.053-2.75 2.5h5.5zm-14.4-6.5h-5v14h5.241c2.476 0 4.759-.974 4.759-3.793 0-1.841-1.025-2.883-2.348-3.342 1.059-.519 1.769-1.536 1.769-2.997 0-2.531-1.921-3.868-4.421-3.868zm-2 5.5v-3.5h2.2c1.1 0 1.8.5 1.8 1.75 0 1.2-.7 1.75-1.8 1.75h-2.2zm0 6.5v-4.5h2.5c1.2 0 2 .6 2 2.25 0 1.55-.8 2.25-2 2.25h-2.5z"/></svg>
-            </span>
-            <span class="social-label">BEHANCE</span>
-            <span class="social-arrow" aria-hidden="true">↗</span>
-          </a>
-
-          <!-- YouTube -->
-          <a href="https://www.youtube.com/@eternalmediaandcommunication" target="_blank" rel="noopener" class="footer-social-pill footer-social-pill--yt" data-platform="youtube" data-cursor="link" aria-label="Subscribe to Eternal on YouTube">
-            <span class="social-icon" aria-hidden="true">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
-            </span>
-            <span class="social-label">YOUTUBE</span>
-            <span class="social-arrow" aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </div>
 
       <!-- Large Interactive Particle Canvas: ETERNAL GROUPS -->
-      <div class="footer-canvas-wrapper" aria-label="Interactive ETERNAL GROUPS particle canvas">
+      <div class="footer-canvas-wrapper" role="img" aria-label="Interactive ETERNAL GROUPS particle canvas">
         <canvas id="footer-particle-canvas" class="footer-particle-canvas"></canvas>
       </div>
 
-      <!-- Minimal Bottom Sub-Bar (Locations Left, Copyright Center, Legal Right) -->
+      <!-- Bottom bar: copyright left, social links right -->
       <div class="footer-bottom-bar">
-        <div class="footer-locations-strip">
-          <span class="footer-loc-dot"></span>
-          <span>ADDIS ABABA</span>
-          <span class="footer-loc-sep">/</span>
-          <span>DUBAI</span>
-        </div>
-
-        <!-- Copyright & Subsidiary centered between location and rights reserved -->
-        <div class="footer-copy-center">
+        <div class="footer-copy">
           <span class="footer-copy-main">&copy; 2026 ETERNAL.</span>
           <span class="footer-copy-sub">Eternal Events is part of Eternal media and Communication PLC</span>
         </div>
 
-        <div class="footer-legal-strip">
-          <a href="/sitemap.xml">SITEMAP</a>
-          <span class="footer-loc-sep">&bull;</span>
-          <a href="/robots.txt">ROBOTS</a>
-          <span class="footer-loc-sep">&bull;</span>
-          <span>ALL RIGHTS RESERVED</span>
-        </div>
+        <nav class="footer-socials" aria-label="Social media">
+          <a href="https://www.instagram.com/eternal_media_communication/?hl=en" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Follow Eternal on Instagram" data-cursor="link"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="https://www.linkedin.com/company/eternal-media-and-promotion?originalSubdomain=et" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Connect with Eternal on LinkedIn" data-cursor="link"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="https://www.tiktok.com/@eternal.media_comms" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Follow Eternal on TikTok" data-cursor="link"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+          <a href="https://www.behance.net/Eternal_Media" target="_blank" rel="noopener" class="footer-social-icon" aria-label="View Eternal on Behance" data-cursor="link"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-4.976 3-3.468 0-5.75-2.585-5.75-6 0-3.371 2.213-6 5.68-6 3.526 0 5.488 2.508 5.341 6h-8.083c.067 1.848 1.411 2.95 3.012 2.95 1.583 0 2.375-.688 2.776-1.55l2 1.6zm-2.326-4.5c-.073-1.428-.973-2.5-2.75-2.5-1.597 0-2.617 1.053-2.75 2.5h5.5zm-14.4-6.5h-5v14h5.241c2.476 0 4.759-.974 4.759-3.793 0-1.841-1.025-2.883-2.348-3.342 1.059-.519 1.769-1.536 1.769-2.997 0-2.531-1.921-3.868-4.421-3.868zm-2 5.5v-3.5h2.2c1.1 0 1.8.5 1.8 1.75 0 1.2-.7 1.75-1.8 1.75h-2.2zm0 6.5v-4.5h2.5c1.2 0 2 .6 2 2.25 0 1.55-.8 2.25-2 2.25h-2.5z"/></svg></a>
+          <a href="https://www.youtube.com/@eternalmediaandcommunication" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Subscribe to Eternal on YouTube" data-cursor="link"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
+        </nav>
       </div>
 
     </div>
   </footer>
 
   <!-- Scripts: GSAP, ScrollTrigger, Lenis, and ES Module Main -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="js/vendor/gsap.min.js" defer></script>
+  <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="js/vendor/lenis.min.js" defer></script>
   <script type="module" src="js/main.js"></script>
   <script>
     // Safety net: never leave visitors stuck on the opening screen if scripts fail to load

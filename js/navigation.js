@@ -147,7 +147,8 @@ function initSectionScrollSpy() {
   if (!isHomepage) return;
 
   const sections = [
-    { id: 'hero', hash: '', title: 'ETERNAL — Spatial Architecture & Immersive Event Production' },
+    // The hero restores the page's own <title> rather than overriding it
+    { id: 'hero', hash: '', title: document.title },
     { id: 'services', hash: '#services', title: 'Services — How We Can Help | ETERNAL' },
     { id: 'portfolio', hash: '#work', title: 'Selected Work — Portfolio | ETERNAL Studio' },
     { id: 'about', hash: '#about', title: 'About Us — ETERNAL Studio' },

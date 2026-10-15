@@ -9,7 +9,9 @@ export function initFooterParticles() {
   let dpr = 1;
   let particles = [];
   let animationFrameId = null;
-  let isVisible = true; // Start as true
+  let isVisible = false; // set by the IntersectionObserver below
+  let nearViewport = false; // particles are only built once the footer approaches
+  let logoFailed = false;
 
   const logoImg = new Image();
   // Optional: prevent CORS taint on some local servers if absolute paths are used
@@ -18,6 +20,7 @@ export function initFooterParticles() {
   let initCalled = false;
 
   function doInit(forceReinit = false) {
+    if (!nearViewport) return; // deferred: the footer is far from view
     if (initCalled && !forceReinit) return;
     initCalled = true;
     initDimensions();
@@ -45,6 +48,7 @@ export function initFooterParticles() {
       logoImg.src = paths[pathIdx++];
     } else {
       isLogoReady = false;
+      logoFailed = true;
       doInit(); // text fallback
     }
   };
@@ -53,8 +57,8 @@ export function initFooterParticles() {
 
   // Safety net: if image completely hangs, force render fallback after 1.5s
   setTimeout(() => {
-    if (!initCalled) {
-      isLogoReady = false;
+    if (!initCalled && !isLogoReady) {
+      logoFailed = true;
       doInit();
     }
   }, 1500);
@@ -333,7 +337,13 @@ export function initFooterParticles() {
     entries.forEach((entry) => {
       isVisible = entry.isIntersecting;
       if (isVisible) {
-        if (particles.length === 0 && initCalled) {
+        nearViewport = true;
+        if (!initCalled) {
+          // Logo still loading: its onload handler builds the particles
+          if (isLogoReady || logoFailed || (logoImg.complete && logoImg.naturalWidth > 0)) doInit(true);
+          return;
+        }
+        if (particles.length === 0) {
           initDimensions();
         }
         startAnimation();
@@ -347,6 +357,7 @@ export function initFooterParticles() {
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
+      if (!initCalled) return;
       initDimensions();
       startAnimation();
     }, 150);

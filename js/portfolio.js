@@ -83,6 +83,9 @@ function initHorizontalScroll() {
  * Category Filtering Engine for work.html
  */
 function initWorkFilter() {
+  // The /work/ gallery (js/work-gallery.js) handles its own filtering
+  if (document.querySelector('[data-work-gallery]')) return;
+
   const filterButtons = document.querySelectorAll('[data-filter]');
   const projectCards = document.querySelectorAll('[data-category]');
 

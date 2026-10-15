@@ -928,6 +928,15 @@ html.intro-active .intro-screen {
   isolation: isolate;
 }
 
+.events-cosmos {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
 .events-canvas {
   position: absolute;
   inset: 0;
@@ -1058,11 +1067,36 @@ html.intro-active .intro-screen {
   pointer-events: none;
 }
 
+/* Atmospheric haze hanging above the floor, brightening with the lights */
+.events-floor::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 34vh;
+  background: radial-gradient(ellipse 55% 100% at 50% 100%, rgba(255, 217, 196, calc(0.07 * var(--stage-light, 0))), rgba(237, 99, 46, calc(0.04 * var(--stage-light, 0))) 45%, transparent 75%);
+  pointer-events: none;
+}
+
 .events-lights {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
+}
+
+/* Soft reflection of each beam on the polished floor */
+.events-light::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: min(9vh, 80px);
+  clip-path: polygon(46% 0, 54% 0, 80% 100%, 20% 100%);
+  background: linear-gradient(to bottom, rgba(255, 214, 190, calc(0.16 * var(--i))), rgba(237, 99, 46, 0));
+  mix-blend-mode: screen;
 }
 
 .events-light {
@@ -1286,6 +1320,7 @@ html.intro-active .intro-screen {
 .events-scrolly.is-static .events-lights,
 .events-scrolly.is-static .events-floor,
 .events-scrolly.is-static .events-canvas,
+.events-scrolly.is-static .events-cosmos,
 .events-scrolly.is-static .events-progress,
 .events-scrolly.is-static .events-bgword {
   display: none;
@@ -1539,5 +1574,1087 @@ html.intro-active .intro-screen {
     right: clamp(1.25rem, 5vw, 4.5rem);
     transform: none;
     align-items: flex-end;
+  }
+}
+
+/* ==========================================================================
+   8. WORK GALLERY — horizontal portrait cards on a concave arc (js/work-gallery.js)
+   ========================================================================== */
+
+.work-gallery-section {
+  --gallery-bg: #0a0a0a;
+  --gallery-text: #f1f1f1;
+  --gallery-muted: rgba(255, 255, 255, 0.5);
+  --gallery-ghost: rgba(255, 255, 255, 0.045);
+  --gallery-glow: rgba(237, 99, 46, 0.07);
+  --card-shadow: 0 28px 55px rgba(0, 0, 0, 0.55), 0 8px 18px rgba(0, 0, 0, 0.4);
+  --card-shadow-active: 0 40px 80px rgba(0, 0, 0, 0.65), 0 0 0 1.5px rgba(237, 99, 46, 0.75), 0 0 44px rgba(237, 99, 46, 0.22);
+  --floor-shadow: rgba(0, 0, 0, 0.7);
+  position: relative;
+  overflow: hidden;
+  padding: calc(var(--nav-height) + clamp(2.5rem, 6vh, 4.5rem)) 0 clamp(3rem, 8vh, 5rem);
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 58%, var(--gallery-glow), transparent 70%),
+    var(--gallery-bg);
+  color: var(--gallery-text);
+}
+
+[data-theme="light"] .work-gallery-section {
+  --gallery-bg: #f3f1ed;
+  --gallery-text: #141210;
+  --gallery-muted: rgba(20, 18, 16, 0.5);
+  --gallery-ghost: rgba(20, 18, 16, 0.05);
+  --gallery-glow: rgba(255, 255, 255, 0.85);
+  --card-shadow: 0 26px 48px rgba(40, 28, 18, 0.2), 0 6px 14px rgba(40, 28, 18, 0.12);
+  --card-shadow-active: 0 36px 70px rgba(40, 28, 18, 0.28), 0 0 0 1.5px rgba(237, 99, 46, 0.85), 0 0 34px rgba(237, 99, 46, 0.18);
+  --floor-shadow: rgba(60, 40, 24, 0.22);
+}
+
+.work-gallery-intro {
+  text-align: center;
+}
+
+.work-gallery-heading {
+  margin: 0 0 0.9rem;
+  font-size: clamp(2.6rem, 6vw, 5.5rem);
+  line-height: 0.98;
+  text-transform: uppercase;
+  color: var(--gallery-text);
+}
+
+.work-gallery-lede {
+  max-width: 620px;
+  margin: 0 auto;
+  color: var(--gallery-muted);
+}
+
+.work-gallery-section .work-filter-bar {
+  justify-content: center;
+  margin-top: 1.75rem;
+  margin-bottom: 0;
+}
+
+/* --- Gallery --- */
+.work-gallery {
+  position: relative;
+  margin-top: clamp(1.5rem, 4vh, 3rem);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.work-gallery-stage {
+  position: relative;
+  height: calc(var(--card-h, 320px) + 120px);
+  perspective: 1500px;
+  perspective-origin: 50% 50%;
+  touch-action: pan-y;
+  cursor: grab;
+  outline: none;
+}
+
+.work-gallery.is-dragging .work-gallery-stage {
+  cursor: grabbing;
+}
+
+.work-gallery-stage:focus-visible {
+  outline: 2px solid var(--brand-stroke);
+  outline-offset: -6px;
+  border-radius: var(--stroke-radius);
+}
+
+/* Soft floor shadow under the arc */
+.work-gallery-stage::after {
+  content: "";
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: 18px;
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, var(--floor-shadow), transparent 70%);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.work-gallery-track {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform-style: preserve-3d;
+}
+
+.work-card {
+  --focus: 0;
+  position: absolute;
+  left: calc(var(--card-w, 230px) / -2);
+  top: calc(var(--card-h, 320px) / -2);
+  width: var(--card-w, 230px);
+  height: var(--card-h, 320px);
+  border-radius: 16px;
+  will-change: transform, opacity;
+}
+
+/* Before the script runs, show the cards as a plain scrollable row */
+.work-gallery:not(.is-ready) .work-gallery-track {
+  position: static;
+  display: flex;
+  gap: 1.25rem;
+  width: auto;
+  height: auto;
+  padding: 0 1.5rem;
+  overflow-x: auto;
+}
+
+.work-gallery:not(.is-ready) .work-card {
+  position: relative;
+  left: 0;
+  top: 0;
+  flex: none;
+}
+
+.work-card-link {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  background-color: #151515;
+  box-shadow: var(--card-shadow);
+  -webkit-user-drag: none;
+  transition: box-shadow 0.45s var(--ease-cinematic), filter 0.45s ease;
+  filter: brightness(calc(0.84 + var(--focus) * 0.16));
+}
+
+.work-card.is-active .work-card-link {
+  box-shadow: var(--card-shadow-active);
+}
+
+.work-card.is-muted .work-card-link {
+  filter: grayscale(1) brightness(0.45);
+}
+
+.work-card-media,
+.work-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.work-card-media img {
+  object-fit: cover;
+  pointer-events: none;
+  transform: scale(calc(1.06 - var(--focus) * 0.06));
+  transition: transform 0.6s var(--ease-cinematic);
+}
+
+/* Legibility for the index and title */
+.work-card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 22%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0) 38%);
+  pointer-events: none;
+}
+
+.work-card-num,
+.work-card-title {
+  position: absolute;
+  z-index: 1;
+  color: #ffffff;
+}
+
+.work-card-num {
+  top: 12px;
+  left: 14px;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.work-card-title {
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  font-family: var(--font-condensed);
+  font-size: clamp(0.95rem, 1.15vw, 1.2rem);
+  font-weight: 600;
+  line-height: 1.08;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Vertical "Curated index" label and the large index behind the arc */
+.work-gallery-label {
+  position: absolute;
+  z-index: 1000;
+  left: clamp(0.6rem, 2.2vw, 2rem);
+  top: calc((var(--card-h, 320px) + 120px) / 2);
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gallery-muted);
+  pointer-events: none;
+}
+
+.work-gallery-ghost {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: calc((var(--card-h, 320px) + 120px) / 2);
+  transform: translate(-50%, -50%);
+  font-family: var(--font-condensed);
+  font-size: clamp(11rem, 24vw, 24rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--gallery-ghost);
+  pointer-events: none;
+}
+
+.work-gallery-hint {
+  margin: 0.5rem 0 0;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gallery-muted);
+}
+
+.work-gallery-hint--touch {
+  display: none;
+}
+
+@media (hover: none) {
+  .work-gallery-hint--pointer { display: none; }
+  .work-gallery-hint--touch { display: inline; }
+}
+
+/* Selected project */
+.work-gallery-caption {
+  margin-top: clamp(1rem, 3vh, 1.75rem);
+  padding: 0 1.25rem;
+  text-align: center;
+}
+
+.work-gallery-caption.is-changing > * {
+  animation: galleryCaptionIn 0.55s var(--ease-cinematic) both;
+}
+
+.work-gallery-caption.is-changing > :nth-child(2) { animation-delay: 0.05s; }
+.work-gallery-caption.is-changing > :nth-child(3) { animation-delay: 0.1s; }
+
+@keyframes galleryCaptionIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.work-gallery-title {
+  margin: 0;
+  font-family: var(--font-condensed) !important;
+  font-size: clamp(2rem, 4.2vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--gallery-text);
+}
+
+.work-gallery-meta {
+  margin: 0.6rem 0 0;
+  font-size: 0.95rem;
+  color: var(--gallery-muted);
+}
+
+.work-gallery-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--brand-stroke);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gallery-text);
+}
+
+.work-gallery-open:hover {
+  color: var(--brand-stroke);
+}
+
+@media (max-width: 640px) {
+  .work-gallery-label {
+    display: none;
+  }
+
+  .work-gallery-stage {
+    height: calc(var(--card-h, 300px) + 80px);
+  }
+
+  .work-gallery-ghost {
+    top: calc((var(--card-h, 300px) + 80px) / 2);
+    font-size: clamp(9rem, 48vw, 14rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-card-link,
+  .work-card-media img {
+    transition: none;
+  }
+
+  .work-gallery-caption.is-changing > * {
+    animation: none;
+  }
+}
+
+/* Homepage "Selected Work": pinned for one screen while scrolling moves the row left */
+.portfolio-section.work-gallery-section {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  scroll-snap-type: none;
+  padding: calc(var(--nav-height) + 1rem) 0 clamp(1.5rem, 4vh, 3rem);
+  border-top: 1px solid var(--border-color);
+}
+
+.portfolio-section.work-gallery-section .work-gallery {
+  margin-top: clamp(0.5rem, 2vh, 1.5rem);
+}
+
+.portfolio-section.work-gallery-section .work-gallery-heading {
+  margin-bottom: 0.4rem;
+}
+
+.portfolio-section.work-gallery-section .work-gallery-stage {
+  cursor: default;
+  perspective: 1100px;
+}
+
+/* "More works" — the closing card of the row */
+.work-card--more .work-card-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.1rem;
+  background: linear-gradient(160deg, #ED632E 0%, #b8441c 100%);
+  color: #ffffff;
+}
+
+.work-card--more .work-card-link::after {
+  display: none;
+}
+
+.work-more-badge {
+  font-family: var(--font-body);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.work-more-title {
+  font-family: var(--font-condensed);
+  font-size: calc(var(--card-w, 200px) * 0.17);
+  font-weight: 700;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.work-more-arrow {
+  display: inline-block;
+  transition: transform 0.45s var(--ease-cinematic);
+}
+
+.work-card--more:hover .work-more-arrow {
+  transform: translateX(6px);
+}
+
+.work-more-desc {
+  font-size: 0.64rem;
+  line-height: 1.4;
+  opacity: 0.88;
+}
+
+.work-more-btn {
+  align-self: flex-start;
+  white-space: nowrap;
+  padding-bottom: 0.15rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+  font-family: var(--font-body);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .work-more-desc {
+    display: none;
+  }
+}
+
+/* Reduced motion: a plain horizontally scrollable row instead of the pinned arc */
+.portfolio-section.work-gallery-section:has(.work-gallery.is-static) {
+  height: auto;
+}
+
+.work-gallery.is-static .work-gallery-stage {
+  height: auto;
+  perspective: none;
+}
+
+.work-gallery.is-static .work-gallery-track {
+  position: static;
+  display: flex;
+  gap: 1.25rem;
+  width: auto;
+  height: auto;
+  padding: 1rem 1.5rem 2rem;
+  overflow-x: auto;
+}
+
+.work-gallery.is-static .work-card {
+  position: relative;
+  left: 0;
+  top: 0;
+  flex: none;
+}
+
+.work-gallery-archive {
+  display: inline-block;
+  margin-top: 1.1rem;
+  color: var(--gallery-muted);
+}
+
+.work-gallery-archive:hover {
+  color: var(--brand-stroke);
+}
+
+/* --- What We Produce: light theme ---------------------------------------
+   A bright gallery room: the uplights read as brand-orange beams (normal
+   blending instead of additive glow), with dark fixtures and dark copy. */
+[data-theme="light"] .events-scrolly {
+  background-color: #f3f1ed;
+  color: #141210;
+  border-top-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .events-eyebrow {
+  color: rgba(20, 18, 16, 0.6);
+}
+
+[data-theme="light"] .events-title {
+  color: #141210;
+}
+
+[data-theme="light"] .events-desc {
+  color: rgba(20, 18, 16, 0.78);
+}
+
+[data-theme="light"] .events-bgword {
+  color: rgba(20, 18, 16, 0.045);
+}
+
+[data-theme="light"] .events-progress-bar {
+  background-color: rgba(20, 18, 16, 0.12);
+}
+
+[data-theme="light"] .events-floor {
+  border-top-color: rgba(0, 0, 0, 0.08);
+  background:
+    radial-gradient(ellipse 60% 120% at 50% 0%, rgba(237, 99, 46, calc(0.12 * var(--stage-light, 0))), transparent 70%),
+    linear-gradient(180deg, #e7e2da 0%, #efebe5 100%);
+}
+
+[data-theme="light"] .events-floor::before {
+  background: radial-gradient(ellipse 55% 100% at 50% 100%, rgba(237, 99, 46, calc(0.07 * var(--stage-light, 0))), transparent 75%);
+}
+
+[data-theme="light"] .events-light-beam,
+[data-theme="light"] .events-light-core,
+[data-theme="light"] .events-light::after {
+  mix-blend-mode: normal;
+}
+
+[data-theme="light"] .events-light-beam {
+  background: linear-gradient(to top,
+    rgba(237, 99, 46, calc(0.3 * var(--i))) 0%,
+    rgba(237, 99, 46, calc(0.14 * var(--i))) 40%,
+    rgba(237, 99, 46, calc(0.04 * var(--i))) 80%,
+    rgba(237, 99, 46, 0) 100%);
+}
+
+[data-theme="light"] .events-light-core {
+  background: linear-gradient(to top,
+    rgba(255, 170, 120, calc(0.45 * var(--i))) 0%,
+    rgba(237, 99, 46, calc(0.16 * var(--i))) 50%,
+    rgba(237, 99, 46, 0) 100%);
+}
+
+[data-theme="light"] .events-light::after {
+  background: linear-gradient(to bottom, rgba(237, 99, 46, calc(0.16 * var(--i))), rgba(237, 99, 46, 0));
+}
+
+[data-theme="light"] .events-light-pool {
+  background: radial-gradient(ellipse at 50% 40%, rgba(237, 99, 46, calc(0.38 * var(--i))) 0%, rgba(237, 99, 46, calc(0.12 * var(--i))) 35%, transparent 70%);
+}
+
+[data-theme="light"] .events-light-fixture {
+  background: linear-gradient(180deg, #3a322c, #1c1815);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] .events-portal {
+  box-shadow:
+    0 0 0 2px var(--brand-stroke),
+    0 0 0 calc(var(--d) * 0.035) rgba(237, 99, 46, 0.08),
+    0 0 calc(var(--d) * 0.25) rgba(237, 99, 46, calc(0.06 + var(--focus) * 0.18)),
+    0 calc(var(--d) * 0.08) calc(var(--d) * 0.22) rgba(60, 40, 24, 0.25);
+}
+
+[data-theme="light"] .events-portal::after {
+  border-color: rgba(138, 74, 44, 0.3);
+}
+
+[data-theme="light"] .events-portal-inner {
+  background-color: #ddd6cc;
+}
+
+/* Unlit images fade to the room colour rather than to black */
+[data-theme="light"] .events-portal-inner img {
+  filter: saturate(calc(0.35 + var(--reveal, 0) * 0.65)) brightness(calc(0.75 + var(--reveal, 0) * 0.25)) contrast(calc(0.7 + var(--reveal, 0) * 0.3));
+}
+
+@media (max-width: 768px) {
+  [data-theme="light"] .events-title,
+  [data-theme="light"] .events-desc {
+    text-shadow: 0 1px 14px rgba(243, 241, 237, 0.9);
+  }
+}
+
+/* ==========================================================================
+   9. SERVICES — expanding vertical panels (js/services-panels.js)
+   Each service owns a full-height column. Collapsed columns show a muted photo
+   preview, the title and an "Explore" cue; the active column widens into an
+   image area beside a solid details area (no text over the photo).
+   ========================================================================== */
+
+.svp-section {
+  --svp-bg: var(--bg-primary);
+  --svp-line: rgba(255, 255, 255, 0.1);
+  --svp-text: #f1f1f1;
+  --svp-muted: rgba(255, 255, 255, 0.62);
+  --svp-idle: #0e0e0e;
+  --svp-idle-hover: #151311;
+  --svp-open: #121110;
+  --svp-cta-bg: #ffffff;
+  --svp-cta-text: #141210;
+  --svp-peek-filter: grayscale(1) brightness(0.55) contrast(1.05);
+  position: relative;
+  padding: clamp(5rem, 11vh, 8rem) 0 0;
+  background-color: var(--svp-bg);
+  border-top: 1px solid var(--border-color);
+}
+
+[data-theme="light"] .svp-section {
+  --svp-line: rgba(20, 18, 16, 0.12);
+  --svp-text: #141210;
+  --svp-muted: rgba(20, 18, 16, 0.64);
+  --svp-idle: #f3f1ed;
+  --svp-idle-hover: #ece7df;
+  --svp-open: #faf8f5;
+  --svp-cta-bg: #141210;
+  --svp-cta-text: #ffffff;
+  --svp-peek-filter: grayscale(1) brightness(1.02) contrast(0.92) opacity(0.75);
+}
+
+.svp-intro {
+  text-align: center;
+  margin-bottom: clamp(2rem, 5vh, 3.5rem);
+}
+
+.svp-row {
+  display: flex;
+  height: calc(100vh - var(--nav-height));
+  height: calc(100dvh - var(--nav-height));
+  min-height: 580px;
+  max-height: 900px;
+  border-top: 1px solid var(--svp-line);
+  border-bottom: 1px solid var(--svp-line);
+}
+
+.svp {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  background-color: var(--svp-idle);
+  border-right: 1px solid var(--svp-line);
+  transition: flex-grow 0.9s cubic-bezier(0.65, 0, 0.25, 1), background-color 0.4s ease;
+}
+
+.svp:last-child {
+  border-right: 0;
+}
+
+.svp:not(.is-active):hover {
+  background-color: var(--svp-idle-hover);
+}
+
+.svp.is-active {
+  flex-grow: 4.2;
+  background-color: var(--svp-open);
+}
+
+/* --- Collapsed: photo preview, title, "Explore" cue --- */
+.svp-trigger {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  width: 100%;
+  padding: clamp(1rem, 1.6vw, 1.5rem);
+  border: 0;
+  background: transparent;
+  color: var(--svp-text);
+  text-align: left;
+  cursor: pointer;
+  transition: opacity 0.35s ease;
+}
+
+.svp.is-active .svp-trigger {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.svp-trigger:focus-visible {
+  outline: 2px solid var(--brand-stroke);
+  outline-offset: -6px;
+}
+
+/* Tall preview window of the service photo — warms to colour on hover */
+.svp-peek {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.svp-peek img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: var(--svp-peek-filter);
+  transform: scale(1.04);
+  transition: filter 0.6s ease, transform 0.9s var(--ease-cinematic);
+}
+
+.svp-peek::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--svp-line);
+  background: linear-gradient(180deg, rgba(237, 99, 46, 0) 55%, rgba(237, 99, 46, 0.35) 100%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.svp:hover .svp-peek img,
+.svp-trigger:focus-visible .svp-peek img {
+  filter: none;
+  transform: scale(1.1);
+}
+
+.svp:hover .svp-peek::after,
+.svp-trigger:focus-visible .svp-peek::after {
+  opacity: 1;
+}
+
+.svp-label {
+  font-family: var(--font-condensed);
+  font-size: clamp(1.15rem, 1.5vw, 1.6rem);
+  font-weight: 600;
+  line-height: 1.02;
+  text-transform: uppercase;
+}
+
+.svp-explore {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--svp-line);
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--svp-muted);
+  transition: color 0.35s ease;
+}
+
+.svp-explore-arrow {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--svp-line);
+  border-radius: 50%;
+  color: var(--svp-text);
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease, transform 0.45s var(--ease-cinematic);
+}
+
+.svp-explore-arrow svg {
+  width: 15px;
+  height: 15px;
+}
+
+.svp:hover .svp-explore,
+.svp-trigger:focus-visible .svp-explore {
+  color: var(--svp-text);
+}
+
+.svp:hover .svp-explore-arrow,
+.svp-trigger:focus-visible .svp-explore-arrow {
+  border-color: var(--brand-stroke);
+  background-color: var(--brand-stroke);
+  color: #ffffff;
+  transform: translateX(3px);
+}
+
+/* --- Expanded: image area on the left, details on a solid surface --- */
+.svp-media {
+  position: absolute;
+  top: clamp(1rem, 1.6vw, 1.5rem);
+  bottom: clamp(1rem, 1.6vw, 1.5rem);
+  left: clamp(1rem, 1.6vw, 1.5rem);
+  width: calc(42% - clamp(1rem, 1.6vw, 1.5rem));
+  overflow: hidden;
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.svp-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.08);
+  transition: transform 1.4s var(--ease-cinematic);
+}
+
+/* A light brand wash on the photo only */
+.svp-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(200deg, rgba(237, 99, 46, 0.35) 0%, rgba(237, 99, 46, 0) 45%);
+}
+
+.svp.is-active .svp-media {
+  opacity: 1;
+  transition-delay: 0.25s;
+}
+
+.svp.is-active .svp-media img {
+  transform: scale(1);
+}
+
+.svp-body {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 58%;
+  padding: clamp(3rem, 7vh, 5rem) clamp(1.5rem, 3.2vw, 3.25rem) clamp(1.25rem, 2vw, 2rem);
+  color: var(--svp-text);
+  opacity: 0;
+  transform: translateY(16px);
+  visibility: hidden;
+  transition: opacity 0.35s ease, transform 0.5s var(--ease-cinematic), visibility 0s linear 0.35s;
+}
+
+/* Long content scrolls inside the open panel rather than being cut off */
+.svp.is-active .svp-body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  transition: opacity 0.6s ease 0.45s, transform 0.8s var(--ease-cinematic) 0.45s, visibility 0s;
+}
+
+.svp-title {
+  margin: 0 0 0.8rem;
+  font-family: var(--font-condensed) !important;
+  font-size: clamp(1.9rem, 3vw, 3.1rem);
+  font-weight: 600;
+  line-height: 0.96;
+  text-transform: uppercase;
+  color: var(--svp-text);
+}
+
+.svp-desc {
+  max-width: 58ch;
+  margin: 0 0 1.25rem;
+  font-size: clamp(0.84rem, 0.9vw, 0.92rem);
+  line-height: 1.55;
+  color: var(--svp-muted);
+}
+
+.svp-caps-wrap {
+  margin-bottom: 1.25rem;
+}
+
+.svp-eyebrow {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-body);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brand-stroke);
+}
+
+.svp-caps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.svp-caps li {
+  position: relative;
+  padding: 0.45rem 0 0.45rem 0.9rem;
+  border-bottom: 1px solid var(--svp-line);
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--svp-text);
+}
+
+.svp-caps li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.9rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--brand-stroke);
+}
+
+.svp-cta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.4rem;
+  border-radius: 999px;
+  background-color: var(--svp-cta-bg);
+  color: var(--svp-cta-text);
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.35s var(--ease-cinematic);
+}
+
+.svp-cta:hover,
+.svp-cta:focus-visible {
+  background-color: var(--brand-stroke);
+  color: #ffffff;
+  transform: translateX(3px);
+}
+
+/* --- Tablet: narrower details, single-column capabilities --- */
+@media (max-width: 1100px) {
+  .svp-media {
+    width: calc(38% - clamp(1rem, 1.6vw, 1.5rem));
+  }
+
+  .svp-body {
+    width: 62%;
+    justify-content: flex-start;
+  }
+
+  .svp-caps {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Mobile: panels stack as rows; tap a row to open it --- */
+@media (max-width: 767px) {
+  .svp-row {
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .svp {
+    flex: none;
+    height: 96px;
+    border-right: 0;
+    border-bottom: 1px solid var(--svp-line);
+    transition: height 0.8s cubic-bezier(0.65, 0, 0.25, 1), background-color 0.4s ease;
+  }
+
+  .svp:last-child {
+    border-bottom: 0;
+  }
+
+  .svp.is-active {
+    height: min(92vh, 860px);
+  }
+
+  /* Collapsed row: thumbnail, title, arrow */
+  .svp-trigger {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .svp-peek {
+    flex: none;
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+  }
+
+  .svp-label {
+    flex: 1;
+  }
+
+  .svp-explore {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .svp-explore > span:first-child {
+    display: none;
+  }
+
+  /* Open row: image on top, details below */
+  .svp-media {
+    top: 0.75rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: auto;
+    width: auto;
+    height: 34%;
+  }
+
+  .svp-body {
+    top: calc(34% + 0.75rem);
+    width: 100%;
+    padding: 1.25rem 1.1rem 1.5rem;
+  }
+
+  .svp-desc {
+    font-size: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svp,
+  .svp-media,
+  .svp-media img,
+  .svp-peek img,
+  .svp-body,
+  .svp.is-active .svp-body {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   10. FOOTER BOTTOM BAR — copyright left, social icons right
+   ========================================================================== */
+
+.footer-bottom-bar {
+  grid-template-columns: 1fr auto;
+}
+
+.footer-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  line-height: 1.4;
+}
+
+.footer-socials {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.footer-social-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  color: var(--text-primary);
+  transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, transform 0.35s var(--ease-cinematic);
+}
+
+.footer-social-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.footer-social-icon:hover,
+.footer-social-icon:focus-visible {
+  border-color: var(--brand-stroke);
+  background-color: var(--brand-stroke);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 767px) {
+  .footer-bottom-bar {
+    flex-direction: column-reverse;
+  }
+
+  .footer-copy {
+    align-items: center;
+  }
+
+  .footer-socials {
+    justify-content: center;
   }
 }
