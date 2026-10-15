@@ -3,6 +3,8 @@
  * Scroll-pinned narrative illumination with circular indicator and smooth word scrub
  */
 
+import { initAboutOrbit } from './about-orbit.js';
+
 export function initAbout() {
   const aboutSection = document.querySelector('.about-section');
   
@@ -36,10 +38,14 @@ export function initAbout() {
   const words = statement.querySelectorAll('.word');
   const totalWords = words.length;
 
+  // Particle orbit behind the statement, driven by the same scroll progress
+  const orbit = initAboutOrbit(scrollyPin);
+
   // Reduced motion preference
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) {
     words.forEach(w => w.classList.add('is-active'));
+    orbit?.setProgress(1);
     return;
   }
 
@@ -62,6 +68,7 @@ export function initAbout() {
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         const progress = self.progress;
+        orbit?.setProgress(progress);
 
         // Illumination scrub: all words finish illuminating by ~86% progress
         // This ensures all text is 100% revealed before the section unpins
@@ -124,6 +131,7 @@ export function initAbout() {
   } else {
     // Fallback: activate all words immediately
     words.forEach(w => w.classList.add('is-active'));
+    orbit?.setProgress(1);
     if (ctaWrap) ctaWrap.classList.add('is-revealed');
   }
 }

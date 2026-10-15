@@ -23,11 +23,12 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="../../css/style.css">
   <link rel="stylesheet" href="../../css/animations.css">
   <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/refinements.css">
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -36,6 +37,14 @@
   <!-- Header -->
   <header class="site-header">
     <div class="container nav-container">
+      <button class="mobile-menu-btn" data-mobile-toggle aria-label="Open Menu" aria-expanded="false" aria-controls="mobile-drawer">
+        <span class="burger-icon" aria-hidden="true">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </span>
+        <span class="menu-btn-label">MENU</span>
+      </button>
       <a href="/" class="brand-logo" aria-label="ETERNAL Events Home">
         <img src="../../assets/images/logo/eternal-events-dark.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-dark">
         <img src="../../assets/images/logo/eternal-events-light.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-light">
@@ -52,13 +61,9 @@
         <button class="theme-toggle-btn" data-theme-toggle aria-label="Toggle theme">
           <svg class="theme-toggle-icon" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z"/></svg>
         </button>
-        <button class="mobile-menu-btn" data-mobile-toggle aria-expanded="false" aria-label="Toggle Menu">
-          <span class="burger-icon" aria-hidden="true">
-            <span class="burger-line"></span>
-            <span class="burger-line"></span>
-          </span>
-          <span>MENU</span>
-        </button>
+        <a href="../../index.html#contact" class="btn btn-primary nav-cta-btn" data-cursor="link">
+          <span>INQUIRE</span>
+        </a>
       </div>
     </div>
   </header>

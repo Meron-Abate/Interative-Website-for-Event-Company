@@ -5,6 +5,18 @@
  */
 
 import { getLenis } from './smooth-scroll.js';
+import { INTRO_COMPLETE_EVENT } from './intro.js';
+
+const isIntroActive = () => document.documentElement.classList.contains('intro-active');
+
+// Runs the callback once the opening screen has been dismissed (or immediately if there is none)
+function afterIntro(callback) {
+  if (isIntroActive()) {
+    document.addEventListener(INTRO_COMPLETE_EVENT, callback, { once: true });
+  } else {
+    callback();
+  }
+}
 
 export function initHero() {
   const heroContainer = document.querySelector('.hero-scrolly-container') || document.querySelector('.hero-section');
@@ -15,15 +27,59 @@ export function initHero() {
   // Ambient canvas fallback (used if slideshow somehow fails)
   if (canvas) initAmbientCanvas(canvas);
 
-  // Authentic Production Media Slideshow Rotator — 7 event photos, 3s per slide
+  // Authentic Production Media Slideshow Rotator — fallback when the hero video can't play
   const heroSlides = heroContainer.querySelectorAll('.hero-slide');
+  let slideshowTimer = null;
   if (heroSlides.length > 1) {
     let currentSlideIdx = 0;
-    setInterval(() => {
+    slideshowTimer = setInterval(() => {
       heroSlides[currentSlideIdx].classList.remove('is-active');
       currentSlideIdx = (currentSlideIdx + 1) % heroSlides.length;
       heroSlides[currentSlideIdx].classList.add('is-active');
     }, 3000);
+  }
+
+  // Hero video: silent autoplay once the visitor has entered; slideshow stays underneath as fallback
+  const heroVideo = heroContainer.querySelector('.hero-video');
+  if (heroVideo) {
+    const saveData = navigator.connection && navigator.connection.saveData;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (saveData || reducedMotion) {
+      heroVideo.remove();
+    } else {
+      heroVideo.muted = true;
+      heroVideo.addEventListener('playing', () => {
+        heroVideo.classList.add('is-playing');
+        clearInterval(slideshowTimer);
+      }, { once: true });
+      heroVideo.addEventListener('error', () => heroVideo.remove(), { once: true });
+
+      afterIntro(() => {
+        heroVideo.preload = 'auto';
+        const playPromise = heroVideo.play();
+        if (playPromise) playPromise.catch(() => heroVideo.remove());
+      });
+    }
+  }
+
+  // Brand-coloured frame draws in after the visitor enters
+  const frameRect = heroContainer.querySelector('.hero-frame-rect');
+  if (frameRect && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    try {
+      const length = frameRect.getTotalLength();
+      frameRect.style.strokeDasharray = `${length}`;
+      frameRect.style.strokeDashoffset = `${length}`;
+      afterIntro(() => requestAnimationFrame(() => {
+        frameRect.style.strokeDashoffset = '0';
+      }));
+      // Drop the dash once drawn so the stroke stays complete when the viewport resizes
+      frameRect.addEventListener('transitionend', () => {
+        frameRect.style.strokeDasharray = 'none';
+      }, { once: true });
+    } catch {
+      // Geometry unavailable: leave the frame fully drawn
+    }
   }
 
 
@@ -83,21 +139,18 @@ export function initHero() {
   gsap.set(stage1, { autoAlpha: 1, y: 0, pointerEvents: 'auto' });
   if (stage2) gsap.set(stage2, { autoAlpha: 0, y: 30, pointerEvents: 'none' });
 
-  // Initial Entrance Animation on Page Load
-  if (window.scrollY < 40) {
-    const entranceTl = gsap.timeline({ delay: 0.15 });
+  // Initial Entrance Animation on Page Load (held until the opening screen is dismissed)
+  if (window.scrollY < 40 || isIntroActive()) {
+    const entranceTl = gsap.timeline({ delay: 0.15, paused: true });
 
-    entranceTl.to('.hero-media-wrapper', {
-      opacity: 1,
-      duration: 1.2,
-      ease: 'power2.out'
-    })
-    .from('.hero-stage--1 .hero-stage-headline', {
+    // The media zoom is added at play time: after the stage-build hand-off the
+    // video must stay exactly where the LED wall left it
+    entranceTl.from('.hero-stage--1 .hero-stage-headline', {
       opacity: 0,
       y: 28,
       duration: 1.0,
       ease: 'power4.out'
-    }, '-=0.7')
+    }, 1.1)
     .from('.hero-stage--1 .hero-stage-col--right', {
       opacity: 0,
       y: 20,
@@ -116,6 +169,22 @@ export function initHero() {
       duration: 0.7,
       ease: 'power3.out'
     }, '-=0.6');
+
+    afterIntro(() => {
+      if (document.documentElement.dataset.introSeamless === 'true') {
+        gsap.set('.hero-media-wrapper', { opacity: 1 });
+      } else {
+        gsap.fromTo('.hero-media-wrapper', { scale: 1.08 }, {
+          opacity: 1,
+          scale: 1,
+          duration: 1.8,
+          delay: 0.15,
+          ease: 'power3.out',
+          clearProps: 'transform'
+        });
+      }
+      entranceTl.play();
+    });
   }
 
   // Navigation helper to jump to a specific progress or stage
@@ -252,6 +321,7 @@ export function initHero() {
   let touchStartY = null;
 
   function handleHeroWheel(e) {
+    if (isIntroActive()) return;
     const containerRect = heroContainer.getBoundingClientRect();
     // Only intercept when hero container is pinned/visible in viewport
     if (containerRect.top > 50 || containerRect.bottom < 100) return;
@@ -299,6 +369,7 @@ export function initHero() {
 
   window.addEventListener('touchend', (e) => {
     if (touchStartY === null || !e.changedTouches || e.changedTouches.length === 0) return;
+    if (isIntroActive()) { touchStartY = null; return; }
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY - touchEndY;
     touchStartY = null;

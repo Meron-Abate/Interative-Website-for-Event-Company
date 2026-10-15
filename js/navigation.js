@@ -2,25 +2,28 @@
  * ETERNAL STUDIO — NAVIGATION & MOBILE DRAWER MODULE
  */
 
-import { scrollToTarget } from './smooth-scroll.js';
+import { scrollToTarget, getLenis } from './smooth-scroll.js';
 
 export function initNavigation() {
   const header = document.querySelector('.site-header');
   const mobileToggleBtn = document.querySelector('[data-mobile-toggle]');
   const mobileDrawer = document.querySelector('.mobile-drawer');
   const drawerLinks = document.querySelectorAll('.mobile-drawer-link');
+  const heroSection = document.getElementById('hero');
 
-  // Scroll Header Transformation
+  // Scroll Header Transformation: transparent over the hero video, solid once scrolling
   let lastScrollY = window.pageYOffset;
-  window.addEventListener('scroll', () => {
+  function updateHeaderState() {
     const currentScrollY = window.pageYOffset;
-    if (currentScrollY > 60) {
-      header?.classList.add('is-scrolled');
-    } else {
-      header?.classList.remove('is-scrolled');
+    header?.classList.toggle('is-scrolled', currentScrollY > 60);
+    if (heroSection) {
+      const heroBottom = heroSection.getBoundingClientRect().bottom;
+      header?.classList.toggle('is-over-hero', heroBottom > (header?.offsetHeight || 0));
     }
     lastScrollY = currentScrollY;
-  }, { passive: true });
+  }
+  window.addEventListener('scroll', updateHeaderState, { passive: true });
+  updateHeaderState();
 
   // Mobile Menu Drawer Toggle
   if (mobileToggleBtn && mobileDrawer) {
@@ -38,28 +41,47 @@ export function initNavigation() {
         closeMobileMenu();
       });
     });
+
+    mobileDrawer.querySelectorAll('.mobile-drawer-footer a').forEach((link) => {
+      link.addEventListener('click', () => closeMobileMenu());
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileDrawer.classList.contains('is-open')) {
+        closeMobileMenu();
+        mobileToggleBtn.focus();
+      }
+    });
   }
 
   function openMobileMenu() {
     mobileDrawer.classList.add('is-open');
+    mobileDrawer.setAttribute('aria-hidden', 'false');
+    header?.classList.add('is-menu-open');
     mobileToggleBtn.setAttribute('aria-expanded', 'true');
-    mobileToggleBtn.querySelector('span:last-child').textContent = 'CLOSE';
+    mobileToggleBtn.setAttribute('aria-label', 'Close Menu');
+    mobileToggleBtn.querySelector(':scope > span:last-child').textContent = 'CLOSE';
     document.body.style.overflow = 'hidden';
+    getLenis()?.stop();
 
     if (typeof window.gsap !== 'undefined') {
       window.gsap.fromTo(
-        '.mobile-drawer-link',
+        '.mobile-drawer-link, .mobile-drawer-footer',
         { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.08, duration: 0.5, ease: 'power3.out' }
+        { y: 0, opacity: 1, stagger: 0.07, duration: 0.6, delay: 0.2, ease: 'power3.out' }
       );
     }
   }
 
   function closeMobileMenu() {
     mobileDrawer.classList.remove('is-open');
+    mobileDrawer.setAttribute('aria-hidden', 'true');
+    header?.classList.remove('is-menu-open');
     mobileToggleBtn.setAttribute('aria-expanded', 'false');
-    mobileToggleBtn.querySelector('span:last-child').textContent = 'MENU';
+    mobileToggleBtn.setAttribute('aria-label', 'Open Menu');
+    mobileToggleBtn.querySelector(':scope > span:last-child').textContent = 'MENU';
     document.body.style.overflow = '';
+    getLenis()?.start();
   }
 
   // Active Link Highlight
@@ -93,9 +115,16 @@ export function initNavigation() {
   });
 
   // Handle initial page load with hash (e.g. from redirect to /#about or /#services)
-  if (window.location.hash && window.location.hash.length > 1) {
+  // Capture the hash now: the scroll-spy below may rewrite the URL before the timeout runs
+  const initialHash = window.location.hash;
+  if (initialHash && initialHash.length > 1) {
     setTimeout(() => {
-      const targetEl = document.querySelector(window.location.hash);
+      let targetEl = null;
+      try {
+        targetEl = document.querySelector(initialHash);
+      } catch {
+        // Not a valid selector (e.g. an encoded hash); nothing to scroll to
+      }
       if (targetEl) {
         scrollToTarget(targetEl, -80);
       }

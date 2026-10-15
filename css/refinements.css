@@ -1,0 +1,1543 @@
+/* ==========================================================================
+   ETERNAL STUDIO — EXPERIENCE REFINEMENTS
+   Opening screen, hero video presentation, brand stroke, navigation.
+   Loaded after responsive.css so these rules take precedence.
+   ========================================================================== */
+
+:root {
+  /* Sampled from assets/images/logo/eternal-events-*.png ("EVENTS" plate) */
+  --brand-stroke: #ED632E;
+  --font-condensed: "Oswald", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --intro-bg: #ED632E;
+  --ease-intro: cubic-bezier(0.77, 0, 0.175, 1);
+  /* Shared corner radius for the video frame and the stroked buttons (= --radius-md) */
+  --stroke-radius: 8px;
+}
+
+/* ==========================================================================
+   1. OPENING SCREEN — counter, letter reveal, portal
+   ========================================================================== */
+
+.intro-screen {
+  display: none;
+}
+
+html.intro-active,
+html.intro-active body {
+  overflow: hidden;
+}
+
+html.intro-active .intro-screen {
+  display: block;
+}
+
+.intro-screen {
+  --portal-r: 150px;
+  --portal-cover: 8;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  overflow: hidden;
+  background-color: var(--intro-bg);
+  color: #ffffff;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.8s ease;
+}
+
+.intro-screen.is-ready {
+  cursor: pointer;
+}
+
+.intro-screen.is-revealing {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* --- Particle portal canvas --- */
+.intro-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.intro-screen.is-portal .intro-canvas {
+  opacity: 1;
+}
+
+.intro-screen.is-lite .intro-canvas {
+  display: none;
+}
+
+/* --- Counter + "Years of Experience" --- */
+.intro-headline {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2vw, 1.6rem);
+  pointer-events: none;
+  transition:
+    transform 1s cubic-bezier(0.7, 0, 0.3, 1),
+    opacity 0.55s ease 0.45s,
+    filter 1s ease;
+}
+
+/* The number and text are pulled into the opening portal */
+.intro-screen.is-portal .intro-headline {
+  transform: scale(0.1) rotate(-30deg);
+  opacity: 0;
+  filter: blur(8px);
+}
+
+.intro-counter-num {
+  font-family: var(--font-condensed);
+  font-weight: 700;
+  font-size: clamp(8rem, 26vw, 22rem);
+  line-height: 0.8;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: #ffffff;
+}
+
+.intro-years {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 0.6em;
+  row-gap: 0.15em;
+  min-height: 1.2em;
+  margin: 0;
+  font-family: var(--font-condensed);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 2.7vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffffff;
+  perspective: 700px;
+}
+
+.intro-years:not(.is-split) {
+  visibility: hidden;
+}
+
+.intro-word {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+.intro-letter {
+  display: inline-block;
+  opacity: 0;
+  transform-origin: 50% 75%;
+  will-change: transform, opacity;
+}
+
+/* Acrobatic reveal: letters alternate between a hopping backflip and a cartwheel */
+.intro-screen.is-counted .intro-letter {
+  animation: introLetterFlip 0.8s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+  animation-delay: calc(var(--i) * 40ms);
+}
+
+.intro-screen.is-counted .intro-letter.is-alt {
+  animation-name: introLetterCartwheel;
+}
+
+@keyframes introLetterFlip {
+  0%   { opacity: 0; transform: translate3d(0, 120%, 0) rotateX(0deg) scale(0.7, 0.7); }
+  35%  { opacity: 1; transform: translate3d(0, -55%, 0) rotateX(-200deg) scale(1.05, 1.05); }
+  65%  { opacity: 1; transform: translate3d(0, -8%, 0) rotateX(-360deg) scale(1, 1); }
+  80%  { opacity: 1; transform: translate3d(0, 4%, 0) rotateX(-360deg) scale(1.06, 0.88); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) rotateX(-360deg) scale(1, 1); }
+}
+
+@keyframes introLetterCartwheel {
+  0%   { opacity: 0; transform: translate3d(-60%, 110%, 0) rotate(-300deg) scale(0.6, 0.6); }
+  45%  { opacity: 1; transform: translate3d(0, -45%, 0) rotate(15deg) scale(1.05, 1.05); }
+  72%  { opacity: 1; transform: translate3d(0, 5%, 0) rotate(-5deg) scale(1.05, 0.9); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) rotate(0deg) scale(1, 1); }
+}
+
+/* Lite mode (low-power devices): a simpler staggered rise */
+.intro-screen.is-lite.is-counted .intro-letter,
+.intro-screen.is-lite.is-counted .intro-letter.is-alt {
+  animation: introLetterRise 0.55s ease-out both;
+  animation-delay: calc(var(--i) * 30ms);
+}
+
+@keyframes introLetterRise {
+  from { opacity: 0; transform: translateY(60%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Welcome copy --- */
+.intro-welcome {
+  position: absolute;
+  z-index: 2;
+  left: clamp(1.25rem, 4vw, 4.5rem);
+  bottom: clamp(1.5rem, 4.5vw, 3.75rem);
+  margin: 0;
+  font-family: var(--font-condensed);
+  font-weight: 600;
+  font-size: clamp(1rem, 1.6vw, 1.55rem);
+  line-height: 1.12;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #ffffff;
+  transition: transform 0.7s var(--ease-cinematic), opacity 0.45s ease;
+}
+
+/* --- Portal (hit area + cue). The canvas draws the hole itself. --- */
+.intro-portal {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--portal-r) * 2);
+  height: calc(var(--portal-r) * 2);
+  margin: calc(var(--portal-r) * -1) 0 0 calc(var(--portal-r) * -1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #ffffff;
+  font-family: var(--font-condensed);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.intro-screen.is-ready .intro-portal {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.intro-portal-ring,
+.intro-portal-ring::after {
+  position: absolute;
+  inset: 16%;
+  border: 1px solid rgba(237, 99, 46, 0.8);
+  border-radius: 50%;
+  animation: introPortalPulse 2.6s ease-out infinite;
+}
+
+.intro-portal-ring::after {
+  content: "";
+  inset: -1px;
+  animation-delay: 1.3s;
+}
+
+@keyframes introPortalPulse {
+  0%   { transform: scale(0.72); opacity: 0; }
+  35%  { opacity: 0.9; }
+  100% { transform: scale(1.12); opacity: 0; }
+}
+
+.intro-portal-title {
+  position: relative;
+  font-size: clamp(1rem, 1.6vw, 1.4rem);
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  padding-left: 0.28em;
+  text-transform: uppercase;
+  transition: letter-spacing 0.6s var(--ease-cinematic), padding-left 0.6s var(--ease-cinematic);
+}
+
+.intro-portal-hint {
+  position: relative;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  padding-left: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.intro-portal:hover .intro-portal-title,
+.intro-portal:focus-visible .intro-portal-title {
+  letter-spacing: 0.36em;
+  padding-left: 0.36em;
+}
+
+.intro-portal:hover .intro-portal-ring,
+.intro-portal:hover .intro-portal-ring::after {
+  animation-duration: 1.4s;
+}
+
+.intro-portal:hover .intro-portal-ring::after {
+  animation-delay: 0.7s;
+}
+
+.intro-portal:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 8px;
+}
+
+/* Lite mode: the hole is a CSS circle instead of the particle scene */
+.intro-screen.is-lite .intro-portal {
+  background: radial-gradient(circle, #080808 0 64%, rgba(8, 8, 8, 0.8) 69%, rgba(8, 8, 8, 0) 72%);
+  box-shadow: 0 0 90px 40px rgba(70, 20, 6, 0.28);
+  transform: scale(0);
+  opacity: 1;
+  transition: transform 1.1s var(--ease-cinematic);
+}
+
+.intro-screen.is-lite.is-portal .intro-portal {
+  transform: scale(1);
+}
+
+.intro-screen.is-lite .intro-portal > * {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.intro-screen.is-lite.is-ready .intro-portal > * {
+  opacity: 1;
+}
+
+/* --- Diving into the portal --- */
+.intro-screen.is-diving {
+  cursor: default;
+}
+
+.intro-screen.is-diving .intro-welcome {
+  transform: translateY(18px);
+  opacity: 0;
+}
+
+.intro-screen.is-diving .intro-portal > *,
+.intro-screen.is-lite.is-diving .intro-portal > * {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.intro-screen.is-diving .intro-portal-ring {
+  animation: none;
+}
+
+.intro-screen.is-lite.is-diving .intro-portal {
+  transform: scale(var(--portal-cover));
+  transition: transform 1.1s cubic-bezier(0.7, 0, 0.84, 0);
+}
+
+@media (max-width: 768px) {
+  .intro-counter-num {
+    font-size: clamp(7rem, 40vw, 14rem);
+  }
+
+  .intro-years {
+    font-size: clamp(1.15rem, 5.4vw, 1.6rem);
+  }
+
+  .intro-welcome {
+    font-size: clamp(1rem, 4.4vw, 1.3rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-screen.is-counted .intro-letter,
+  .intro-screen.is-counted .intro-letter.is-alt {
+    animation: none;
+    opacity: 1;
+  }
+
+  .intro-headline,
+  .intro-screen.is-lite .intro-portal {
+    transition: opacity 0.4s ease;
+  }
+
+  .intro-screen.is-portal .intro-headline {
+    transform: none;
+    filter: none;
+  }
+
+  .intro-screen.is-lite .intro-portal,
+  .intro-screen.is-lite.is-diving .intro-portal {
+    transform: scale(1);
+  }
+
+  .intro-portal-ring,
+  .intro-portal-ring::after {
+    animation: none;
+    opacity: 0.8;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   2. HERO VIDEO, FRAME & TYPOGRAPHY
+   ========================================================================== */
+
+.hero-media-wrapper video.hero-video {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 0;
+  filter: brightness(0.8) contrast(1.06) saturate(1.05);
+  transition: opacity 1.4s ease;
+}
+
+.hero-media-wrapper video.hero-video.is-playing {
+  opacity: 1;
+}
+
+/* Brand-coloured frame around the video: 2px stroke, corners match the buttons */
+.hero-frame {
+  position: absolute;
+  z-index: 5;
+  top: var(--nav-height);
+  left: clamp(0.75rem, 1.6vw, 1.75rem);
+  right: clamp(0.75rem, 1.6vw, 1.75rem);
+  bottom: clamp(0.75rem, 1.6vw, 1.75rem);
+  pointer-events: none;
+}
+
+.hero-frame-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.hero-frame-rect {
+  fill: none;
+  stroke: var(--brand-stroke);
+  stroke-width: 2;
+  /* stroke-dasharray / offset are set by js/hero.js for the draw-in */
+  transition: stroke-dashoffset 2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Oversized, condensed hero headlines */
+.hero-scrolly-container .hero-stage-headline {
+  font-family: var(--font-condensed) !important;
+  font-weight: 700;
+  font-size: clamp(2.75rem, 5.3vw, 6.25rem);
+  line-height: 0.96;
+  letter-spacing: -0.005em;
+}
+
+.hero-scrolly-container .hero-stage .accent-word {
+  font-family: var(--font-condensed) !important;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.hero-scrolly-container .hero-stage-col--right {
+  border-left-color: rgba(237, 99, 46, 0.45);
+}
+
+.hero-scrolly-container .hero-metric-item {
+  border-radius: var(--stroke-radius);
+}
+
+.hero-scrolly-container .hero-metric-item .metric-num {
+  font-family: var(--font-condensed) !important;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+  .hero-scrolly-container .hero-stage-headline {
+    font-size: clamp(2.3rem, 10vw, 3.4rem);
+    line-height: 0.98;
+  }
+
+  .hero-scrolly-container .hero-stage-col--right {
+    border-left: none;
+    border-top-color: rgba(237, 99, 46, 0.45);
+  }
+
+  .hero-scrolly-container .hero-metric-item .metric-num {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-scrolly-container .hero-stage-headline {
+    font-size: clamp(2rem, 10.5vw, 2.8rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-frame-rect {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   3. BRAND STROKE BUTTON (hero CTA)
+   ========================================================================== */
+
+.btn.hero-btn {
+  background-color: transparent;
+  border: 1px solid var(--brand-stroke);
+  border-radius: var(--stroke-radius);
+  color: #ffffff !important;
+  isolation: isolate;
+  box-shadow: none;
+}
+
+.btn.hero-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--brand-stroke);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.55s var(--ease-cinematic);
+}
+
+.btn.hero-btn:hover,
+.btn.hero-btn:focus-visible {
+  background-color: transparent;
+  border-color: var(--brand-stroke);
+  transform: none;
+  box-shadow: none;
+}
+
+.btn.hero-btn:hover::before,
+.btn.hero-btn:focus-visible::before {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.btn.hero-btn svg {
+  transition: transform 0.45s var(--ease-cinematic);
+}
+
+.btn.hero-btn:hover svg {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   4. NAVIGATION — hamburger left, logo centred, icon + pill CTA right
+   ========================================================================== */
+
+.site-header {
+  border-bottom: 1px solid transparent;
+}
+
+.site-header .nav-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.site-header .brand-logo {
+  grid-column: 2;
+  justify-self: center;
+}
+
+.site-header .nav-actions {
+  grid-column: 3;
+  justify-self: end;
+  gap: clamp(0.5rem, 1.4vw, 1.25rem);
+}
+
+/* All destinations live in the overlay menu */
+.site-header .desktop-nav {
+  display: none;
+}
+
+.site-header.is-scrolled {
+  background-color: rgba(8, 8, 8, 0.86);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Light theme: transparent while the header sits over the hero video */
+[data-theme="light"] .site-header.is-over-hero {
+  background-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+  box-shadow: none;
+}
+
+[data-theme="light"] .site-header.is-over-hero.is-scrolled {
+  background-color: rgba(8, 8, 8, 0.86);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="light"] .site-header.is-over-hero .brand-logo-light { display: none; }
+[data-theme="light"] .site-header.is-over-hero .brand-logo-dark { display: block; }
+
+[data-theme="light"] .site-header.is-scrolled:not(.is-over-hero) {
+  background-color: rgba(243, 241, 237, 0.95);
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+/* --- Hamburger --- */
+.site-header .mobile-menu-btn {
+  grid-column: 1;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-left: -10px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--stroke-radius);
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.site-header .menu-btn-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.site-header .burger-icon {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 16px;
+}
+
+.site-header .burger-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background-color: currentColor;
+  transform-origin: center;
+  transition: transform 0.45s var(--ease-cinematic), width 0.45s var(--ease-cinematic), opacity 0.25s ease, background-color 0.3s ease;
+}
+
+.site-header .burger-line:nth-child(1) { top: 0; }
+.site-header .burger-line:nth-child(2) { top: 7px; width: 62%; }
+.site-header .burger-line:nth-child(3) { top: 14px; }
+
+.site-header .mobile-menu-btn:hover .burger-line:nth-child(2),
+.site-header .mobile-menu-btn:focus-visible .burger-line:nth-child(2) {
+  width: 100%;
+  background-color: var(--brand-stroke);
+}
+
+.site-header.is-menu-open .burger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.site-header.is-menu-open .burger-line:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-8px);
+}
+
+.site-header.is-menu-open .burger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --- Theme toggle as a plain icon --- */
+.site-header .theme-toggle-btn {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.site-header .theme-toggle-btn:hover {
+  color: var(--brand-stroke);
+  background-color: rgba(255, 255, 255, 0.06);
+  transform: none;
+}
+
+.site-header .theme-toggle-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* --- INQUIRE pill --- */
+.site-header .btn.nav-cta-btn {
+  min-height: 44px;
+  padding: 0.75rem 1.65rem;
+  border: 1px solid #ffffff;
+  border-radius: var(--radius-full);
+  background-color: #ffffff;
+  color: #0b0b0b !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  box-shadow: none;
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease, transform 0.35s var(--ease-cinematic);
+}
+
+.site-header .btn.nav-cta-btn:hover,
+.site-header .btn.nav-cta-btn:focus-visible {
+  background-color: var(--brand-stroke);
+  border-color: var(--brand-stroke);
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: none;
+}
+
+/* Light theme away from the hero: dark icons and a dark pill */
+[data-theme="light"] .site-header:not(.is-over-hero):not(.is-menu-open) .mobile-menu-btn,
+[data-theme="light"] .site-header:not(.is-over-hero):not(.is-menu-open) .theme-toggle-btn {
+  color: #111111;
+}
+
+[data-theme="light"] .site-header:not(.is-over-hero):not(.is-menu-open) .btn.nav-cta-btn {
+  background-color: #111111;
+  border-color: #111111;
+  color: #ffffff !important;
+}
+
+.site-header.is-menu-open {
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .site-header.is-menu-open .brand-logo-light { display: none; }
+[data-theme="light"] .site-header.is-menu-open .brand-logo-dark { display: block; }
+
+/* --- Full-screen overlay menu (all screen sizes) --- */
+.mobile-drawer {
+  background-color: #080808;
+  color: #ffffff;
+  padding: calc(var(--nav-height) + 2.5rem) clamp(1.25rem, 5vw, 3rem) 2.5rem;
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 100% 0);
+  visibility: hidden;
+  transition: clip-path 0.75s var(--ease-intro), visibility 0s linear 0.75s;
+  overflow-y: auto;
+}
+
+.mobile-drawer.is-open {
+  clip-path: inset(0 0 0 0);
+  visibility: visible;
+  transition: clip-path 0.75s var(--ease-intro), visibility 0s;
+}
+
+.mobile-drawer::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--nav-height) + 0.25rem) 0.75rem 0.75rem;
+  border: 1px solid rgba(237, 99, 46, 0.5);
+  border-radius: var(--stroke-radius);
+  pointer-events: none;
+}
+
+.mobile-drawer-links {
+  position: relative;
+  gap: 0;
+}
+
+.mobile-drawer .mobile-drawer-link {
+  position: relative;
+  padding: 1.1rem 0.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: var(--font-condensed);
+  font-size: clamp(2.4rem, 11vw, 4rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #ffffff;
+  transition: color 0.3s ease, padding-left 0.45s var(--ease-cinematic);
+}
+
+.mobile-drawer .mobile-drawer-link:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-drawer .mobile-drawer-link span.num {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--brand-stroke);
+}
+
+.mobile-drawer .mobile-drawer-link:hover,
+.mobile-drawer .mobile-drawer-link:focus-visible,
+.mobile-drawer .mobile-drawer-link.is-active {
+  color: var(--brand-stroke);
+  padding-left: 0.85rem;
+}
+
+.mobile-drawer-footer {
+  position: relative;
+  margin-top: 2.5rem;
+}
+
+.mobile-drawer .mobile-drawer-coords {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.mobile-drawer .btn-primary {
+  background-color: transparent;
+  border: 1px solid var(--brand-stroke);
+  border-radius: var(--stroke-radius);
+}
+
+.mobile-drawer .btn-primary:hover {
+  background-color: var(--brand-stroke);
+  box-shadow: none;
+  transform: none;
+}
+
+/* Desktop overlay: oversized links on the left, details bottom-right */
+@media (min-width: 993px) {
+  .mobile-drawer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 26%);
+    align-items: end;
+    column-gap: clamp(3rem, 6vw, 7rem);
+    padding: calc(var(--nav-height) + 3vh) clamp(2.5rem, 6vw, 7rem) clamp(2.5rem, 5vh, 4rem);
+  }
+
+  .mobile-drawer .mobile-drawer-link {
+    padding: clamp(0.6rem, 1.6vh, 1.1rem) 0.25rem;
+    font-size: clamp(2.6rem, min(7vw, 8.5vh), 6rem);
+  }
+
+  .mobile-drawer .mobile-drawer-link:hover,
+  .mobile-drawer .mobile-drawer-link:focus-visible,
+  .mobile-drawer .mobile-drawer-link.is-active {
+    padding-left: 1.5rem;
+  }
+
+  .mobile-drawer-footer {
+    margin-top: 0;
+    padding-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 992px) {
+  :root {
+    --nav-height: 72px;
+  }
+}
+
+/* Small phones: the overlay holds the CTA, keep the bar uncluttered */
+@media (max-width: 560px) {
+  .site-header .btn.nav-cta-btn {
+    display: none;
+  }
+}
+
+@media (min-width: 561px) and (max-width: 992px) {
+  .site-header .btn.nav-cta-btn {
+    display: inline-flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-drawer,
+  .mobile-drawer.is-open {
+    transition: none;
+  }
+}
+
+/* Keep hero copy clear of the frame on small screens */
+@media (max-width: 768px) {
+  .hero-scrolly-container .hero-stages-viewport {
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+  }
+
+  .hero-scrolly-container .hero-stage {
+    left: 1.75rem;
+    right: 1.75rem;
+  }
+}
+
+/* ==========================================================================
+   5. ABOUT — particle orbit behind the statement (js/about-orbit.js)
+   ========================================================================== */
+
+.about-scrolly-pin {
+  overflow: hidden;
+}
+
+.about-orbit-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.about-scrolly-pin > .about-editorial-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   6. EVENTS WE PRODUCE — pinned portal carousel (js/event-types.js)
+   Each event type is a portal revealed by a ground-level uplight; scrolling moves the
+   line-up to the right and brings the next portal to centre stage.
+   ========================================================================== */
+
+.events-scrolly {
+  --d: 320px;
+  position: relative;
+  background-color: #060606;
+  color: #ffffff;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.events-pin {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.events-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.events-bgword {
+  position: absolute;
+  left: 50%;
+  bottom: 4vh;
+  z-index: 0;
+  font-family: var(--font-condensed);
+  font-weight: 500;
+  font-size: clamp(7rem, 24vw, 26rem);
+  line-height: 0.8;
+  letter-spacing: 0.32em;
+  padding-left: 0.32em;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.035);
+  transform: translateX(-50%);
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+}
+
+.events-eyebrow {
+  position: absolute;
+  z-index: 6;
+  top: calc(var(--nav-height) + 1.5rem);
+  left: clamp(1.25rem, 6vw, 7rem);
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.events-eyebrow span {
+  color: var(--brand-stroke);
+}
+
+/* --- Visual line-up (positioned by JS) --- */
+.events-visuals {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.events-visual {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: var(--d);
+  margin-left: calc(var(--d) / -2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 50% calc(var(--d) / 2);
+  will-change: transform, opacity;
+  --focus: 0;
+}
+
+.events-portal {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  width: var(--d);
+  height: var(--d);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2px var(--brand-stroke),
+    0 0 0 calc(var(--d) * 0.035) rgba(237, 99, 46, 0.08),
+    0 0 calc(var(--d) * 0.25) rgba(237, 99, 46, calc(0.08 + var(--focus) * 0.22)),
+    0 calc(var(--d) * 0.1) calc(var(--d) * 0.25) rgba(0, 0, 0, 0.65);
+}
+
+/* Slow-turning outer ring */
+.events-portal::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--d) * -0.06);
+  border: 1px dashed rgba(255, 217, 196, 0.3);
+  border-radius: 50%;
+  animation: eventsRingTurn 40s linear infinite;
+}
+
+@keyframes eventsRingTurn {
+  to { transform: rotate(360deg); }
+}
+
+.events-portal-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #111111;
+}
+
+/* The image is discovered by its uplight: it brightens and is unmasked from the bottom up */
+.events-portal-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(calc(0.4 + var(--reveal, 0) * 0.6)) brightness(calc(0.18 + var(--reveal, 0) * 0.82));
+  transform: scale(calc(1.16 - var(--reveal, 0) * 0.16));
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 calc(var(--reveal, 0) * 130% - 30%), transparent calc(var(--reveal, 0) * 130%));
+  mask-image: linear-gradient(to top, #000 0%, #000 calc(var(--reveal, 0) * 130% - 30%), transparent calc(var(--reveal, 0) * 130%));
+}
+
+/* --- Ground-level uplights that reveal each portal (positioned by js/event-types.js) --- */
+.events-floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--floor, 92vh);
+  bottom: 0;
+  z-index: 1;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background:
+    radial-gradient(ellipse 60% 120% at 50% 0%, rgba(237, 99, 46, calc(0.1 * var(--stage-light, 0))), transparent 70%),
+    linear-gradient(180deg, #0d0b0a 0%, #060606 100%);
+  pointer-events: none;
+}
+
+.events-lights {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.events-light {
+  --i: 0;
+  --w: 300px;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: var(--w);
+  height: var(--h, 50vh);
+  margin-left: calc(var(--w) / -2);
+  transform: translate3d(var(--x, 0px), var(--top, 0px), 0);
+  will-change: transform, opacity;
+}
+
+/* Wide, soft outer cone */
+.events-light-beam,
+.events-light-core {
+  position: absolute;
+  inset: 0 0 14px;
+  mix-blend-mode: screen;
+}
+
+.events-light-beam {
+  clip-path: polygon(0 0, 100% 0, 54% 100%, 46% 100%);
+  background: linear-gradient(to top,
+    rgba(255, 214, 190, calc(0.34 * var(--i))) 0%,
+    rgba(237, 99, 46, calc(0.2 * var(--i))) 35%,
+    rgba(237, 99, 46, calc(0.07 * var(--i))) 75%,
+    rgba(237, 99, 46, 0) 100%);
+}
+
+/* Bright inner core, stacked on the cone for a soft falloff */
+.events-light-core {
+  clip-path: polygon(24% 0, 76% 0, 52% 100%, 48% 100%);
+  background: linear-gradient(to top,
+    rgba(255, 241, 230, calc(0.42 * var(--i))) 0%,
+    rgba(255, 190, 150, calc(0.16 * var(--i))) 45%,
+    rgba(237, 99, 46, 0) 100%);
+}
+
+/* The uplight fixture sitting on the floor */
+.events-light-fixture {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 46px;
+  height: 18px;
+  margin-left: -23px;
+  border-radius: 5px 5px 2px 2px;
+  background: linear-gradient(180deg, #2a2420, #121010);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
+}
+
+.events-light-fixture::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: -3px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 226, 206, calc(0.25 + 0.75 * var(--i)));
+  box-shadow:
+    0 0 12px rgba(237, 99, 46, calc(0.9 * var(--i))),
+    0 -4px 26px rgba(255, 214, 190, calc(0.6 * var(--i)));
+}
+
+/* Light pool and reflection on the floor */
+.events-light-pool {
+  position: absolute;
+  left: 50%;
+  bottom: -26px;
+  width: 140%;
+  height: 70px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 40%, rgba(237, 99, 46, calc(0.32 * var(--i))) 0%, rgba(237, 99, 46, calc(0.1 * var(--i))) 35%, transparent 70%);
+}
+
+@media (max-width: 768px) {
+  /* The centre beam passes behind the copy on phones (dimmed in JS) */
+  .events-title,
+  .events-desc {
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85);
+  }
+}
+
+/* --- Copy (crossfaded by JS) --- */
+.events-list {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+
+.events-item {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.events-item.is-visible {
+  visibility: visible;
+}
+
+.events-item-title {
+  position: absolute;
+  top: var(--title-top, 30vh);
+  left: clamp(1.25rem, 6vw, 7rem);
+  width: min(30vw, 440px);
+  transform: translate3d(var(--shift, 0px), 0, 0);
+}
+
+.events-title {
+  margin: 0;
+  font-family: var(--font-condensed) !important;
+  font-weight: 600;
+  font-size: clamp(2.6rem, 4.6vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-wrap: balance;
+}
+
+.events-desc {
+  position: absolute;
+  top: var(--title-top, 30vh);
+  right: clamp(1.25rem, 6vw, 7rem);
+  width: min(26vw, 380px);
+  margin: 1.9rem 0 0;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.15vw, 1.15rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+  transform: translate3d(calc(var(--shift, 0px) * 0.6), 0, 0);
+}
+
+/* --- Progress --- */
+.events-progress {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  bottom: clamp(1.25rem, 4vh, 2.5rem);
+  width: min(240px, 50vw);
+  transform: translateX(-50%);
+}
+
+.events-progress-bar {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+
+.events-progress-fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background-color: var(--brand-stroke);
+  transform-origin: left center;
+  transform: scaleX(0.2);
+}
+
+/* --- Mobile: portal on top, copy centred beneath --- */
+@media (max-width: 768px) {
+  .events-item-title,
+  .events-desc {
+    left: 1.5rem;
+    right: 1.5rem;
+    width: auto;
+    text-align: center;
+  }
+
+  .events-title {
+    font-size: clamp(2.2rem, 10vw, 3rem);
+  }
+
+  .events-desc {
+    top: var(--desc-top, 70vh);
+    margin-top: 0;
+    font-size: 0.98rem;
+  }
+
+  .events-eyebrow {
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+}
+
+/* --- Static fallback (reduced motion / no GSAP): a simple list --- */
+.events-scrolly.is-static .events-pin {
+  height: auto;
+  padding: calc(var(--nav-height) + 3rem) clamp(1.25rem, 6vw, 7rem) 4rem;
+}
+
+.events-scrolly.is-static .events-eyebrow,
+.events-scrolly.is-static .events-list,
+.events-scrolly.is-static .events-item,
+.events-scrolly.is-static .events-item-title,
+.events-scrolly.is-static .events-desc {
+  position: static;
+  transform: none;
+  width: auto;
+}
+
+.events-scrolly.is-static .events-item {
+  opacity: 1;
+  visibility: visible;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.events-scrolly.is-static .events-visuals,
+.events-scrolly.is-static .events-lights,
+.events-scrolly.is-static .events-floor,
+.events-scrolly.is-static .events-canvas,
+.events-scrolly.is-static .events-progress,
+.events-scrolly.is-static .events-bgword {
+  display: none;
+}
+
+.events-scrolly.is-static .events-desc {
+  margin-top: 0.75rem;
+  text-align: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .events-portal::after {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   7. STAGE BUILD SEQUENCE (js/build-stage.js)
+   After the portal dive the visitor builds the stage; the LED wall then
+   fills the screen and dissolves into the real hero video.
+   ========================================================================== */
+
+.intro-build,
+.build-hud {
+  display: none;
+}
+
+.intro-screen.is-building {
+  background-color: #050505;
+  cursor: default;
+}
+
+.intro-screen.is-building .intro-build,
+.intro-screen.is-building .build-hud {
+  display: block;
+}
+
+.intro-build {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background-color: #050505;
+  animation: buildFadeIn 1.3s ease both;
+}
+
+@keyframes buildFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.intro-build-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Same treatment as .hero-overlay so the hand-off frame matches the hero exactly */
+.build-vignette {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(8, 8, 8, 0.4) 0%, rgba(8, 8, 8, 0.8) 100%),
+    linear-gradient(180deg, rgba(8, 8, 8, 0.6) 0%, rgba(8, 8, 8, 0.15) 30%, rgba(8, 8, 8, 0.2) 70%, rgba(8, 8, 8, 0.8) 100%);
+}
+
+.build-hud {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  color: #ffffff;
+  opacity: 0; /* faded in and out by js/build-stage.js */
+}
+
+.build-chapter {
+  position: absolute;
+  left: clamp(1.25rem, 5vw, 4.5rem);
+  bottom: calc(clamp(1.5rem, 5vh, 3.25rem) + 1.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: min(420px, 80vw);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.7);
+}
+
+.build-chapter.is-changing > * {
+  animation: buildChapterIn 0.7s var(--ease-cinematic) both;
+}
+
+.build-chapter.is-changing > :nth-child(2) { animation-delay: 0.06s; }
+.build-chapter.is-changing > :nth-child(3) { animation-delay: 0.12s; }
+
+@keyframes buildChapterIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.build-chapter-num {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--brand-stroke);
+}
+
+.build-chapter-title {
+  font-family: var(--font-condensed);
+  font-size: clamp(1.9rem, 3.4vw, 3.2rem);
+  font-weight: 600;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.build-chapter-desc {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.05vw, 1.05rem);
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.build-progress {
+  position: absolute;
+  left: clamp(1.25rem, 5vw, 4.5rem);
+  bottom: clamp(1.5rem, 5vh, 3.25rem);
+  width: min(320px, 60vw);
+  height: 2px;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.16);
+  overflow: hidden;
+}
+
+.build-progress-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: var(--brand-stroke);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+/* Scroll / swipe invitation */
+.build-hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.5rem, 5vh, 3.25rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  transform: translateX(-50%);
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.75);
+  transition: opacity 0.6s ease;
+}
+
+.build-hint.is-hidden {
+  opacity: 0;
+}
+
+.build-hint-mouse {
+  position: relative;
+  width: 22px;
+  height: 34px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+}
+
+.build-hint-mouse::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  width: 3px;
+  height: 7px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background-color: var(--brand-stroke);
+  animation: buildWheel 1.6s ease-in-out infinite;
+}
+
+@keyframes buildWheel {
+  0% { transform: translateY(0); opacity: 1; }
+  70% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+
+.build-hint-text--touch {
+  display: none;
+}
+
+@media (hover: none) {
+  .build-hint-text--wheel { display: none; }
+  .build-hint-text--touch { display: inline; }
+}
+
+.build-skip {
+  position: absolute;
+  top: clamp(1rem, 3vh, 1.75rem);
+  right: clamp(1.25rem, 4vw, 3rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 40px;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-full);
+  background-color: rgba(8, 8, 8, 0.35);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  pointer-events: auto;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.build-skip:hover,
+.build-skip:focus-visible {
+  border-color: var(--brand-stroke);
+  background-color: rgba(237, 99, 46, 0.2);
+}
+
+.build-skip:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* A slightly longer dissolve for the LED-wall-to-video hand-off */
+.intro-screen.is-building.is-revealing {
+  transition-duration: 1s;
+}
+
+@media (max-width: 768px) {
+  .build-chapter {
+    bottom: calc(clamp(1.5rem, 5vh, 3.25rem) + 1.25rem + 4.5rem);
+  }
+
+  .build-hint {
+    left: auto;
+    right: clamp(1.25rem, 5vw, 4.5rem);
+    transform: none;
+    align-items: flex-end;
+  }
+}

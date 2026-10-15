@@ -9,6 +9,11 @@
         document.documentElement.setAttribute('data-theme', 'light');
       }
       // Default is dark (no attribute needed)
+
+      // Opening screen: shown on direct visits; skipped for deep links like /#contact
+      if (!window.location.hash) {
+        document.documentElement.classList.add('intro-active');
+      }
     })();
   </script>
   <meta charset="UTF-8">
@@ -32,11 +37,12 @@
   <meta property="twitter:image" content="assets/images/hero/hero-poster.svg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/refinements.css">
 
   <!-- Schema.org JSON-LD -->
   <script type="application/ld+json">
@@ -61,6 +67,46 @@
   </script>
 </head>
 <body>
+  <!-- Opening Screen (counter, letter reveal, portal); removed by js/intro.js -->
+  <div class="intro-screen" id="intro-screen" role="dialog" aria-modal="true" aria-label="Welcome to Eternal Events">
+    <canvas class="intro-canvas" aria-hidden="true"></canvas>
+    <div class="intro-headline">
+      <span class="intro-counter-num" aria-hidden="true">00</span>
+      <p class="intro-years" data-split>Years of Experience</p>
+      <span class="intro-sr-only">16 years of experience</span>
+    </div>
+    <p class="intro-welcome">
+      Welcome to a full-service<br>
+      event company — where<br>
+      you don't miss a thing.
+    </p>
+    <button class="intro-portal" type="button" aria-label="Step inside and enter the site" disabled>
+      <span class="intro-portal-ring" aria-hidden="true"></span>
+      <span class="intro-portal-title">Step inside</span>
+      <span class="intro-portal-hint">Click to enter</span>
+    </button>
+
+    <!-- Stage build sequence (js/build-stage.js): the visitor builds the stage, then lands in the live event -->
+    <div class="intro-build" aria-hidden="true">
+      <canvas class="intro-build-canvas"></canvas>
+      <div class="build-vignette"></div>
+    </div>
+    <div class="build-hud">
+      <div class="build-chapter" aria-live="polite">
+        <span class="build-chapter-num">01 / 06</span>
+        <span class="build-chapter-title">Ground plan</span>
+        <span class="build-chapter-desc">Marking out the venue floor.</span>
+      </div>
+      <div class="build-progress" aria-hidden="true"><span class="build-progress-fill"></span></div>
+      <p class="build-hint" aria-hidden="true">
+        <span class="build-hint-mouse"></span>
+        <span class="build-hint-text build-hint-text--wheel">Scroll to build the stage</span>
+        <span class="build-hint-text build-hint-text--touch">Swipe up to build the stage</span>
+      </p>
+      <button class="build-skip" type="button">Skip intro <span aria-hidden="true">&rarr;</span></button>
+    </div>
+  </div>
+
   <!-- Accessible Skip Link -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -70,6 +116,14 @@
   <!-- Global Header -->
   <header class="site-header">
     <div class="container nav-container">
+      <button class="mobile-menu-btn" data-mobile-toggle aria-label="Open Menu" aria-expanded="false" aria-controls="mobile-drawer">
+        <span class="burger-icon" aria-hidden="true">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </span>
+        <span class="menu-btn-label">MENU</span>
+      </button>
       <a href="/" class="brand-logo" aria-label="ETERNAL Events Home">
         <img src="assets/images/logo/eternal-events-dark.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-dark">
         <img src="assets/images/logo/eternal-events-light.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-light">
@@ -91,28 +145,18 @@
           <span>INQUIRE</span>
         </a>
 
-        <button class="mobile-menu-btn" aria-label="Open Navigation Menu" aria-expanded="false" aria-controls="mobile-drawer">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
       </div>
     </div>
   </header>
 
   <!-- Mobile Drawer -->
   <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
-    <div class="mobile-drawer-header">
-      <span class="mobile-drawer-title">MENU</span>
-      <button class="mobile-drawer-close" aria-label="Close navigation menu">✕</button>
-    </div>
-
-    <nav class="mobile-nav">
-      <a href="/" class="mobile-nav-link">01 — Home</a>
-      <a href="/work/" class="mobile-nav-link">02 — Work</a>
-      <a href="#services" class="mobile-nav-link">03 — Services</a>
-      <a href="#about" class="mobile-nav-link">04 — About</a>
-      <a href="#contact" class="mobile-nav-link">05 — Contact</a>
+    <nav class="mobile-drawer-links" aria-label="Mobile Navigation">
+      <a href="/" class="mobile-drawer-link">Home <span class="num">01</span></a>
+      <a href="/work/" class="mobile-drawer-link">Work <span class="num">02</span></a>
+      <a href="#services" class="mobile-drawer-link">Services <span class="num">03</span></a>
+      <a href="#about" class="mobile-drawer-link">About <span class="num">04</span></a>
+      <a href="#contact" class="mobile-drawer-link">Contact <span class="num">05</span></a>
     </nav>
 
     <div class="mobile-drawer-footer">
@@ -136,11 +180,22 @@
             <div class="hero-slide" style="background-image: url('assets/images/hero/hero-slide-6.jpg');"></div>
             <div class="hero-slide" style="background-image: url('assets/images/hero/hero-slide-3.jpg');"></div>
           </div>
+          <!-- Hero video — plays silently after the visitor enters; slideshow above is the fallback -->
+          <video class="hero-video" muted loop playsinline preload="auto" poster="assets/images/hero/hero-slide-1.jpg" aria-hidden="true" tabindex="-1">
+            <source src="assets/videos/hero.mp4" type="video/mp4">
+          </video>
           <canvas class="hero-ambient-canvas" aria-hidden="true"></canvas>
         </div>
 
         <!-- Subtle Cinematic Vignette Overlay -->
         <div class="hero-overlay" aria-hidden="true"></div>
+
+        <!-- Brand-Coloured Rectangular Frame -->
+        <div class="hero-frame" aria-hidden="true">
+          <svg class="hero-frame-svg" focusable="false">
+            <rect class="hero-frame-rect" x="0" y="0" width="100%" height="100%" rx="8" ry="8"></rect>
+          </svg>
+        </div>
 
         <!-- Storytelling Stages Viewport -->
         <div class="hero-stages-viewport container">
@@ -237,106 +292,122 @@ We bring ideas to life through thoughtful design, meticulous planning and except
         </div>
       </div>
 
-      <!-- 3-Column Architectural Engineering Grid (Matching Reference Screenshot) -->
-      <div class="container about-pillars-container">
-        <div class="about-pillars-grid">
-          <!-- Column 1: Internationally Certified Crew -->
-          <div class="pillar-card">
-            <div class="pillar-wireframe" aria-hidden="true">
-              <svg viewBox="0 0 160 120" class="wireframe-svg wireframe-svg--cert">
-                <g class="wf-anim-cert">
-                  <circle cx="80" cy="60" r="44" class="wf-stroke wf-base" fill="none"/>
-                  <ellipse cx="80" cy="60" rx="26" ry="44" class="wf-stroke wf-mid" fill="none"/>
-                  <ellipse cx="80" cy="60" rx="12" ry="44" class="wf-stroke wf-outer" fill="none"/>
-                  <line x1="36" y1="60" x2="124" y2="60" class="wf-stroke wf-mid"/>
-                  <line x1="45" y1="38" x2="115" y2="38" class="wf-guide"/>
-                  <line x1="45" y1="82" x2="115" y2="82" class="wf-guide"/>
-                  <line x1="80" y1="10" x2="80" y2="110" class="wf-guide"/>
-                  <line x1="28" y1="60" x2="132" y2="60" class="wf-guide"/>
-                  <polygon points="80,44 85,55 96,60 85,65 80,76 75,65 64,60 75,55" class="wf-stroke wf-base wf-crest" fill="none"/>
-                  <circle cx="80" cy="60" r="7" class="wf-stroke wf-mid" fill="none"/>
-                  <circle cx="80" cy="60" r="2.5" class="wf-stroke wf-core" fill="var(--accent)"/>
-                  <line x1="80" y1="12" x2="80" y2="16" class="wf-stroke"/>
-                  <line x1="80" y1="104" x2="80" y2="108" class="wf-stroke"/>
-                  <line x1="32" y1="60" x2="36" y2="60" class="wf-stroke"/>
-                  <line x1="124" y1="60" x2="128" y2="60" class="wf-stroke"/>
-                </g>
-              </svg>
-            </div>
-            <h3 class="pillar-title">Internationally Certified Crew</h3>
-            <p class="pillar-desc">
-              Internationally certified professionals with the expertise to deliver complex events to professional standards.
-            </p>
-          </div>
+    </section>
 
-          <!-- Column 2: Timely Delivery -->
-          <div class="pillar-card">
-            <div class="pillar-wireframe" aria-hidden="true">
-              <svg viewBox="0 0 160 120" class="wireframe-svg wireframe-svg--time">
-                <g class="wf-anim-time">
-                  <circle cx="80" cy="60" r="44" class="wf-stroke wf-base" fill="none"/>
-                  <circle cx="80" cy="60" r="37" class="wf-stroke wf-mid" fill="none"/>
-                  <circle cx="80" cy="60" r="16" class="wf-stroke wf-guide" fill="none"/>
-                  <line x1="28" y1="60" x2="132" y2="60" class="wf-guide"/>
-                  <line x1="80" y1="8" x2="80" y2="112" class="wf-guide"/>
-                  <line x1="80" y1="16" x2="80" y2="23" class="wf-stroke wf-base"/>
-                  <line x1="80" y1="97" x2="80" y2="104" class="wf-stroke wf-base"/>
-                  <line x1="36" y1="60" x2="43" y2="60" class="wf-stroke wf-base"/>
-                  <line x1="117" y1="60" x2="124" y2="60" class="wf-stroke wf-base"/>
-                  <line x1="102" y1="22" x2="98" y2="28" class="wf-stroke"/>
-                  <line x1="118" y1="38" x2="112" y2="42" class="wf-stroke"/>
-                  <line x1="118" y1="82" x2="112" y2="78" class="wf-stroke"/>
-                  <line x1="102" y1="98" x2="98" y2="92" class="wf-stroke"/>
-                  <line x1="58" y1="98" x2="62" y2="92" class="wf-stroke"/>
-                  <line x1="42" y1="82" x2="48" y2="78" class="wf-stroke"/>
-                  <line x1="42" y1="38" x2="48" y2="42" class="wf-stroke"/>
-                  <line x1="58" y1="22" x2="62" y2="28" class="wf-stroke"/>
-                  <path d="M 80 23 A 37 37 0 0 1 117 60" class="wf-stroke wf-base" fill="none" stroke-dasharray="4 2"/>
-                  <polygon points="113,54 122,60 113,66" class="wf-stroke wf-base" fill="var(--accent)"/>
-                  <line x1="80" y1="60" x2="97" y2="46" class="wf-stroke wf-base" stroke-width="2"/>
-                  <line x1="80" y1="60" x2="80" y2="30" class="wf-stroke wf-base" stroke-width="1.5"/>
-                  <circle cx="80" cy="60" r="4.5" class="wf-stroke wf-mid" fill="none"/>
-                  <circle cx="80" cy="60" r="2" class="wf-stroke wf-core" fill="var(--accent)"/>
-                </g>
-              </svg>
-            </div>
-            <h3 class="pillar-title">Timely Delivery</h3>
-            <p class="pillar-desc">
-              We value time as much as the final result. From planning and preparation to installation and execution, we work to agreed timelines and deliver with discipline.
-            </p>
-          </div>
+    <!-- EVENTS WE PRODUCE (Pinned portal scrollytelling — js/event-types.js) -->
+    <section class="events-scrolly" id="event-types" aria-label="Events we produce">
+      <div class="events-pin">
+        <canvas class="events-canvas" aria-hidden="true"></canvas>
+        <div class="events-bgword" aria-hidden="true">EVENTS</div>
+        <p class="events-eyebrow">What we produce <span>(05)</span></p>
 
-          <!-- Column 3: Collaboration -->
-          <div class="pillar-card">
-            <div class="pillar-wireframe" aria-hidden="true">
-              <svg viewBox="0 0 160 120" class="wireframe-svg wireframe-svg--collab">
-                <g class="wf-anim-collab">
-                  <ellipse cx="80" cy="60" rx="46" ry="24" transform="rotate(-30 80 60)" class="wf-stroke wf-mid" fill="none"/>
-                  <ellipse cx="80" cy="60" rx="46" ry="24" transform="rotate(30 80 60)" class="wf-stroke wf-mid" fill="none"/>
-                  <line x1="80" y1="24" x2="44" y2="60" class="wf-stroke wf-base"/>
-                  <line x1="44" y1="60" x2="80" y2="96" class="wf-stroke wf-base"/>
-                  <line x1="80" y1="96" x2="116" y2="60" class="wf-stroke wf-base"/>
-                  <line x1="116" y1="60" x2="80" y2="24" class="wf-stroke wf-base"/>
-                  <line x1="80" y1="16" x2="80" y2="104" class="wf-guide"/>
-                  <line x1="36" y1="60" x2="124" y2="60" class="wf-guide"/>
-                  <circle cx="80" cy="24" r="9" class="wf-stroke wf-base" fill="none"/>
-                  <circle cx="80" cy="24" r="3" class="wf-stroke wf-core" fill="var(--accent)"/>
-                  <circle cx="44" cy="60" r="9" class="wf-stroke wf-base" fill="none"/>
-                  <circle cx="44" cy="60" r="3" class="wf-stroke wf-core" fill="var(--accent)"/>
-                  <circle cx="116" cy="60" r="9" class="wf-stroke wf-base" fill="none"/>
-                  <circle cx="116" cy="60" r="3" class="wf-stroke wf-core" fill="var(--accent)"/>
-                  <circle cx="80" cy="96" r="9" class="wf-stroke wf-base" fill="none"/>
-                  <circle cx="80" cy="96" r="3" class="wf-stroke wf-core" fill="var(--accent)"/>
-                  <circle cx="80" cy="60" r="8" class="wf-stroke wf-base" fill="none"/>
-                  <circle cx="80" cy="60" r="3.5" class="wf-stroke wf-mid" fill="none"/>
-                </g>
-              </svg>
-            </div>
-            <h3 class="pillar-title">Collaboration</h3>
-            <p class="pillar-desc">
-              Great productions are built by people working together. We bring our creative, technical, production and communication teams together to keep every part of the project aligned from concept to completion.
-            </p>
+        <div class="events-floor" aria-hidden="true"></div>
+        <div class="events-lights" aria-hidden="true">
+          <div class="events-light">
+            <span class="events-light-pool"></span>
+            <span class="events-light-beam"></span>
+            <span class="events-light-core"></span>
+            <span class="events-light-fixture"></span>
           </div>
+          <div class="events-light">
+            <span class="events-light-pool"></span>
+            <span class="events-light-beam"></span>
+            <span class="events-light-core"></span>
+            <span class="events-light-fixture"></span>
+          </div>
+          <div class="events-light">
+            <span class="events-light-pool"></span>
+            <span class="events-light-beam"></span>
+            <span class="events-light-core"></span>
+            <span class="events-light-fixture"></span>
+          </div>
+          <div class="events-light">
+            <span class="events-light-pool"></span>
+            <span class="events-light-beam"></span>
+            <span class="events-light-core"></span>
+            <span class="events-light-fixture"></span>
+          </div>
+          <div class="events-light">
+            <span class="events-light-pool"></span>
+            <span class="events-light-beam"></span>
+            <span class="events-light-core"></span>
+            <span class="events-light-fixture"></span>
+          </div>
+        </div>
+
+        <div class="events-visuals" aria-hidden="true">
+          <div class="events-visual" data-index="0">
+            <div class="events-portal">
+              <div class="events-portal-inner">
+                <img src="assets/images/event-types/corporate.jpg" alt="" width="720" height="720" loading="lazy" decoding="async">
+              </div>
+            </div>
+          </div>
+          <div class="events-visual" data-index="1">
+            <div class="events-portal">
+              <div class="events-portal-inner">
+                <img src="assets/images/event-types/conferences.jpg" alt="" width="720" height="720" loading="lazy" decoding="async">
+              </div>
+            </div>
+          </div>
+          <div class="events-visual" data-index="2">
+            <div class="events-portal">
+              <div class="events-portal-inner">
+                <img src="assets/images/event-types/concerts.jpg" alt="" width="720" height="720" loading="lazy" decoding="async">
+              </div>
+            </div>
+          </div>
+          <div class="events-visual" data-index="3">
+            <div class="events-portal">
+              <div class="events-portal-inner">
+                <img src="assets/images/event-types/private.jpg" alt="" width="720" height="720" loading="lazy" decoding="async">
+              </div>
+            </div>
+          </div>
+          <div class="events-visual" data-index="4">
+            <div class="events-portal">
+              <div class="events-portal-inner">
+                <img src="assets/images/event-types/cultural.jpg" alt="" width="720" height="720" loading="lazy" decoding="async">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ol class="events-list">
+          <li class="events-item" data-index="0">
+            <div class="events-item-title">
+              <h3 class="events-title">Corporate Events</h3>
+            </div>
+            <p class="events-desc">Launches, galas and leadership gatherings staged with precision and a clear brand voice.</p>
+          </li>
+          <li class="events-item" data-index="1">
+            <div class="events-item-title">
+              <h3 class="events-title">International Conferences</h3>
+            </div>
+            <p class="events-desc">Summits and forums run to international standards, from delegate flow to the main stage.</p>
+          </li>
+          <li class="events-item" data-index="2">
+            <div class="events-item-title">
+              <h3 class="events-title">Concerts</h3>
+            </div>
+            <p class="events-desc">Stages, sound and light engineered for live performance at every scale.</p>
+          </li>
+          <li class="events-item" data-index="3">
+            <div class="events-item-title">
+              <h3 class="events-title">Private Events</h3>
+            </div>
+            <p class="events-desc">Weddings, anniversaries and celebrations designed with care and discretion.</p>
+          </li>
+          <li class="events-item" data-index="4">
+            <div class="events-item-title">
+              <h3 class="events-title">Cultural Events</h3>
+            </div>
+            <p class="events-desc">Festivals and heritage celebrations that bring culture to the stage for thousands.</p>
+          </li>
+        </ol>
+
+        <div class="events-progress" aria-hidden="true">
+          <span class="events-progress-bar"><span class="events-progress-fill"></span></span>
         </div>
       </div>
     </section>
@@ -1315,6 +1386,18 @@ We bring ideas to life through thoughtful design, meticulous planning and except
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script type="module" src="js/main.js"></script>
+  <script>
+    // Safety net: never leave visitors stuck on the opening screen if scripts fail to load
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        var intro = document.getElementById('intro-screen');
+        if (intro && !intro.dataset.ready) {
+          document.documentElement.classList.remove('intro-active');
+          intro.remove();
+        }
+      }, 1500);
+    });
+  </script>
 </body>
 </html>
 

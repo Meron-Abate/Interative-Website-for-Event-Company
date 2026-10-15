@@ -4,11 +4,13 @@
  */
 
 import { initSmoothScroll } from './smooth-scroll.js';
+import { initIntro } from './intro.js';
 import { initTheme } from './theme.js';
 import { initCursor } from './cursor.js';
 import { initNavigation } from './navigation.js';
 import { initHero } from './hero.js';
 import { initAbout } from './about.js';
+import { initEventTypes } from './event-types.js';
 import { initServices } from './services.js';
 import { initPortfolio } from './portfolio.js';
 import { initFAQ } from './faq.js';
@@ -21,12 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Core Systems
   initTheme();
   initSmoothScroll();
+  initIntro();
   initCursor();
   initNavigation();
 
   // Page Specific Modules
   initHero();
   initAbout();
+  initEventTypes();
   initServices();
   initServiceScrolly();
   initPortfolio();
