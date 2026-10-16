@@ -80,12 +80,12 @@ export function initFooterParticles() {
       this.radius = radius;
       this.isOrange = isOrange;
       const isLight = isLightModeActive();
-      this.color = isOrange ? '#EC6430' : (isLight ? '#EC6430' : 'rgba(255, 255, 255, 0.85)');
+      this.color = isOrange ? '#FF5636' : (isLight ? '#FF5636' : 'rgba(255, 255, 255, 0.85)');
       this.friction = 0.82;
       this.springFactor = 0.08;
     }
     update(isLightMode) {
-      this.color = this.isOrange ? '#EC6430' : (isLightMode ? '#EC6430' : 'rgba(255, 255, 255, 0.85)');
+      this.color = this.isOrange ? '#FF5636' : (isLightMode ? '#FF5636' : 'rgba(255, 255, 255, 0.85)');
       let dx = mouse.x - this.x;
       let dy = mouse.y - this.y;
       let dist = Math.hypot(dx, dy);
@@ -199,7 +199,7 @@ export function initFooterParticles() {
       const fontSize = Math.floor(iconSize * 0.8);
       
       // Draw programmatic fallback
-      offCtx.fillStyle = '#EC6430';
+      offCtx.fillStyle = '#FF5636';
       offCtx.fillRect(cx - (iconSize + gap + offCtx.measureText('Eternal').width)/2, cy - iconSize / 2, iconSize, iconSize);
       
       // We'll use simple text mapping to ensure it never fails
@@ -327,7 +327,7 @@ export function initFooterParticles() {
   window.addEventListener('themechange', (e) => {
     const isLightMode = e.detail?.theme === 'light' || isLightModeActive();
     for (let i = 0; i < particles.length; i++) {
-      particles[i].color = particles[i].isOrange ? '#EC6430' : (isLightMode ? '#EC6430' : 'rgba(255, 255, 255, 0.85)');
+      particles[i].color = particles[i].isOrange ? '#FF5636' : (isLightMode ? '#FF5636' : 'rgba(255, 255, 255, 0.85)');
     }
     drawFrame();
     startAnimation();

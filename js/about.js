@@ -20,7 +20,7 @@ export function initAbout() {
   const railDot = aboutSection.querySelector('.about-rail-dot');
   const railSteps = aboutSection.querySelectorAll('.about-rail-step');
 
-  // Specific keywords to highlight in vivid fiery orange (#EC6430) matching reference
+  // Specific keywords to highlight in vivid fiery orange (#FF5636) matching reference
   const accentList = ['PRECISION', 'SPATIAL', 'GLOBAL', 'ARCHITECTURAL', 'UNFORGETTABLE', 'CONNECTION'];
 
   // Split words if not already wrapped

@@ -4,7 +4,7 @@
   <!-- Immediately set dark theme to prevent flash of light mode -->
   <script>
     (function(){
-      var saved = localStorage.getItem('eternal-theme-preference');
+      var saved = localStorage.getItem('eternal-theme-v2');
       if (saved === 'light') {
         document.documentElement.setAttribute('data-theme', 'light');
       }
@@ -19,8 +19,8 @@
     window.location.replace('/work/' + window.location.search + window.location.hash);
   </script>
 </head>
-<body style="background: #080808; color: #f1f1f1; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
-  <p>Redirecting to <a href="/work/" style="color: #EC6430; text-decoration: none;">Selected Works (/work/)</a>...</p>
+<body style="background: #080808; color: #f1f1f1; font-family: Lato, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+  <p>Redirecting to <a href="/work/" style="color: #FF5636; text-decoration: none;">Selected Works (/work/)</a>...</p>
 </body>
 </html>
 

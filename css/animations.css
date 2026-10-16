@@ -55,7 +55,7 @@ body.cursor--view .cursor-ring,
 body.cursor--drag .cursor-ring {
   width: 52px;
   height: 52px;
-  background-color: rgba(236, 100, 48, 0.12);
+  background-color: rgba(255, 86, 54, 0.12);
   border-color: var(--accent);
 }
 
@@ -63,14 +63,14 @@ body.cursor--drag .cursor-ring {
 [data-theme="light"] body.cursor--link .cursor-ring,
 [data-theme="light"] body.cursor--view .cursor-ring,
 [data-theme="light"] body.cursor--drag .cursor-ring {
-  background-color: rgba(236, 100, 48, 0.12);
+  background-color: rgba(255, 86, 54, 0.12);
 }
 
 /* Click / Active State */
 body.cursor-pressed .cursor-ring {
   width: 28px;
   height: 28px;
-  background-color: rgba(236, 100, 48, 0.25);
+  background-color: rgba(255, 86, 54, 0.25);
 }
 
 /* Hide on touch devices or when mouse leaves window */

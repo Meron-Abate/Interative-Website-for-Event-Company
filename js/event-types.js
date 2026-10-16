@@ -22,8 +22,8 @@ const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const smooth = (t) => t * t * (3 - 2 * t);
 // Dust tones per theme: luminous on the dark stage, ember and charcoal on the light one
 const PARTICLE_TONES = {
-  dark: ['#ffffff', '#ffd9c4', '#ED632E'],
-  light: ['#3a2a20', '#8a4a2c', '#ED632E']
+  dark: ['#ffffff', '#ffd9c4', '#FF5636'],
+  light: ['#3a2a20', '#8a4a2c', '#FF5636']
 };
 const currentTheme = () => (document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
 

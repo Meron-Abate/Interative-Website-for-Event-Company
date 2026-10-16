@@ -3,7 +3,7 @@
  * Dark / Light Mode with localStorage persistence & system preference fallback
  */
 
-const STORAGE_KEY = 'eternal-theme-preference';
+const STORAGE_KEY = 'eternal-theme-v2';
 
 export function initTheme() {
   const toggleBtn = document.querySelector('[data-theme-toggle]');

@@ -20,7 +20,7 @@ import { initFooterParticles } from './footer-particles.js';
 import { initServiceScrolly } from './service-scrolly.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('%c ETERNAL STUDIO %c Spatial Architecture & Immersive Experiences ', 'background: #EC6430; color: #fff; font-weight: bold; padding: 4px;', 'background: #080808; color: #f1f1f1; padding: 4px;');
+  console.log('%c ETERNAL STUDIO %c Spatial Architecture & Immersive Experiences ', 'background: #FF5636; color: #fff; font-weight: bold; padding: 4px;', 'background: #080808; color: #f1f1f1; padding: 4px;');
 
   // Initialize Core Systems
   initTheme();

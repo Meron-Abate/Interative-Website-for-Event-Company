@@ -10,8 +10,8 @@ const TAU = Math.PI * 2;
 
 // RGB triplets so alpha can be applied per draw call
 export const UNIVERSE_PALETTES = {
-  dark: { line: '255,255,255', accent: '237,99,46', warm: '255,217,196', star: '255,255,255', glow: '237,99,46', core: '255,241,230' },
-  light: { line: '24,22,20', accent: '237,99,46', warm: '138,74,44', star: '44,38,34', glow: '237,99,46', core: '237,99,46' },
+  dark: { line: '255,255,255', accent: '255,86,54', warm: '255,217,196', star: '255,255,255', glow: '255,86,54', core: '255,241,230' },
+  light: { line: '24,22,20', accent: '255,86,54', warm: '138,74,44', star: '44,38,34', glow: '255,86,54', core: '255,86,54' },
   orange: { line: '255,255,255', accent: '70,20,6', warm: '255,226,206', star: '255,255,255', glow: '255,226,206', core: '255,255,255' }
 };
 

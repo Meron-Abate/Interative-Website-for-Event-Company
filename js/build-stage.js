@@ -9,7 +9,7 @@
 
 import * as THREE from './vendor/three.module.min.js';
 
-const BRAND = 0xED632E;
+const BRAND = 0xFF5636;
 const TAU = Math.PI * 2;
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const seg = (p, a, b) => clamp01((p - a) / (b - a));
@@ -229,7 +229,7 @@ export function createBuildStage({ canvas, root, hud, onComplete }) {
     drawIdent(logoCanvas, logoImage);
     logoTexture.needsUpdate = true;
   };
-  logoImage.src = 'assets/images/logo/eternal-events-dark.png';
+  logoImage.src = 'assets/images/logo/eternal-events-logo-dark.png';
 
   const tileVertex = `
     varying vec2 vUv;
@@ -850,7 +850,7 @@ function drawIdent(canvas, logo) {
   const { width: w, height: h } = canvas;
   ctx.fillStyle = '#080808';
   ctx.fillRect(0, 0, w, h);
-  ctx.strokeStyle = 'rgba(237, 99, 46, 0.18)';
+  ctx.strokeStyle = 'rgba(255, 86, 54, 0.18)';
   ctx.lineWidth = 2;
   for (let x = 0; x <= w; x += w / 16) {
     ctx.beginPath();
@@ -865,8 +865,8 @@ function drawIdent(canvas, logo) {
     ctx.stroke();
   }
   const glow = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, h * 0.7);
-  glow.addColorStop(0, 'rgba(237, 99, 46, 0.35)');
-  glow.addColorStop(1, 'rgba(237, 99, 46, 0)');
+  glow.addColorStop(0, 'rgba(255, 86, 54, 0.35)');
+  glow.addColorStop(1, 'rgba(255, 86, 54, 0)');
   ctx.fillStyle = glow;
   ctx.fillRect(0, 0, w, h);
   if (logo) {

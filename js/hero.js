@@ -469,8 +469,8 @@ function initAmbientCanvas(canvas, isVisibleLayer) {
       if (p.y > height + p.radius) p.y = -p.radius;
 
       const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
-      grad.addColorStop(0, `rgba(236, 100, 48, ${p.alpha})`);
-      grad.addColorStop(0.6, `rgba(236, 100, 48, ${p.alpha * 0.3})`);
+      grad.addColorStop(0, `rgba(255, 86, 54, ${p.alpha})`);
+      grad.addColorStop(0.6, `rgba(255, 86, 54, ${p.alpha * 0.3})`);
       grad.addColorStop(1, 'rgba(8, 8, 8, 0)');
 
       ctx.fillStyle = grad;

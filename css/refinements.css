@@ -6,9 +6,9 @@
 
 :root {
   /* Sampled from assets/images/logo/eternal-events-*.png ("EVENTS" plate) */
-  --brand-stroke: #ED632E;
-  --font-condensed: "Oswald", "Arial Narrow", "Roboto Condensed", sans-serif;
-  --intro-bg: #ED632E;
+  --brand-stroke: #FF5636;
+  --font-condensed: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --intro-bg: #FF5636;
   --ease-intro: cubic-bezier(0.77, 0, 0.175, 1);
   /* Shared corner radius for the video frame and the stroked buttons (= --radius-md) */
   --stroke-radius: 8px;
@@ -108,7 +108,7 @@ html.intro-active .intro-screen {
 
 .intro-counter-num {
   font-family: var(--font-condensed);
-  font-weight: 700;
+  font-weight: 900;
   font-size: clamp(8rem, 26vw, 22rem);
   line-height: 0.8;
   letter-spacing: -0.02em;
@@ -125,7 +125,7 @@ html.intro-active .intro-screen {
   min-height: 1.2em;
   margin: 0;
   font-family: var(--font-condensed);
-  font-weight: 600;
+  font-weight: 700;
   font-size: clamp(1.25rem, 2.7vw, 2.5rem);
   line-height: 1.1;
   letter-spacing: 0.14em;
@@ -195,7 +195,7 @@ html.intro-active .intro-screen {
   bottom: clamp(1.5rem, 4.5vw, 3.75rem);
   margin: 0;
   font-family: var(--font-condensed);
-  font-weight: 600;
+  font-weight: 700;
   font-size: clamp(1rem, 1.6vw, 1.55rem);
   line-height: 1.12;
   letter-spacing: 0.03em;
@@ -239,7 +239,7 @@ html.intro-active .intro-screen {
 .intro-portal-ring::after {
   position: absolute;
   inset: 16%;
-  border: 1px solid rgba(237, 99, 46, 0.8);
+  border: 1px solid rgba(255, 86, 54, 0.8);
   border-radius: 50%;
   animation: introPortalPulse 2.6s ease-out infinite;
 }
@@ -259,7 +259,7 @@ html.intro-active .intro-screen {
 .intro-portal-title {
   position: relative;
   font-size: clamp(1rem, 1.6vw, 1.4rem);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.28em;
   padding-left: 0.28em;
   text-transform: uppercase;
@@ -436,7 +436,7 @@ html.intro-active .intro-screen {
 /* Oversized, condensed hero headlines */
 .hero-scrolly-container .hero-stage-headline {
   font-family: var(--font-condensed) !important;
-  font-weight: 700;
+  font-weight: 900;
   font-size: clamp(2.75rem, 5.3vw, 6.25rem);
   line-height: 0.96;
   letter-spacing: -0.005em;
@@ -445,11 +445,11 @@ html.intro-active .intro-screen {
 .hero-scrolly-container .hero-stage .accent-word {
   font-family: var(--font-condensed) !important;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 900;
 }
 
 .hero-scrolly-container .hero-stage-col--right {
-  border-left-color: rgba(237, 99, 46, 0.45);
+  border-left-color: rgba(255, 86, 54, 0.45);
 }
 
 .hero-scrolly-container .hero-metric-item {
@@ -458,7 +458,7 @@ html.intro-active .intro-screen {
 
 .hero-scrolly-container .hero-metric-item .metric-num {
   font-family: var(--font-condensed) !important;
-  font-weight: 700;
+  font-weight: 900;
   font-size: 2rem;
 }
 
@@ -470,7 +470,7 @@ html.intro-active .intro-screen {
 
   .hero-scrolly-container .hero-stage-col--right {
     border-left: none;
-    border-top-color: rgba(237, 99, 46, 0.45);
+    border-top-color: rgba(255, 86, 54, 0.45);
   }
 
   .hero-scrolly-container .hero-metric-item .metric-num {
@@ -588,8 +588,6 @@ html.intro-active .intro-screen {
   border-bottom-color: rgba(255, 255, 255, 0.06);
 }
 
-[data-theme="light"] .site-header.is-over-hero .brand-logo-light { display: none; }
-[data-theme="light"] .site-header.is-over-hero .brand-logo-dark { display: block; }
 
 [data-theme="light"] .site-header.is-scrolled:not(.is-over-hero) {
   background-color: rgba(243, 241, 237, 0.95);
@@ -729,8 +727,6 @@ html.intro-active .intro-screen {
   box-shadow: none !important;
 }
 
-[data-theme="light"] .site-header.is-menu-open .brand-logo-light { display: none; }
-[data-theme="light"] .site-header.is-menu-open .brand-logo-dark { display: block; }
 
 /* --- Full-screen overlay menu (all screen sizes) --- */
 .mobile-drawer {
@@ -755,7 +751,7 @@ html.intro-active .intro-screen {
   content: "";
   position: absolute;
   inset: calc(var(--nav-height) + 0.25rem) 0.75rem 0.75rem;
-  border: 1px solid rgba(237, 99, 46, 0.5);
+  border: 1px solid rgba(255, 86, 54, 0.5);
   border-radius: var(--stroke-radius);
   pointer-events: none;
 }
@@ -771,7 +767,7 @@ html.intro-active .intro-screen {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   font-family: var(--font-condensed);
   font-size: clamp(2.4rem, 11vw, 4rem);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: 0;
   color: #ffffff;
@@ -952,7 +948,7 @@ html.intro-active .intro-screen {
   bottom: 4vh;
   z-index: 0;
   font-family: var(--font-condensed);
-  font-weight: 500;
+  font-weight: 400;
   font-size: clamp(7rem, 24vw, 26rem);
   line-height: 0.8;
   letter-spacing: 0.32em;
@@ -1013,8 +1009,8 @@ html.intro-active .intro-screen {
   border-radius: 50%;
   box-shadow:
     0 0 0 2px var(--brand-stroke),
-    0 0 0 calc(var(--d) * 0.035) rgba(237, 99, 46, 0.08),
-    0 0 calc(var(--d) * 0.25) rgba(237, 99, 46, calc(0.08 + var(--focus) * 0.22)),
+    0 0 0 calc(var(--d) * 0.035) rgba(255, 86, 54, 0.08),
+    0 0 calc(var(--d) * 0.25) rgba(255, 86, 54, calc(0.08 + var(--focus) * 0.22)),
     0 calc(var(--d) * 0.1) calc(var(--d) * 0.25) rgba(0, 0, 0, 0.65);
 }
 
@@ -1062,7 +1058,7 @@ html.intro-active .intro-screen {
   z-index: 1;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   background:
-    radial-gradient(ellipse 60% 120% at 50% 0%, rgba(237, 99, 46, calc(0.1 * var(--stage-light, 0))), transparent 70%),
+    radial-gradient(ellipse 60% 120% at 50% 0%, rgba(255, 86, 54, calc(0.1 * var(--stage-light, 0))), transparent 70%),
     linear-gradient(180deg, #0d0b0a 0%, #060606 100%);
   pointer-events: none;
 }
@@ -1075,7 +1071,7 @@ html.intro-active .intro-screen {
   right: 0;
   bottom: 100%;
   height: 34vh;
-  background: radial-gradient(ellipse 55% 100% at 50% 100%, rgba(255, 217, 196, calc(0.07 * var(--stage-light, 0))), rgba(237, 99, 46, calc(0.04 * var(--stage-light, 0))) 45%, transparent 75%);
+  background: radial-gradient(ellipse 55% 100% at 50% 100%, rgba(255, 217, 196, calc(0.07 * var(--stage-light, 0))), rgba(255, 86, 54, calc(0.04 * var(--stage-light, 0))) 45%, transparent 75%);
   pointer-events: none;
 }
 
@@ -1095,7 +1091,7 @@ html.intro-active .intro-screen {
   top: 100%;
   height: min(9vh, 80px);
   clip-path: polygon(46% 0, 54% 0, 80% 100%, 20% 100%);
-  background: linear-gradient(to bottom, rgba(255, 214, 190, calc(0.16 * var(--i))), rgba(237, 99, 46, 0));
+  background: linear-gradient(to bottom, rgba(255, 214, 190, calc(0.16 * var(--i))), rgba(255, 86, 54, 0));
   mix-blend-mode: screen;
 }
 
@@ -1124,9 +1120,9 @@ html.intro-active .intro-screen {
   clip-path: polygon(0 0, 100% 0, 54% 100%, 46% 100%);
   background: linear-gradient(to top,
     rgba(255, 214, 190, calc(0.34 * var(--i))) 0%,
-    rgba(237, 99, 46, calc(0.2 * var(--i))) 35%,
-    rgba(237, 99, 46, calc(0.07 * var(--i))) 75%,
-    rgba(237, 99, 46, 0) 100%);
+    rgba(255, 86, 54, calc(0.2 * var(--i))) 35%,
+    rgba(255, 86, 54, calc(0.07 * var(--i))) 75%,
+    rgba(255, 86, 54, 0) 100%);
 }
 
 /* Bright inner core, stacked on the cone for a soft falloff */
@@ -1135,7 +1131,7 @@ html.intro-active .intro-screen {
   background: linear-gradient(to top,
     rgba(255, 241, 230, calc(0.42 * var(--i))) 0%,
     rgba(255, 190, 150, calc(0.16 * var(--i))) 45%,
-    rgba(237, 99, 46, 0) 100%);
+    rgba(255, 86, 54, 0) 100%);
 }
 
 /* The uplight fixture sitting on the floor */
@@ -1161,7 +1157,7 @@ html.intro-active .intro-screen {
   border-radius: 50%;
   background: rgba(255, 226, 206, calc(0.25 + 0.75 * var(--i)));
   box-shadow:
-    0 0 12px rgba(237, 99, 46, calc(0.9 * var(--i))),
+    0 0 12px rgba(255, 86, 54, calc(0.9 * var(--i))),
     0 -4px 26px rgba(255, 214, 190, calc(0.6 * var(--i)));
 }
 
@@ -1173,7 +1169,7 @@ html.intro-active .intro-screen {
   width: 140%;
   height: 70px;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse at 50% 40%, rgba(237, 99, 46, calc(0.32 * var(--i))) 0%, rgba(237, 99, 46, calc(0.1 * var(--i))) 35%, transparent 70%);
+  background: radial-gradient(ellipse at 50% 40%, rgba(255, 86, 54, calc(0.32 * var(--i))) 0%, rgba(255, 86, 54, calc(0.1 * var(--i))) 35%, transparent 70%);
 }
 
 @media (max-width: 768px) {
@@ -1217,7 +1213,7 @@ html.intro-active .intro-screen {
 .events-title {
   margin: 0;
   font-family: var(--font-condensed) !important;
-  font-weight: 600;
+  font-weight: 700;
   font-size: clamp(2.6rem, 4.6vw, 5rem);
   line-height: 0.98;
   letter-spacing: 0;
@@ -1431,7 +1427,7 @@ html.intro-active .intro-screen {
 .build-chapter-title {
   font-family: var(--font-condensed);
   font-size: clamp(1.9rem, 3.4vw, 3.2rem);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 0.95;
   text-transform: uppercase;
 }
@@ -1551,7 +1547,7 @@ html.intro-active .intro-screen {
 .build-skip:hover,
 .build-skip:focus-visible {
   border-color: var(--brand-stroke);
-  background-color: rgba(237, 99, 46, 0.2);
+  background-color: rgba(255, 86, 54, 0.2);
 }
 
 .build-skip:focus-visible {
@@ -1586,9 +1582,9 @@ html.intro-active .intro-screen {
   --gallery-text: #f1f1f1;
   --gallery-muted: rgba(255, 255, 255, 0.5);
   --gallery-ghost: rgba(255, 255, 255, 0.045);
-  --gallery-glow: rgba(237, 99, 46, 0.07);
+  --gallery-glow: rgba(255, 86, 54, 0.07);
   --card-shadow: 0 28px 55px rgba(0, 0, 0, 0.55), 0 8px 18px rgba(0, 0, 0, 0.4);
-  --card-shadow-active: 0 40px 80px rgba(0, 0, 0, 0.65), 0 0 0 1.5px rgba(237, 99, 46, 0.75), 0 0 44px rgba(237, 99, 46, 0.22);
+  --card-shadow-active: 0 40px 80px rgba(0, 0, 0, 0.65), 0 0 0 1.5px rgba(255, 86, 54, 0.75), 0 0 44px rgba(255, 86, 54, 0.22);
   --floor-shadow: rgba(0, 0, 0, 0.7);
   position: relative;
   overflow: hidden;
@@ -1606,7 +1602,7 @@ html.intro-active .intro-screen {
   --gallery-ghost: rgba(20, 18, 16, 0.05);
   --gallery-glow: rgba(255, 255, 255, 0.85);
   --card-shadow: 0 26px 48px rgba(40, 28, 18, 0.2), 0 6px 14px rgba(40, 28, 18, 0.12);
-  --card-shadow-active: 0 36px 70px rgba(40, 28, 18, 0.28), 0 0 0 1.5px rgba(237, 99, 46, 0.85), 0 0 34px rgba(237, 99, 46, 0.18);
+  --card-shadow-active: 0 36px 70px rgba(40, 28, 18, 0.28), 0 0 0 1.5px rgba(255, 86, 54, 0.85), 0 0 34px rgba(255, 86, 54, 0.18);
   --floor-shadow: rgba(60, 40, 24, 0.22);
 }
 
@@ -1786,7 +1782,7 @@ html.intro-active .intro-screen {
   bottom: 14px;
   font-family: var(--font-condensed);
   font-size: clamp(0.95rem, 1.15vw, 1.2rem);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.08;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
@@ -1816,7 +1812,7 @@ html.intro-active .intro-screen {
   transform: translate(-50%, -50%);
   font-family: var(--font-condensed);
   font-size: clamp(11rem, 24vw, 24rem);
-  font-weight: 700;
+  font-weight: 900;
   line-height: 1;
   color: var(--gallery-ghost);
   pointer-events: none;
@@ -1865,7 +1861,7 @@ html.intro-active .intro-screen {
   margin: 0;
   font-family: var(--font-condensed) !important;
   font-size: clamp(2rem, 4.2vw, 3.6rem);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
   text-transform: uppercase;
   color: var(--gallery-text);
@@ -1954,7 +1950,7 @@ html.intro-active .intro-screen {
   flex-direction: column;
   justify-content: space-between;
   padding: 1.1rem;
-  background: linear-gradient(160deg, #ED632E 0%, #b8441c 100%);
+  background: linear-gradient(160deg, #FF5636 0%, #D33A1F 100%);
   color: #ffffff;
 }
 
@@ -1974,7 +1970,7 @@ html.intro-active .intro-screen {
 .work-more-title {
   font-family: var(--font-condensed);
   font-size: calc(var(--card-w, 200px) * 0.17);
-  font-weight: 700;
+  font-weight: 900;
   line-height: 0.92;
   text-transform: uppercase;
 }
@@ -2081,12 +2077,12 @@ html.intro-active .intro-screen {
 [data-theme="light"] .events-floor {
   border-top-color: rgba(0, 0, 0, 0.08);
   background:
-    radial-gradient(ellipse 60% 120% at 50% 0%, rgba(237, 99, 46, calc(0.12 * var(--stage-light, 0))), transparent 70%),
+    radial-gradient(ellipse 60% 120% at 50% 0%, rgba(255, 86, 54, calc(0.12 * var(--stage-light, 0))), transparent 70%),
     linear-gradient(180deg, #e7e2da 0%, #efebe5 100%);
 }
 
 [data-theme="light"] .events-floor::before {
-  background: radial-gradient(ellipse 55% 100% at 50% 100%, rgba(237, 99, 46, calc(0.07 * var(--stage-light, 0))), transparent 75%);
+  background: radial-gradient(ellipse 55% 100% at 50% 100%, rgba(255, 86, 54, calc(0.07 * var(--stage-light, 0))), transparent 75%);
 }
 
 [data-theme="light"] .events-light-beam,
@@ -2097,25 +2093,25 @@ html.intro-active .intro-screen {
 
 [data-theme="light"] .events-light-beam {
   background: linear-gradient(to top,
-    rgba(237, 99, 46, calc(0.3 * var(--i))) 0%,
-    rgba(237, 99, 46, calc(0.14 * var(--i))) 40%,
-    rgba(237, 99, 46, calc(0.04 * var(--i))) 80%,
-    rgba(237, 99, 46, 0) 100%);
+    rgba(255, 86, 54, calc(0.3 * var(--i))) 0%,
+    rgba(255, 86, 54, calc(0.14 * var(--i))) 40%,
+    rgba(255, 86, 54, calc(0.04 * var(--i))) 80%,
+    rgba(255, 86, 54, 0) 100%);
 }
 
 [data-theme="light"] .events-light-core {
   background: linear-gradient(to top,
     rgba(255, 170, 120, calc(0.45 * var(--i))) 0%,
-    rgba(237, 99, 46, calc(0.16 * var(--i))) 50%,
-    rgba(237, 99, 46, 0) 100%);
+    rgba(255, 86, 54, calc(0.16 * var(--i))) 50%,
+    rgba(255, 86, 54, 0) 100%);
 }
 
 [data-theme="light"] .events-light::after {
-  background: linear-gradient(to bottom, rgba(237, 99, 46, calc(0.16 * var(--i))), rgba(237, 99, 46, 0));
+  background: linear-gradient(to bottom, rgba(255, 86, 54, calc(0.16 * var(--i))), rgba(255, 86, 54, 0));
 }
 
 [data-theme="light"] .events-light-pool {
-  background: radial-gradient(ellipse at 50% 40%, rgba(237, 99, 46, calc(0.38 * var(--i))) 0%, rgba(237, 99, 46, calc(0.12 * var(--i))) 35%, transparent 70%);
+  background: radial-gradient(ellipse at 50% 40%, rgba(255, 86, 54, calc(0.38 * var(--i))) 0%, rgba(255, 86, 54, calc(0.12 * var(--i))) 35%, transparent 70%);
 }
 
 [data-theme="light"] .events-light-fixture {
@@ -2126,8 +2122,8 @@ html.intro-active .intro-screen {
 [data-theme="light"] .events-portal {
   box-shadow:
     0 0 0 2px var(--brand-stroke),
-    0 0 0 calc(var(--d) * 0.035) rgba(237, 99, 46, 0.08),
-    0 0 calc(var(--d) * 0.25) rgba(237, 99, 46, calc(0.06 + var(--focus) * 0.18)),
+    0 0 0 calc(var(--d) * 0.035) rgba(255, 86, 54, 0.08),
+    0 0 calc(var(--d) * 0.25) rgba(255, 86, 54, calc(0.06 + var(--focus) * 0.18)),
     0 calc(var(--d) * 0.08) calc(var(--d) * 0.22) rgba(60, 40, 24, 0.25);
 }
 
@@ -2168,7 +2164,7 @@ html.intro-active .intro-screen {
   --svp-open: #121110;
   --svp-cta-bg: #ffffff;
   --svp-cta-text: #141210;
-  --svp-peek-filter: grayscale(1) brightness(0.55) contrast(1.05);
+  --svp-peek-filter: grayscale(1);
   position: relative;
   padding: clamp(5rem, 11vh, 8rem) 0 0;
   background-color: var(--svp-bg);
@@ -2278,7 +2274,7 @@ html.intro-active .intro-screen {
   inset: 0;
   border-radius: inherit;
   box-shadow: inset 0 0 0 1px var(--svp-line);
-  background: linear-gradient(180deg, rgba(237, 99, 46, 0) 55%, rgba(237, 99, 46, 0.35) 100%);
+  background: linear-gradient(180deg, rgba(255, 86, 54, 0) 55%, rgba(255, 86, 54, 0.35) 100%);
   opacity: 0;
   transition: opacity 0.6s ease;
 }
@@ -2297,7 +2293,7 @@ html.intro-active .intro-screen {
 .svp-label {
   font-family: var(--font-condensed);
   font-size: clamp(1.15rem, 1.5vw, 1.6rem);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.02;
   text-transform: uppercase;
 }
@@ -2368,14 +2364,6 @@ html.intro-active .intro-screen {
   transition: transform 1.4s var(--ease-cinematic);
 }
 
-/* A light brand wash on the photo only */
-.svp-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(200deg, rgba(237, 99, 46, 0.35) 0%, rgba(237, 99, 46, 0) 45%);
-}
-
 .svp.is-active .svp-media {
   opacity: 1;
   transition-delay: 0.25s;
@@ -2414,18 +2402,17 @@ html.intro-active .intro-screen {
 }
 
 .svp-title {
-  margin: 0 0 0.8rem;
+  margin: 0 0 1.4rem;
   font-family: var(--font-condensed) !important;
   font-size: clamp(1.9rem, 3vw, 3.1rem);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 0.96;
   text-transform: uppercase;
   color: var(--svp-text);
 }
 
 .svp-desc {
-  max-width: 58ch;
-  margin: 0 0 1.25rem;
+  margin: 0 0 2rem;
   font-size: clamp(0.84rem, 0.9vw, 0.92rem);
   line-height: 1.55;
   color: var(--svp-muted);
@@ -2657,4 +2644,72 @@ html.intro-active .intro-screen {
   .footer-socials {
     justify-content: center;
   }
+}
+
+/* ==========================================================================
+   11. LOGO — white-lettered version on dark, dark-lettered version on light
+   ========================================================================== */
+/* Over the hero video the header is dark in both themes */
+[data-theme="light"] .site-header.is-over-hero .brand-logo-light { display: none; }
+[data-theme="light"] .site-header.is-over-hero .brand-logo-dark { display: block; }
+
+/* The open menu follows the theme: light panel, dark-lettered logo */
+[data-theme="light"] .site-header.is-menu-open .brand-logo-dark { display: none; }
+[data-theme="light"] .site-header.is-menu-open .brand-logo-light { display: block; }
+
+.site-header .brand-logo-img {
+  height: 46px;
+}
+
+@media (max-width: 767px) {
+  .site-header .brand-logo-img {
+    height: 40px;
+  }
+}
+
+/* ==========================================================================
+   12. MENU OVERLAY — light theme
+   ========================================================================== */
+[data-theme="light"] .mobile-drawer {
+  background-color: #f3f1ed;
+  color: #141210;
+}
+
+[data-theme="light"] .mobile-drawer .mobile-drawer-link {
+  color: #141210;
+  border-bottom-color: rgba(20, 18, 16, 0.12);
+}
+
+[data-theme="light"] .mobile-drawer .mobile-drawer-link:first-child {
+  border-top-color: rgba(20, 18, 16, 0.12);
+}
+
+[data-theme="light"] .mobile-drawer .mobile-drawer-link:hover,
+[data-theme="light"] .mobile-drawer .mobile-drawer-link:focus-visible,
+[data-theme="light"] .mobile-drawer .mobile-drawer-link.is-active {
+  color: var(--brand-stroke);
+}
+
+[data-theme="light"] .mobile-drawer .mobile-drawer-coords {
+  color: rgba(20, 18, 16, 0.55);
+}
+
+[data-theme="light"] .mobile-drawer .btn-primary {
+  color: #141210 !important;
+}
+
+[data-theme="light"] .mobile-drawer .btn-primary:hover {
+  color: #ffffff !important;
+}
+
+/* Header controls over the light menu panel */
+[data-theme="light"] .site-header.is-menu-open .mobile-menu-btn,
+[data-theme="light"] .site-header.is-menu-open .theme-toggle-btn {
+  color: #141210;
+}
+
+[data-theme="light"] .site-header.is-menu-open .btn.nav-cta-btn {
+  background-color: #141210;
+  border-color: #141210;
+  color: #ffffff !important;
 }

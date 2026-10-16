@@ -4,7 +4,7 @@
   <!-- Immediately set dark theme to prevent flash of light mode -->
   <script>
     (function(){
-      var saved = localStorage.getItem('eternal-theme-preference');
+      var saved = localStorage.getItem('eternal-theme-v2');
       if (saved === 'light') {
         document.documentElement.setAttribute('data-theme', 'light');
       }
@@ -24,7 +24,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/animations.css">
@@ -47,8 +47,8 @@
         <span class="menu-btn-label">MENU</span>
       </button>
       <a href="/" class="brand-logo" aria-label="ETERNAL Events Home">
-        <img decoding="async" width="300" height="96" src="../assets/images/logo/eternal-events-dark.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-dark">
-        <img decoding="async" width="300" height="96" src="../assets/images/logo/eternal-events-light.png" alt="ETERNAL Events" class="brand-logo-img brand-logo-light">
+        <img decoding="async" width="330" height="120" src="../assets/images/logo/eternal-events-logo-dark-header.png" srcset="../assets/images/logo/eternal-events-logo-dark-header.webp 330w, ../assets/images/logo/eternal-events-logo-dark.png 1099w" sizes="132px" alt="ETERNAL Events" class="brand-logo-img brand-logo-dark">
+        <img decoding="async" width="330" height="120" src="../assets/images/logo/eternal-events-logo-light-header.png" srcset="../assets/images/logo/eternal-events-logo-light-header.webp 330w, ../assets/images/logo/eternal-events-logo-light.png 1099w" sizes="132px" alt="ETERNAL Events" class="brand-logo-img brand-logo-light">
       </a>
 
       <nav class="desktop-nav" aria-label="Main Navigation">
@@ -72,14 +72,14 @@
   <!-- Mobile Drawer -->
   <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
     <div class="mobile-drawer-links">
-      <a href="/" class="mobile-drawer-link">Home <span class="num">01</span></a>
-      <a href="/work/" class="mobile-drawer-link is-active">Work <span class="num">02</span></a>
-      <a href="/#services" class="mobile-drawer-link">Services <span class="num">03</span></a>
-      <a href="/#about" class="mobile-drawer-link">About <span class="num">04</span></a>
-      <a href="../index.html#contact" class="mobile-drawer-link">Contact <span class="num">05</span></a>
+      <a href="/" class="mobile-drawer-link">Home</a>
+      <a href="/work/" class="mobile-drawer-link is-active">Work</a>
+      <a href="/#services" class="mobile-drawer-link">Services</a>
+      <a href="/#about" class="mobile-drawer-link">About</a>
+      <a href="../index.html#contact" class="mobile-drawer-link">Contact</a>
     </div>
     <div class="mobile-drawer-footer">
-      <div class="mobile-drawer-coords">ADDIS ABABA • NAIROBI • LONDON</div>
+      <div class="mobile-drawer-coords">ADDIS ABABA &bull; DUBAI</div>
       <a href="../index.html#contact" class="btn btn-primary">START A PROJECT →</a>
     </div>
   </div>

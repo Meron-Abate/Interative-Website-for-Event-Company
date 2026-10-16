@@ -292,7 +292,7 @@ function portalRadius(w, h) {
  */
 function createPortalScene(canvas) {
   const ctx = canvas.getContext('2d', { alpha: false });
-  const BG = '#ED632E';
+  const BG = '#FF5636';
   const HOLE = '#080808';
   const narrow = window.innerWidth < 700;
   // A tilted orbital system around the portal (same language as the About universe)
@@ -387,7 +387,7 @@ function createPortalScene(canvas) {
       halo.addColorStop(0, 'rgba(20, 6, 2, 0.55)');
       halo.addColorStop(0.12, 'rgba(255, 226, 208, 0.2)');
       halo.addColorStop(0.35, 'rgba(110, 32, 8, 0.16)');
-      halo.addColorStop(1, 'rgba(237, 99, 46, 0)');
+      halo.addColorStop(1, 'rgba(255, 86, 54, 0)');
       ctx.fillStyle = halo;
       ctx.fillRect(0, 0, w, h);
     }
