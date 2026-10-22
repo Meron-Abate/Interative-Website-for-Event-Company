@@ -96,24 +96,27 @@
 
         <!-- Category Filters -->
         <div class="work-filter-bar" role="toolbar" aria-label="Filter Works by Category">
+          <!-- cms:work-filters -->
           <button class="filter-btn is-active" data-filter="all">ALL (04)</button>
-          <button class="filter-btn" data-filter="events">Corporate EVENTS</button>
-          <button class="filter-btn" data-filter="brand-experiences">International Conferences</button>
-          <button class="filter-btn" data-filter="immersive">Concerts</button>
-          <button class="filter-btn" data-filter="corporate">Private EVENTS</button>
-          <button class="filter-btn" data-filter="cultural">CULTURAL Events</button>
+          <button class="filter-btn" data-filter="corporate-events">Corporate Events</button>
+          <button class="filter-btn" data-filter="international-conferences">International Conferences</button>
+          <button class="filter-btn" data-filter="concerts">Concerts</button>
+          <button class="filter-btn" data-filter="private-events">Private Events</button>
+          <button class="filter-btn" data-filter="cultural-events">Cultural Events</button>
+          <!-- /cms:work-filters -->
         </div>
 
         <!-- Work Archive Grid -->
         <div class="work-archive-grid" id="work-grid">
+          <!-- cms:work-grid -->
           <!-- 01 -->
-          <article class="work-archive-card" data-category="events" data-cursor="view">
+          <article class="work-archive-card" data-category="international-conferences" data-cursor="view">
             <a href="/work/10th-session-arfsd/" style="display: block;">
               <div class="portfolio-card-media" style="aspect-ratio: 16 / 10;">
                 <div class="portfolio-card-action" aria-hidden="true">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
                 </div>
-                <img srcset="../assets/images/_opt/projects-africa-creative-summit-gallery-3-480.webp 480w, ../assets/images/_opt/projects-africa-creative-summit-gallery-3-960.webp 960w, ../assets/images/_opt/projects-africa-creative-summit-gallery-3-1024.webp 1024w" sizes="(max-width: 767px) 100vw, 50vw" decoding="async" width="1024" height="576" src="../assets/images/projects/africa-creative-summit/gallery-3.jpg" alt="10th Session of the Africa Regional Forum on Sustainable Development (ARFSD) at United Nations Conference Centre" loading="lazy">
+                <img srcset="../assets/cms/gallery-4-480x270.webp 480w, ../assets/cms/gallery-4-960x540.webp 960w, ../assets/cms/gallery-4-1024x576.webp 1024w" sizes="(max-width: 767px) 100vw, 50vw" decoding="async" width="960" height="540" src="../assets/cms/gallery-4-960x540.webp" alt="10th Session of the Africa Regional Forum on Sustainable Development (ARFSD) at United Nations Conference Centre" loading="lazy">
               </div>
               <div class="portfolio-card-info">
                 <div class="portfolio-card-header">
@@ -126,13 +129,13 @@
           </article>
 
           <!-- 02 -->
-          <article class="work-archive-card" data-category="brand-experiences" data-cursor="view">
+          <article class="work-archive-card" data-category="corporate-events" data-cursor="view">
             <a href="/work/empowering-startups-in-ethiopia/" style="display: block;">
               <div class="portfolio-card-media" style="aspect-ratio: 16 / 10;">
                 <div class="portfolio-card-action" aria-hidden="true">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
                 </div>
-                <img srcset="../assets/images/_opt/projects-empowering-startups-in-ethiopia-image-480.webp 480w, ../assets/images/_opt/projects-empowering-startups-in-ethiopia-image-960.webp 960w" sizes="(max-width: 767px) 100vw, 50vw" decoding="async" width="960" height="720" src="../assets/images/projects/Empowering Startups in Ethiopia/image.png" alt="Empowering Startups in Ethiopia" loading="lazy">
+                <img srcset="../assets/cms/image-480x360.webp 480w, ../assets/cms/image-960x720.webp 960w" sizes="(max-width: 767px) 100vw, 50vw" decoding="async" width="960" height="720" src="../assets/cms/image-960x720.webp" alt="Night of Culture Nocturnal Spatial Architecture" loading="lazy">
               </div>
               <div class="portfolio-card-info">
                 <div class="portfolio-card-header">
@@ -145,13 +148,13 @@
           </article>
 
           <!-- 03 -->
-          <article class="work-archive-card" data-category="corporate" data-cursor="view">
+          <article class="work-archive-card" data-category="international-conferences" data-cursor="view">
             <a href="/work/sdg-finance-academy-2024/" style="display: block;">
               <div class="portfolio-card-media" style="aspect-ratio: 16 / 10;">
                 <div class="portfolio-card-action" aria-hidden="true">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
                 </div>
-                <img srcset="../assets/images/_opt/projects-second-african-climate-summit-sdg-480.webp 480w, ../assets/images/_opt/projects-second-african-climate-summit-sdg-960.webp 960w, ../assets/images/_opt/projects-second-african-climate-summit-sdg-1200.webp 1200w" sizes="(max-width: 767px) 100vw, 50vw" decoding="async" width="1200" height="675" src="../assets/images/projects/Second African Climate Summit/SDG.png" alt="SDG Finance Academy 2024" loading="lazy">
+                <img srcset="../assets/cms/SDG-480x270.webp 480w, ../assets/cms/SDG-960x540.webp 960w, ../assets/cms/SDG-1200x675.webp 1200w" sizes="(max-width: 767px) 100vw, 50vw" decoding="async" width="960" height="540" src="../assets/cms/SDG-960x540.webp" alt="SDG Finance Academy 2024 Stage and Plenary Setup" loading="lazy">
               </div>
               <div class="portfolio-card-info">
                 <div class="portfolio-card-header">
@@ -164,13 +167,13 @@
           </article>
 
           <!-- 04 -->
-          <article class="work-archive-card" data-category="immersive" data-cursor="view">
+          <article class="work-archive-card" data-category="corporate-events" data-cursor="view">
             <a href="/work/amhara-bank-anniversary/" style="display: block;">
               <div class="portfolio-card-media" style="aspect-ratio: 16 / 10;">
                 <div class="portfolio-card-action" aria-hidden="true">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
                 </div>
-                <img srcset="../assets/images/_opt/projects-amhara-bank-anniversary-event-amhara-bank-480.webp 480w, ../assets/images/_opt/projects-amhara-bank-anniversary-event-amhara-bank-960.webp 960w, ../assets/images/_opt/projects-amhara-bank-anniversary-event-amhara-bank-1200.webp 1200w" sizes="(max-width: 767px) 100vw, 50vw" decoding="async" width="1200" height="774" src="../assets/images/projects/Amhara Bank Anniversary Event/amhara bank.png" alt="Amhara Bank Anniversary Event" loading="lazy">
+                <img srcset="../assets/cms/amhara%20bank-1-480x310.webp 480w, ../assets/cms/amhara%20bank-1-960x619.webp 960w, ../assets/cms/amhara%20bank-1-1200x774.webp 1200w" sizes="(max-width: 767px) 100vw, 50vw" decoding="async" width="960" height="619" src="../assets/cms/amhara%20bank-1-960x619.webp" alt="Amhara Bank Anniversary Event Stage Production" loading="lazy">
               </div>
               <div class="portfolio-card-info">
                 <div class="portfolio-card-header">
@@ -181,7 +184,9 @@
               </div>
             </a>
           </article>
+          <!-- /cms:work-grid -->
         </div>
+        <p class="work-empty-note" hidden>No projects in this category yet.</p>
       </div>
     </section>
 

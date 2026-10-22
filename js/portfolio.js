@@ -121,6 +121,13 @@ function initWorkFilter() {
         }
       });
 
+      // "No projects in this category yet" note (rendered by the CMS build)
+      const emptyNote = document.querySelector('.work-empty-note');
+      if (emptyNote) {
+        const anyMatch = [...projectCards].some((card) => selectedCategory === 'all' || card.getAttribute('data-category') === selectedCategory);
+        emptyNote.hidden = anyMatch;
+      }
+
       // Refresh ScrollTrigger calculations after reflow
       if (typeof window.ScrollTrigger !== 'undefined') {
         setTimeout(() => window.ScrollTrigger.refresh(), 350);

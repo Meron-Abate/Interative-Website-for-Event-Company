@@ -2713,3 +2713,60 @@ html.intro-active .intro-screen {
   border-color: #141210;
   color: #ffffff !important;
 }
+
+/* ==========================================================================
+   13. CASE STUDY — detailed story written in the CMS (rich text)
+   ========================================================================== */
+.case-richtext {
+  max-width: 760px;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+.case-richtext h2,
+.case-richtext h3,
+.case-richtext h4 {
+  margin: 2.2rem 0 0.9rem;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.case-richtext h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+.case-richtext h3 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); }
+.case-richtext p,
+.case-richtext ul,
+.case-richtext ol,
+.case-richtext blockquote { margin: 0 0 1.2rem; }
+.case-richtext ul,
+.case-richtext ol { padding-left: 1.3rem; }
+.case-richtext li { margin-bottom: 0.4rem; }
+.case-richtext a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+.case-richtext blockquote {
+  padding-left: 1.2rem;
+  border-left: 2px solid var(--accent);
+  color: var(--text-primary);
+  font-style: italic;
+}
+
+.case-richtext-figure {
+  margin: 2rem 0;
+}
+
+.case-richtext-figure img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--stroke-radius);
+}
+
+.work-empty-note {
+  padding: 3rem 0 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}

@@ -1,0 +1,4 @@
+
+# CMS build
+.cms-build.lock
+*.tmp

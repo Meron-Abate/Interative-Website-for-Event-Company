@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!-- Generated from templates/case-study.html by scripts/build-from-cms.mjs. Edit content in the CMS. -->
+<html lang="en">
+<head>
+  <!-- Immediately set dark theme to prevent flash of light mode -->
+  <script>
+    (function(){
+      var saved = localStorage.getItem('eternal-theme-v2');
+      if (saved === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{{HEAD_META}}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/animations.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/refinements.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="ambient-grain" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <button class="mobile-menu-btn" data-mobile-toggle aria-label="Open Menu" aria-expanded="false" aria-controls="mobile-drawer">
+        <span class="burger-icon" aria-hidden="true">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </span>
+        <span class="menu-btn-label">MENU</span>
+      </button>
+      <a href="/" class="brand-logo" aria-label="ETERNAL Events Home">
+        <img decoding="async" width="330" height="120" src="../../assets/images/logo/eternal-events-logo-dark-header.png" srcset="../../assets/images/logo/eternal-events-logo-dark-header.webp 330w, ../../assets/images/logo/eternal-events-logo-dark.png 1099w" sizes="132px" alt="ETERNAL Events" class="brand-logo-img brand-logo-dark">
+        <img decoding="async" width="330" height="120" src="../../assets/images/logo/eternal-events-logo-light-header.png" srcset="../../assets/images/logo/eternal-events-logo-light-header.webp 330w, ../../assets/images/logo/eternal-events-logo-light.png 1099w" sizes="132px" alt="ETERNAL Events" class="brand-logo-img brand-logo-light">
+      </a>
+
+      <nav class="desktop-nav" aria-label="Main Navigation">
+        <a href="/work/" class="nav-link is-active">Work</a>
+        <a href="/#services" class="nav-link">Services</a>
+        <a href="/#about" class="nav-link">About</a>
+        <a href="../../index.html#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" data-theme-toggle aria-label="Toggle theme">
+          <svg class="theme-toggle-icon" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z"/></svg>
+        </button>
+        <a href="../../index.html#contact" class="btn btn-primary nav-cta-btn" data-cursor="link">
+          <span>INQUIRE</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+    <div class="mobile-drawer-links">
+      <a href="/" class="mobile-drawer-link">Home</a>
+      <a href="/work/" class="mobile-drawer-link is-active">Work</a>
+      <a href="/#services" class="mobile-drawer-link">Services</a>
+      <a href="/#about" class="mobile-drawer-link">About</a>
+      <a href="../../index.html#contact" class="mobile-drawer-link">Contact</a>
+    </div>
+    <div class="mobile-drawer-footer">
+      <div class="mobile-drawer-coords">ADDIS ABABA &bull; DUBAI</div>
+      <a href="../../index.html#contact" class="btn btn-primary">START A PROJECT →</a>
+    </div>
+  </div>
+
+  <main id="main-content">
+{{MAIN}}
+  </main>
+
+  <!-- GLOBAL INTERACTIVE FOOTER (ETERNAL Dot Matrix & Social Hub) -->
+  <footer class="site-footer" id="footer" aria-label="Site Footer">
+    <div class="container footer-container">
+
+      <!-- Large Interactive Particle Canvas: ETERNAL Logo Dot Matrix -->
+      <div class="footer-canvas-wrapper" role="img" aria-label="Interactive ETERNAL logo particle canvas">
+        <canvas id="footer-particle-canvas" class="footer-particle-canvas"></canvas>
+      </div>
+
+      <!-- Bottom bar: copyright left, social links right -->
+      <div class="footer-bottom-bar">
+        <div class="footer-copy">
+          <span class="footer-copy-main">&copy; 2026 ETERNAL.</span>
+          <span class="footer-copy-sub">ETERNAL EVENTS IS PART OF ETERNAL MEDIA AND COMMUNICATION PLC</span>
+        </div>
+
+        <nav class="footer-socials" aria-label="Social media">
+          <a href="https://www.instagram.com/eternal_media_communication/?hl=en" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Follow Eternal on Instagram" data-cursor="link"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="https://www.linkedin.com/company/eternal-media-and-promotion?originalSubdomain=et" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Connect with Eternal on LinkedIn" data-cursor="link"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="https://www.tiktok.com/@eternal.media_comms" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Follow Eternal on TikTok" data-cursor="link"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+          <a href="https://www.behance.net/Eternal_Media" target="_blank" rel="noopener" class="footer-social-icon" aria-label="View Eternal on Behance" data-cursor="link"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-4.976 3-3.468 0-5.75-2.585-5.75-6 0-3.371 2.213-6 5.68-6 3.526 0 5.488 2.508 5.341 6h-8.083c.067 1.848 1.411 2.95 3.012 2.95 1.583 0 2.375-.688 2.776-1.55l2 1.6zm-2.326-4.5c-.073-1.428-.973-2.5-2.75-2.5-1.597 0-2.617 1.053-2.75 2.5h5.5zm-14.4-6.5h-5v14h5.241c2.476 0 4.759-.974 4.759-3.793 0-1.841-1.025-2.883-2.348-3.342 1.059-.519 1.769-1.536 1.769-2.997 0-2.531-1.921-3.868-4.421-3.868zm-2 5.5v-3.5h2.2c1.1 0 1.8.5 1.8 1.75 0 1.2-.7 1.75-1.8 1.75h-2.2zm0 6.5v-4.5h2.5c1.2 0 2 .6 2 2.25 0 1.55-.8 2.25-2 2.25h-2.5z"/></svg></a>
+          <a href="https://www.youtube.com/@eternalmediaandcommunication" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Subscribe to Eternal on YouTube" data-cursor="link"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
+        </nav>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="../../js/vendor/gsap.min.js" defer></script>
+  <script src="../../js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="../../js/vendor/lenis.min.js" defer></script>
+  <script type="module" src="../../js/main.js"></script>
+</body>
+</html>
+
+
+
